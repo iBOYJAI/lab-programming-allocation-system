@@ -1,0 +1,15 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# PHP/XAMPP specific
+/vendor/
+/.env
+*.log
+
+# Workspace
+.vscode/
+.idea/
+.gemini/
+.agent/
+brain/
