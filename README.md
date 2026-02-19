@@ -1,234 +1,118 @@
 # Lab Programming Allocation System
 
-A complete **offline** web-based programming lab exam management system with smart question allocation algorithm that prevents cheating by ensuring adjacent students receive different questions.
+## Technical Manual and System Documentation
 
-## Features
-
-### Core Functionality
-- ✅ **Smart Question Allocation**: Each student gets 2 unique questions from a pool of at least 15 questions.
-- ✅ **Collision Detection**: No adjacent students (±1 seat, ±1 row) receive the same questions
-- ✅ **Real-time Monitoring**: Staff can monitor all students' progress in real-time
-- ✅ **Code Editor**: Integrated CodeMirror editor with syntax highlighting
-- ✅ **Anti-Cheating**: Disabled copy/paste, F12, right-click during exams
-- ✅ **100% Offline**: Works entirely on LAN/WiFi hotspot
-
-### User Roles
-1. **Admin**: Complete system management (labs, staff, students, subjects, questions)
-2. **Staff**: Start exams, monitor students, evaluate submissions
-3. **Student**: Take exams, submit code, view results
-
-### Technology Stack
-- **Backend**: PHP 7.4+ with PDO
-- **Database**: MySQL 8.0+
-- **Frontend**: HTML5, CSS3, Bootstrap 5.3, Vanilla JavaScript
-- **Libraries**: CodeMirror (code editor), Chart.js (analytics)
-- **Server**: Apache (XAMPP/WAMP)
-
-## Installation
-
-### Prerequisites
-- XAMPP installed on admin PC (download from https://www.apachefriends.org/)
-- PHP 7.4 or higher
-- MySQL 8.0 or higher
-- At least 2GB RAM
-- Web browser (Chrome/Firefox recommended)
-
-### ⭐ Easiest Method: Auto-Installer (Recommended)
-
-1. **Install XAMPP** (if not already installed)
-   - Download from https://www.apachefriends.org/
-   - Install to `C:\xampp\`
-
-2. **Double-click `START_SYSTEM.bat`**
-   - It will automatically:
-     - Start Apache and MySQL
-     - Create the database
-     - Import all sample data
-     - Open your browser
-   - That's it! 🎉
-
-### Alternative: Manual Installation
-
-If the BAT file doesn't work, follow these steps:
-
-1. **Copy System Files**
-   ```
-   Copy the entire "LAB PROGRAMMING ALLOCATION SYSTEM" folder to:
-   C:\xampp\htdocs\
-   ```
-
-2. **Start Apache & MySQL**
-   - Open XAMPP Control Panel
-   - Start Apache
-   - Start MySQL
-
-3. **Import Database**
-   - Open phpMyAdmin: `http://localhost/phpmyadmin`
-   - Click "New" to create a database
-   - Name it: `lab_allocation_system`
-   - Click "Import" tab
-   - Choose file: `database/lab_allocation_system.sql`
-   - Click "Go"
-
-4. **Access the System**
-   - Open browser and go to: `http://localhost/LAB PROGRAMMING ALLOCATION SYSTEM/`
-   - Or use your PC's IP address from student computers
-
-### Default Login Credentials
-
-**Admin:**
-- Username: `admin`
-- Password: `admin123`
-
-**Staff (Test Account):**
-- Staff ID: `STAFF001`
-- Password: `admin123`
-
-**Student (Test Account):**
-- Roll No: `2024CS001`
-- Password: `admin123`
-
-## Network Setup for Students
-
-### Option 1: LAN Connection
-1. Connect all student PCs to the same network switch
-2. Note admin PC's IP address (run `ipconfig` in CMD)
-3. Students access via: `http://[ADMIN_PC_IP]/LAB PROGRAMMING ALLOCATION SYSTEM/`
-
-### Option 2: WiFi Hotspot
-1. On admin PC, create a mobile hotspot
-2. Students connect to the hotspot
-3. Note admin PC's IP (usually `192.168.137.1`)
-4. Students access via: `http://192.168.137.1/LAB PROGRAMMING ALLOCATION SYSTEM/`
-
-## Usage Guide
-
-### For Admin
-
-1. **Login** to admin panel
-2. **Add Labs**: Create computer labs with total systems
-3. **Add Staff**: Create staff accounts
-4. **Add Students**: Import students via CSV or add manually
-5. **Add Subjects**: Create programming subjects (C, C++, Java, Python)
-6. **Add Questions**: Add at least 15 questions per subject.
-7. **Assign Staff**: Assign staff to labs and subjects
-
-### For Staff
-
-1. **Login** to staff panel
-2. **Start Exam**:
-   - Select subject (must have at least 15 questions)
-   - Choose test type (Practice, Weekly, Monthly, Internal)
-   - Set duration (optional)
-   - Click "START EXAM"
-3. **Monitor**: Real-time view of all students' progress
-4. **Stop Exam**: End the session when time's up
-
-### For Students
-
-1. **Login** with roll number and password
-2. **View Questions**: See your 2 allocated questions
-3. **Write Code**: Use the code editor (syntax highlighting enabled)
-4. **Submit**: Submit each question separately
-5. **Note**: Copy/paste is disabled for security
-
-## System Architecture
-
-### Database Tables (12)
-- `users` - System users (admin)
-- `staff` - Staff members
-- `students` - Student records
-- `labs` - Computer labs
-- `subjects` - Programming subjects
-- `questions` - Question bank
-- `staff_assignments` - Staff-lab-subject mapping
-- `exam_sessions` - Active/completed exams
-- `student_allocations` - Question allocations (THE CORE!)
-- `submissions` - Student code submissions
-- `results` - Evaluation results
-- `activity_logs` - System activity tracking
-
-### Smart Allocation Algorithm
-Located in: `includes/allocation_algorithm.php`
-
-**How it works:**
-1. Fetches all students ordered by system number
-2. Randomly selects 2 questions from the subject pool
-3. Checks for collisions with adjacent students:
-   - Previous/next student (±1)
-   - Student 10 positions away (±10, for rows)
-4. Re-allocates if collision detected (max 10 attempts)
-5. Falls back to random if no collision-free pair found
-6. Verifies entire allocation for quality
-
-## Security Features
-
-- ✅ **Password Hashing**: Bcrypt with salt
-- ✅ **SQL Injection Prevention**: Prepared statements
-- ✅ **XSS Protection**: Input sanitization
-- ✅ **CSRF Protection**: Tokens on all forms
-- ✅ **Session Management**: Secure session handling
-- ✅ **Activity Logging**: All actions logged
-- ✅ **Role-Based Access Control**: Strict permissions
-
-## Troubleshooting
-
-### Students can't access the system
-- Verify all PCs are on the same network
-- Check Windows Firewall (allow Apache)
-- Ensure Apache is running on admin PC
-
-### Database connection error
-- Verify MySQL is running
-- Check credentials in `config/database.php`
-- Ensure database was imported successfully
-
-### Questions not allocated
-- Ensure subject has at least 15 questions accumulated.
-- Check `activity_logs` table for errors
-- Verify students exist in the system
-
-### Code editor not working
-- Check internet connection (for CDN libraries)
-- Use local copies if fully offline needed
-
-## File Structure
-
-```
-LAB PROGRAMMING ALLOCATION SYSTEM/
-├── admin/              # Admin module
-├── staff/              # Staff module  
-├── student/            # Student module
-├── config/             # Configuration files
-├── includes/           # Core functions & security
-│   ├── allocation_algorithm.php ⭐
-│   ├── security.php
-│   └── functions.php
-├── database/           # SQL files
-├── assets/             # CSS, JS, images
-├── index.php           # Landing page
-└── README.md           # This file
-```
-
-## Credits
-
-**Developer**: Jaiganesh D. (iBOY)  
-**Organization**: iBOY Innovation HUB  
-**Version**: 1.0.0  
-**Year**: 2026
-
-## License
-
-This system is developed for educational purposes. Feel free to modify and enhance as needed for your institution.
-
-## Support
-
-For issues or questions:
-1. Check this README first
-2. Review code comments in critical files
-3. Check `activity_logs` table for errors
-4. Verify network connectivity
+The Lab Programming Allocation System (LPAS) is a sophisticated, offline-first web application designed to manage programming examinations in academic laboratory environments. Developed with a focus on academic integrity and administrative efficiency, LPAS automates question distribution through a spatial collision detection algorithm, ensuring a secure and streamlined assessment process.
 
 ---
 
-**Note**: This system is designed to work 100% offline. The admin PC acts as the server, and all student PCs are clients accessing via LAN/WiFi.
+## 1. Core Objectives and Problem Statement
+
+In traditional laboratory examinations, maintaining academic integrity is a primary concern. The physical proximity of students often facilitates "shoulder-surfing" and unauthorized collaboration. LPAS addresses these challenges through:
+
+- **Automated Spatial Allocation:** Intelligent distribution of unique question sets based on physical seating arrangements.
+- **Administrative Monitoring:** Real-time dashboard for staff to track student progress, submission status, and system activity.
+- **Submission Centralization:** Eliminating manual file handling by storing all source code directly in a secure database.
+- **Offline Reliability:** Engineered to operate 100% locally on a LAN/Intranet, removing dependency on external internet stability.
+
+---
+
+## 2. Technical Features
+
+### 2.1 Smart Allocation Algorithm
+Located in `includes/allocation_algorithm.php`, the core logic treats the lab layout as a matrix.
+- **Collision Detection:** Assigns 2 unique questions per student from a randomized subject pool (minimum 15 questions recommended).
+- **Proximity Constraints:** Verified against adjacent seating (±1 seat) and vertical alignment (rows) to prevent identical questions for neighboring students.
+- **Quality Verification:** The system performs iterative checks (up to 10 attempts) to ensure the highest entropy in distribution.
+
+### 2.2 Security and Lockdown
+- **Restricted Environment:** Integrated security protocols disable clipboard operations (copy/paste), context menus (right-click), and browser developer tools (F12) during active sessions.
+- **Role-Based Access Control (RBAC):** Distinct permission tiers for Administrators, Staff, and Students.
+- **Authentication:** Secure session management with Bcrypt-hashed password storage.
+
+### 2.3 Integrated Code Editor
+Uses the CodeMirror library to provide students with a professional-grade development environment featuring:
+- Syntax highlighting for multiple languages.
+- Line numbering and indentation support.
+- Zero-dependency local persistence during the session.
+
+---
+
+## 3. Technology Stack
+
+### Backend
+- **Core:** PHP 8.2 (Leveraging modern performance optimizations and PDO for secure database interaction).
+- **Database:** MySQL 8.0 (Relational schema designed for ACID compliance and consistent data integrity).
+
+### Frontend
+- **Interface:** HTML5, CSS3, and Bootstrap 5.3 (Premium Monochrome aesthetic for high-contrast clarity).
+- **Logic:** Vanilla JavaScript (ES6+) for asynchronous state management and real-time UI updates.
+- **Visualization:** Chart.js for administrative analytics and performance metrics.
+
+---
+
+## 4. Hardware and Software Specifications
+
+### Server Requirements (Admin PC)
+- **Processor:** Intel Core i3 (5th Gen) / AMD Ryzen 3 or higher.
+- **RAM:** 8 GB DDR4.
+- **Storage:** SSD (Recommended for low-latency database operations).
+- **Network:** Gigabit Ethernet / WiFi High-Speed Access Point.
+
+### Client Requirements (Student PC)
+- **Browser:** Modern web browser (Chrome, Firefox, or Chromium-based Edge).
+- **RAM:** 2 GB minimum.
+- **Display:** 1366x768 resolution minimum.
+
+---
+
+## 5. System Architecture
+
+### 5.1 Directory Structure
+- `/admin`: Administrative management modules.
+- `/staff`: Invigilation and evaluation dashboards.
+- `/student`: Examination and code submission interface.
+- `/includes`: Core logic, security protocols, and allocation engine.
+- `/config`: Database and system-wide configuration files.
+- `/database`: SQL schema and migration scripts.
+
+### 5.2 Database Overview
+The system manages 12 core tables including:
+- `users`: Administrative accounts.
+- `staff_assignments`: Laboratory and subject mapping.
+- `student_allocations`: Spatial question distribution records.
+- `submissions`: Versioned source code from student sessions.
+
+---
+
+## 6. Installation and Deployment
+
+### Automated Deployment
+1. Install XAMPP to `C:\xampp\`.
+2. Execute `START_SYSTEM.bat` located in the root directory.
+3. The system will automatically initialize the MySQL database, configure local services, and launch the application in the default browser.
+
+### Network Configuration
+- **LAN:** Ensure all client machines are on the same subnet as the host PC. Access via `http://[HOST_IP]/lab-programming-allocation-system/`.
+- **Hotspot:** Utilize the host PC's mobile hotspot for immediate, isolated network setup. Default IP is typically `192.168.137.1`.
+
+---
+
+## 7. Developer and Commercial Profile
+
+**Developer:** Jaiganesh D. (iBOY)  
+**Organization:** iBOY Innovation HUB  
+**Official Email:** iboy.innovationhub@gmail.com  
+**GitHub:** [https://github.com/iBOYJAI/](https://github.com/iBOYJAI/)
+
+Jaiganesh D. is the Founder of iBOY Innovation HUB, specializing in Full-Stack Development, Artificial Intelligence integration, and scalable startup architecture. iBOY Innovation HUB focuses on building AI-powered SaaS platforms and modern digital solutions designed to solve real-world problems through innovative technology.
+
+---
+
+<div align="center">
+  <h3>Software Licensing</h3>
+  <p>This project is licensed under the <b>MIT License</b>. Technical and legal provisions are detailed in the <a href="LICENSE">LICENSE</a> file.</p>
+  <br />
+  <p><b>Developed by iBOY Innovation HUB</b></p>
+  <p><i>Innovation isn’t just what you do — it’s who YOU are.</i></p>
+</div>
