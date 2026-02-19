@@ -66,9 +66,67 @@ Uses the CodeMirror library to provide students with a professional-grade develo
 
 ---
 
-## 5. System Architecture
+## 5. System Architecture and Design
 
-### 5.1 Directory Structure
+### 5.1 System Workflow
+The following diagram illustrates the end-to-end technical process of a typical examination cycle.
+
+```mermaid
+graph TD
+    A[Admin: Setup Infrastructure] --> B[Admin: Configure Exam Data]
+    B --> C[Staff: Initialize Exam Session]
+    C --> D[Allocation Engine: Generate Collision-Free Questions]
+    D --> E[Student: Secure Login & Environment Entry]
+    E --> F[Student: Code Authoring & Real-time Persistence]
+    F --> G[Student: Final Submission]
+    G --> H[Staff: Live Monitoring & Progress Tracking]
+    H --> I[Staff: Evaluation & Marking]
+    I --> J[System: Result Compilation & Analytics]
+```
+
+### 5.2 Data Flow Diagram (DFD Level 1)
+Illustrating the movement of data between external entities and the core system processes.
+
+```mermaid
+graph LR
+    subgraph LPAS_CORE [Lab Programming Allocation System]
+        P1[Identity Verification]
+        P2[Exam Initialization]
+        P3[Smart Allocation Engine]
+        P4[Code Capture & Store]
+        P5[Evaluation Console]
+    end
+
+    Admin((Admin)) -- Student/Lab Data --> P1
+    Staff((Staff)) -- Start Session --> P2
+    P2 -- Context --> P3
+    Student((Student)) -- Credentials --> P1
+    P3 -- Question Set --> Student
+    Student -- Code Submissions --> P4
+    P4 -- Saved Code --> P5
+    Staff -- Marks/Remarks --> P5
+    P5 -- Results --> Student
+```
+
+### 5.3 Entity-Relationship Diagram (ERD)
+The database schema is optimized for consistency and high-concurrency write operations.
+
+```mermaid
+erDiagram
+    USERS ||--o{ STAFF : manages
+    USERS ||--o{ STUDENTS : manages
+    LABS ||--o{ STAFF_ASSIGNMENTS : linked_to
+    SUBJECTS ||--o{ QUESTIONS : contains
+    SUBJECTS ||--o{ STAFF_ASSIGNMENTS : assigned_to
+    STAFF ||--o{ EXAM_SESSIONS : initializes
+    EXAM_SESSIONS ||--o{ STUDENT_ALLOCATIONS : manages
+    STUDENTS ||--o{ STUDENT_ALLOCATIONS : receives
+    QUESTIONS ||--o{ STUDENT_ALLOCATIONS : allocated_as
+    STUDENT_ALLOCATIONS ||--o{ SUBMISSIONS : holds
+    SUBMISSIONS ||--o{ RESULTS : evaluated_into
+```
+
+### 5.4 Directory Structure
 - `/admin`: Administrative management modules.
 - `/staff`: Invigilation and evaluation dashboards.
 - `/student`: Examination and code submission interface.
@@ -76,16 +134,41 @@ Uses the CodeMirror library to provide students with a professional-grade develo
 - `/config`: Database and system-wide configuration files.
 - `/database`: SQL schema and migration scripts.
 
-### 5.2 Database Overview
-The system manages 12 core tables including:
-- `users`: Administrative accounts.
-- `staff_assignments`: Laboratory and subject mapping.
-- `student_allocations`: Spatial question distribution records.
-- `submissions`: Versioned source code from student sessions.
+---
+
+## 6. User Experience Flows
+
+### 6.1 Admin Flow
+```mermaid
+stateDiagram-v2
+    [*] --> Login
+    Login --> Dashboard
+    Dashboard --> ManageLabs
+    Dashboard --> ManageStaff
+    Dashboard --> ManageStudents
+    Dashboard --> ManageSubjects
+    ManageSubjects --> ManageQuestions
+```
+
+### 6.2 Staff & Student Interaction
+```mermaid
+sequenceDiagram
+    participant S as Staff
+    participant SYS as LPAS System
+    participant ST as Student
+
+    S->>SYS: Initialize Exam Session
+    ST->>SYS: Login Request
+    SYS->>SYS: Execute Allocation Algorithm
+    SYS-->>ST: Deliver Unique Question Set
+    ST->>SYS: Submit Code
+    SYS-->>S: Update Live Monitor
+    S->>ST: Evaluation & Results
+```
 
 ---
 
-## 6. Installation and Deployment
+## 7. Installation and Deployment
 
 ### Automated Deployment
 1. Install XAMPP to `C:\xampp\`.
