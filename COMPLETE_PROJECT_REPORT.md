@@ -46,6 +46,42 @@ The Lab Programming Allocation System (LPAS) is an **offline-first** web applica
 
 ---
 
+## 1.5 ER Diagram & DFD (Black and White Theme)
+
+The system is documented with **ER Diagram (Chen Notation)** and **Data Flow Diagrams (Level 0, 1, 2)** in a **black and white** theme. The diagrams are available in one HTML file for correct symbol rendering.
+
+**Open in browser:** [documentation/diagrams/ER_DFD_DIAGRAMS.html](documentation/diagrams/ER_DFD_DIAGRAMS.html)
+
+### ER Diagram — Chen Notation
+
+| Symbol | Meaning |
+|--------|--------|
+| **Rectangle** | Entity (e.g. USER, STAFF, STUDENT, LAB, SUBJECT, QUESTION, EXAM_SESSION, STUDENT_ALLOCATION, SUBMISSION, RESULT, ACTIVITY_LOG, NOTIFICATION) |
+| **Oval** | Attribute (simple); e.g. username, password, system_no |
+| **Dashed oval** | Derived attribute (e.g. total_marks) |
+| **Double oval** | Multi-valued attribute (if any) |
+| **Diamond** | Relationship (e.g. MANAGES, BELONGS_TO, HAS, CONTAINS, CREATES, RECEIVES, STORES, ALLOCATED, EVALUATED) |
+| **Underlined attribute** | Primary key (e.g. user_id, staff_id, roll_number, lab_id, subject_id) |
+
+### DFD Notation
+
+| Symbol | Meaning |
+|--------|--------|
+| **Rectangle** | External entity (Admin, Staff, Student, System Admin) |
+| **Circle** | System process (e.g. 0 Lab Programming Allocation System; 1 AUTH & RBAC; 2 Exam Session & Allocation; 3 Monitor & Evaluate; 4 Reports) |
+| **Open box** | Datastore (top, bottom, and left sides only; **right side open**) — e.g. User table, Exam_Session, Student_Allocation, Submission, Activity_log |
+| **Arrow** | Data flow (e.g. Setup/Config, Start Exam/Marks, Credentials, Code/Submit, Report/Log) |
+
+### Diagram Levels
+
+- **DFD Level 0:** Context diagram — one central process (LPAS) and external entities (Admin, Staff, Student, System Admin) with labelled arrows.
+- **DFD Level 1:** Decomposition into processes 1–4 (AUTH & RBAC, Exam Session & Allocation, Monitor & Evaluate, Reports) and datastores (User table, Exam_Session, Student_Allocation, Submission, Activity_log).
+- **DFD Level 2:** Expansion of process 2 (Exam Session & Allocation) into 2.1 Start Session, 2.2 Allocation Engine, 2.3 Notify Students, 2.4 Student Join Exam, 2.5 Submit Code, with datastores and flows.
+
+All diagrams use **black outlines and text on white background** only.
+
+---
+
 ## 2. Screen Formats (Images Display)
 
 Screenshots are stored under `documentation/screenshots/viewport/` (viewport) and `documentation/screenshots/fullheight/` (full page). Below are the key screens with image references.
@@ -441,7 +477,97 @@ Database: **`lab_allocation_system`**. Engine: **InnoDB**. All 14 tables are def
 
 ---
 
-## 3.5 MODULE SPECIFICATION
+## 3.5 MODULE SPECIFICATIONS
+
+The Lab Programming Allocation System (LPAS) consists of three main user modules: **Admin**, **Staff** (Instructor), and **Student**. Each module is specified below with its sub-modules and descriptions.
+
+---
+
+### 1. ADMIN MODULE
+
+1. **Register**  
+2. **Login**  
+3. **Student Details**  
+4. **Staff Details**  
+5. **Lab Details**  
+6. **Question Bank**  
+7. **Subject Details**  
+8. **Department Details**  
+9. **View Sessions & Results**  
+10. **Settings & Logs**  
+
+**REGISTER:** The super-admin account is created during system setup. To be authenticated, one must first have a registered admin account.
+
+**LOGIN:** The registered admin can access the inner dashboard and all administrative functions for which permission is granted.
+
+**STUDENT DETAILS:** Admin can add, edit, delete, and modify student records. Bulk import via CSV is supported. Status and enrolment of each student can be managed.
+
+**STAFF DETAILS:** Admin can add or delete staff (instructors), assign departments, and link staff to labs and subjects for specific platforms.
+
+**LAB DETAILS:** Admin configures lab infrastructure—lab name, total systems, location, and seating layout for allocation.
+
+**QUESTION BANK:** Admin can add and update programming questions by subject, difficulty, sample input/output, and expected approach.
+
+**SUBJECT DETAILS:** Admin creates and manages subjects—subject code, name, language, lab linkage, and department association. Students can be enrolled in subjects.
+
+**DEPARTMENT DETAILS:** Admin manages department master data (name, code, description) and assigns staff and students to departments.
+
+**VIEW SESSIONS & RESULTS:** Admin can view active/completed exam sessions, allocations, result details, and student-wise marks.
+
+**SETTINGS & LOGS:** System settings and activity logs (audit trail of logins, actions) can be viewed for monitoring.
+
+---
+
+### 2. STAFF MODULE (Instructor)
+
+1. **Register**  
+2. **Login**  
+3. **Add Questions**  
+4. **Update Questions**  
+5. **Create Exams**  
+6. **View Exam Details**  
+7. **Evaluate Submissions**  
+8. **View Results**  
+
+**REGISTER:** Staff accounts are created by the admin. To be authenticated, staff must first be registered in the system.
+
+**LOGIN:** The registered staff can access the staff dashboard and functions permitted for their assigned labs and subjects.
+
+**ADD QUESTIONS:** Staff can add programming questions into the database according to subject, technology, and difficulty flow.
+
+**UPDATE QUESTIONS:** If any corrections are needed in question data, staff can modify questions within their assigned subjects.
+
+**CREATE EXAMS:** Staff prepares and starts exam sessions periodically—selects subject, lab, test type (Practice, Weekly, Monthly, Internal), and duration. The allocation engine assigns distinct questions to students.
+
+**VIEW EXAM DETAILS:** Staff can view the number of registered students, attended students, and real-time status (Offline / In Progress / Submitted) in a grid by seat number.
+
+**EVALUATE SUBMISSIONS:** Staff evaluates submitted programming code, enters marks and remarks for each question, and saves evaluations.
+
+**VIEW RESULTS:** Staff can view session-wise results, marks summary, and generate reports for their assigned sessions.
+
+---
+
+### 3. STUDENT MODULE
+
+1. **Register**  
+2. **Login**  
+3. **Take Exam**  
+4. **See Exam Results**  
+5. **Logout**  
+
+**REGISTER:** Students are added by admin (or via CSV import). To be authenticated, a student must first be registered and enrolled in subjects.
+
+**LOGIN:** The registered student can access the student dashboard and exam interface for permitted subjects.
+
+**TAKE EXAM:** The registered student is allowed to join an active exam when one exists. They receive two allocated programming questions and write code in the CodeMirror editor. Timer, draft save, and submit functionality are provided. Copy/paste and dev tools are locked during the exam.
+
+**SEE EXAM RESULTS:** After completion of the exam and evaluation by staff, the student can view their marks and remarks in the exam history.
+
+**LOGOUT:** After the examination process, the student returns to the logout page or landing page.
+
+---
+
+## 3.6 MODULE SPECIFICATION (Technical)
 
 Core modules of the Lab Programming Allocation System are defined below. Each module is described by purpose, inputs, outputs, and main functions.
 
@@ -639,6 +765,7 @@ Landing page, login form, and consistent layout (header, footer, sidebar, navbar
 - **Section 1** — README-style overview (objectives, features, stack, directory structure).  
 - **Section 2** — Screen formats with embedded screenshot images (viewport) for all 20 screens.  
 - **Section 3** — Complete table specifications for all 14 database tables (every column defined).  
-- **Section 3.5** — Module specification for 8 core modules (Authentication, Admin, Staff, Student, Allocation Engine, Security, Config/DB, Presentation/Shared UI), each with purpose, inputs, outputs, and behaviour.
+- **Section 3.5** — Module specifications (user-facing) for Admin, Staff, and Student modules with sub-modules and descriptions.  
+- **Section 3.6** — Technical module specification for 8 core modules (Authentication, Admin, Staff, Student, Allocation Engine, Security, Config/DB, Presentation/Shared UI), each with purpose, inputs, outputs, and behaviour.
 
 This document serves as the **Complete Project Report** for the Lab Programming Allocation System, including images, README content, full table definitions, and detailed module specifications.
