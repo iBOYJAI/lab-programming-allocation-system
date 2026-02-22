@@ -1,3 +1,10 @@
+---
+
+**Lab Programming Allocation System**  
+*SRINATH | 23AI152 | B.Sc. CS (AI & DS) | Gobi Arts & Science College, Gobichettypalayam*
+
+---
+
 # SYNOPSIS
 
 ## 1. Problem Statement

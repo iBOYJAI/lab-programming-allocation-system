@@ -126,13 +126,17 @@ erDiagram
     SUBMISSIONS ||--o{ RESULTS : evaluated_into
 ```
 
-### 5.4 Directory Structure
+#### 5.4 Directory Structure
 - `/admin`: Administrative management modules.
 - `/staff`: Invigilation and evaluation dashboards.
 - `/student`: Examination and code submission interface.
 - `/includes`: Core logic, security protocols, and allocation engine.
 - `/config`: Database and system-wide configuration files.
 - `/database`: SQL schema and migration scripts.
+
+### 5.5 Complete Project Report
+For a single-document report including **screenshots**, **full table specifications**, and **module specifications**, see:
+- **[COMPLETE_PROJECT_REPORT.md](COMPLETE_PROJECT_REPORT.md)** — Images display, README summary, all 14 tables defined, and 3.5 MODULE SPECIFICATION (core modules explained).
 
 ---
 

@@ -1,4 +1,11 @@
-# CHAPTER 3
+---
+
+**Lab Programming Allocation System**  
+*SRINATH | 23AI152 | B.Sc. CS (AI & DS) | Gobi Arts & Science College, Gobichettypalayam*
+
+---
+
+# CHAPTER 3  
 # WEB HOSTING PROCEDURE
 
 Unlike traditional public websites hosted on cloud providers (like AWS, GoDaddy, or Heroku), the Lab Programming Allocation System (LPAS) is designed to be hosted **locally** on an intranet. This ensures data privacy, zero latency, and independence from external internet connectivity.

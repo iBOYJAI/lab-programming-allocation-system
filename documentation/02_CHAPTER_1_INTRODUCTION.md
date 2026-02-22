@@ -1,4 +1,11 @@
-# CHAPTER 1
+---
+
+**Lab Programming Allocation System**  
+*SRINATH | 23AI152 | B.Sc. CS (AI & DS) | Gobi Arts & Science College, Gobichettypalayam*
+
+---
+
+# CHAPTER 1  
 # INTRODUCTION
 
 ## 1.1 Introduction to Web Design
