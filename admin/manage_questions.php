@@ -84,6 +84,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         redirect('manage_questions.php');
     } elseif ($action === 'delete') {
+        $id = intval($_POST['question_id'] ?? 0);
+        if ($id > 0) {
+            $sql = "DELETE FROM questions WHERE id = ?";
+            if (dbExecute($sql, [$id])) {
+                logActivity($_SESSION['user_id'], 'admin', 'delete_question', "Deleted question ID: $id");
+                $_SESSION['success'] = 'Question deleted successfully';
+            } else {
+                $_SESSION['error'] = 'Failed to delete question';
+            }
+            redirect('manage_questions.php');
+        }
+    } elseif ($action === 'bulk_delete') {
+        $ids = $_POST['selected_ids'] ?? [];
+        if (empty($ids)) {
+            $_SESSION['error'] = 'No questions selected for deletion.';
+        } else {
+            $conn = getDbConnection();
+            $conn->beginTransaction();
+            try {
+                $deleted_count = 0;
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $sql = "DELETE FROM questions WHERE id IN ($placeholders)";
+                $stmt = $conn->prepare($sql);
+                if ($stmt->execute($ids)) {
+                    $deleted_count = $stmt->rowCount();
+                }
+                $conn->commit();
+                logActivity($_SESSION['user_id'], 'admin', 'bulk_delete_questions', "Bulk deleted $deleted_count questions");
+                $_SESSION['success'] = "$deleted_count question(s) deleted successfully.";
+            } catch (Exception $e) {
+                $conn->rollBack();
+                $_SESSION['error'] = 'Failed to delete questions: ' . $e->getMessage();
+            }
+        }
+        redirect('manage_questions.php');
+    } elseif ($action === 'import_csv') {
         if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
             $_SESSION['error'] = 'Please upload a valid CSV file';
         } else {
@@ -254,7 +290,10 @@ include '../includes/header.php';
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem;">Question Details</th>
+                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem; width: 40px;">
+                                            <input type="checkbox" id="selectAll" class="form-check-input" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Question Details</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Subject</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Date</th>
                                         <th class="text-end pe-4 text-uppercase text-secondary" style="font-size: 0.75rem;">Actions</th>
@@ -263,7 +302,10 @@ include '../includes/header.php';
                                 <tbody>
                                     <?php foreach ($questions as $q): ?>
                                         <tr>
-                                            <td class="ps-4" style="max-width: 350px;">
+                                            <td class="ps-4">
+                                                <input type="checkbox" class="form-check-input row-checkbox" value="<?= $q['id'] ?>" onchange="updateBulkDeleteButton()">
+                                            </td>
+                                            <td style="max-width: 350px;">
                                                 <div class="d-flex align-items-start gap-3">
                                                     <div class="bg-light rounded p-2 flex-shrink-0">
                                                         <i class="bi bi-file-text text-primary"></i>
@@ -436,7 +478,7 @@ include '../includes/header.php';
                 <div class="modal-header border-bottom px-4 py-3">
                     <div>
                         <h5 class="modal-title fw-bold">Bulk Add Questions</h5>
-                        <p class="text-muted small mb-0">Add up to 20 questions at once.</p>
+                        <p class="text-muted small mb-0">Add questions dynamically (Limit: 30-50 questions).</p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -445,8 +487,8 @@ include '../includes/header.php';
                     <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
 
                     <div class="row mb-4 align-items-end">
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Select Subject</label>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Select Subject *</label>
                             <select name="subject_id" id="bulk_subject_id" class="form-select" required>
                                 <option value="">Choose Subject...</option>
                                 <?php foreach ($subjects as $subj): ?>
@@ -454,17 +496,29 @@ include '../includes/header.php';
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-bold">Quantity</label>
-                            <div class="input-group">
-                                <input type="number" id="bulk_count" class="form-control" value="20" min="1" max="50">
-                                <button class="btn btn-secondary" type="button" onclick="generateBulkRows()">Generate</button>
+                        <div class="col-md-6">
+                            <div class="text-muted small">
+                                <span id="questionCount">0</span> / 50 questions added
                             </div>
                         </div>
                     </div>
 
                     <div id="bulk-questions-container" class="row g-3">
-                        <!-- Rows will be generated here -->
+                        <!-- First question box shown by default -->
+                        <div class="col-12 question-box-wrapper" data-question-index="0">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-primary text-white border small">Question 1</span>
+                                        <button type="button" class="btn btn-sm btn-primary rounded-pill add-question-btn" onclick="addQuestionBox(this)" title="Add Another Question">
+                                            <i class="bi bi-plus-lg me-1"></i>Add Question
+                                        </button>
+                                    </div>
+                                    <input type="text" name="questions[0][title]" class="form-control mb-2 fw-bold" placeholder="Question Title *" required>
+                                    <textarea name="questions[0][text]" class="form-control" rows="3" placeholder="Question Description *" required></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top px-4 py-3">
@@ -477,33 +531,77 @@ include '../includes/header.php';
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        generateBulkRows();
-    });
+    let questionIndex = 1;
+    const MAX_QUESTIONS = 50;
+    const MIN_QUESTIONS = 1;
 
-    function generateBulkRows() {
-        const container = document.getElementById('bulk-questions-container');
-        const count = parseInt(document.getElementById('bulk_count').value) || 20;
-        if (!container) return;
-
-        container.innerHTML = '';
-        for (let i = 0; i < count; i++) {
-            const col = document.createElement('div');
-            col.className = 'col-md-6 col-lg-4';
-            col.innerHTML = `
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark border small">Box ${i + 1}</span>
-                        </div>
-                        <input type="text" name="questions[${i}][title]" class="form-control form-control-sm mb-2 fw-bold" placeholder="Title">
-                        <textarea name="questions[${i}][text]" class="form-control form-control-sm" rows="3" placeholder="Description..."></textarea>
-                    </div>
-                </div>
-            `;
-            container.appendChild(col);
+    function addQuestionBox(button) {
+        if (questionIndex >= MAX_QUESTIONS) {
+            alert(`Maximum ${MAX_QUESTIONS} questions allowed.`);
+            return;
         }
+
+        const container = document.getElementById('bulk-questions-container');
+        const currentBox = button.closest('.question-box-wrapper');
+        
+        // Create new question box
+        const newBox = document.createElement('div');
+        newBox.className = 'col-12 question-box-wrapper';
+        newBox.setAttribute('data-question-index', questionIndex);
+        newBox.innerHTML = `
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-primary text-white border small">Question ${questionIndex + 1}</span>
+                        <button type="button" class="btn btn-sm btn-primary rounded-pill add-question-btn" onclick="addQuestionBox(this)" title="Add Another Question">
+                            <i class="bi bi-plus-lg me-1"></i>Add Question
+                        </button>
+                    </div>
+                    <input type="text" name="questions[${questionIndex}][title]" class="form-control mb-2 fw-bold" placeholder="Question Title *" required>
+                    <textarea name="questions[${questionIndex}][text]" class="form-control" rows="3" placeholder="Question Description *" required></textarea>
+                </div>
+            </div>
+        `;
+
+        // Insert after current box
+        currentBox.insertAdjacentElement('afterend', newBox);
+        
+        // Hide the "Add Question" button on current box
+        const currentBtn = currentBox.querySelector('.add-question-btn');
+        if (currentBtn) {
+            currentBtn.style.display = 'none';
+        }
+
+        questionIndex++;
+        updateQuestionCount();
+        
+        // Scroll to new box
+        newBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+
+    function updateQuestionCount() {
+        const count = document.querySelectorAll('.question-box-wrapper').length;
+        const countElement = document.getElementById('questionCount');
+        if (countElement) {
+            countElement.textContent = count;
+        }
+        
+        // Disable all add buttons if limit reached
+        const addButtons = document.querySelectorAll('.add-question-btn');
+        addButtons.forEach(btn => {
+            if (count >= MAX_QUESTIONS) {
+                btn.disabled = true;
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+                btn.innerHTML = '<i class="bi bi-x-lg me-1"></i>Limit Reached';
+            }
+        });
+    }
+
+    // Initialize count on load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateQuestionCount();
+    });
 </script>
 
 <!-- Modal: Import CSV -->
@@ -555,6 +653,40 @@ include '../includes/header.php';
         }
     }
 
+    function toggleSelectAll() {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateBulkDeleteButton();
+    }
+
+    function updateBulkDeleteButton() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        bulkDeleteBtn.disabled = checkboxes.length === 0;
+    }
+
+    function confirmBulkDelete() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const count = checkboxes.length;
+        if (count === 0) return;
+
+        document.getElementById('bulk_delete_count').textContent = count;
+        const idsContainer = document.getElementById('bulkDeleteIds');
+        idsContainer.innerHTML = '';
+        
+        checkboxes.forEach(cb => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = cb.value;
+            idsContainer.appendChild(input);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+        modal.show();
+    }
+
     // Auto-trigger edit if edit_id is provided
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -571,5 +703,31 @@ include '../includes/header.php';
         }
     });
 </script>
+
+<!-- Bulk Delete Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center pt-5 pb-4 px-4">
+                <div class="mb-3 text-danger">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Delete Selected Questions?</h5>
+                <p class="text-muted mb-4 opacity-75">Are you sure you want to delete <strong id="bulk_delete_count" class="text-dark">0</strong> selected question(s)? This cannot be undone.</p>
+
+                <form method="POST" id="bulkDeleteForm">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                    <input type="hidden" name="action" value="bulk_delete">
+                    <div id="bulkDeleteIds"></div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete Them</button>
+                        <button type="button" class="btn btn-light text-muted rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include '../includes/footer.php'; ?>

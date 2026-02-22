@@ -44,6 +44,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="manage_departments.php" class="nav-link <?= in_array($current_page, ['manage_departments.php', 'view_department.php']) ? 'active' : '' ?>">
+                    <span class="nav-icon"><img src="../assets/images/Notion-Resources/Notion-Icons/Regular/svg/ni-building.svg" class="notion-icon" width="20"></span>
+                    <span class="nav-text">Departments</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="manage_labs.php" class="nav-link <?= $current_page == 'manage_labs.php' ? 'active' : '' ?>">
                     <span class="nav-icon"><img src="../assets/images/Notion-Resources/Notion-Icons/Regular/svg/ni-server.svg" class="notion-icon" width="20"></span>
                     <span class="nav-text">Lab Management</span>

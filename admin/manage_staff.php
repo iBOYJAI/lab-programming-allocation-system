@@ -15,7 +15,7 @@ requireRole(['admin'], '../auth.php');
 /**
  * Get staff list with filtering and pagination
  */
-function getStaffList($conn, $search = '', $status = 'all', $limit = 10, $offset = 0)
+function getStaffList($conn, $search = '', $status = 'all', $department = 'all', $limit = 10, $offset = 0)
 {
     $where = [];
     $params = [];
@@ -31,6 +31,11 @@ function getStaffList($conn, $search = '', $status = 'all', $limit = 10, $offset
     if ($status !== 'all') {
         $where[] = "status = ?";
         $params[] = $status;
+    }
+
+    if ($department !== 'all') {
+        $where[] = "department_id = ?";
+        $params[] = $department;
     }
 
     $whereClause = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
@@ -57,6 +62,7 @@ $items_per_page = in_array($items_per_page, [10, 25, 50, 100]) ? $items_per_page
 $page = max(1, intval($_GET['page'] ?? 1));
 $search = $_GET['search'] ?? '';
 $filter_status = $_GET['status'] ?? 'all';
+$filter_department = $_GET['department'] ?? 'all';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
@@ -81,9 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $staff_id = generateStaffId();
                 $hashed = hashPassword($password);
 
-                $sql = "INSERT INTO staff (staff_id, name, email, phone, password_hash, status, gender) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
+                $sql = "INSERT INTO staff (staff_id, name, email, phone, password, status, gender, department_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$staff_id, $name, $email, $phone, $hashed, $staff_status, $gender]);
+                $stmt->execute([$staff_id, $name, $email, $phone, $hashed, $staff_status, $gender, $department_id]);
 
                 logActivity($_SESSION['user_id'], 'admin', 'add_staff', "Added staff: $name ($staff_id)");
                 $_SESSION['success'] = "Staff added successfully! ID: $staff_id";
@@ -95,9 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $gender = $_POST['gender'];
                 $staff_status = $_POST['staff_status'];
 
-                $sql = "UPDATE staff SET name = ?, email = ?, phone = ?, status = ?, gender = ? WHERE id = ?";
+                $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
+                $sql = "UPDATE staff SET name = ?, email = ?, phone = ?, status = ?, gender = ?, department_id = ? WHERE id = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$name, $email, $phone, $staff_status, $gender, $id]);
+                $stmt->execute([$name, $email, $phone, $staff_status, $gender, $department_id, $id]);
 
                 logActivity($_SESSION['user_id'], 'admin', 'edit_staff', "Updated staff ID: $id");
                 $_SESSION['success'] = "Staff updated successfully.";
@@ -110,6 +118,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 logActivity($_SESSION['user_id'], 'admin', 'delete_staff', "Deleted staff ID: $id");
                 $_SESSION['success'] = "Staff deleted successfully.";
+            } elseif ($action === 'bulk_delete') {
+                $ids = $_POST['selected_ids'] ?? [];
+                if (empty($ids)) {
+                    throw new Exception("No staff members selected for deletion.");
+                }
+
+                $conn->beginTransaction();
+                try {
+                    $deleted_count = 0;
+                    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                    $sql = "DELETE FROM staff WHERE id IN ($placeholders)";
+                    $stmt = $conn->prepare($sql);
+                    if ($stmt->execute($ids)) {
+                        $deleted_count = $stmt->rowCount();
+                    }
+                    $conn->commit();
+                    logActivity($_SESSION['user_id'], 'admin', 'bulk_delete_staff', "Bulk deleted $deleted_count staff members");
+                    $_SESSION['success'] = "$deleted_count staff member(s) deleted successfully.";
+                } catch (Exception $e) {
+                    $conn->rollBack();
+                    throw $e;
+                }
             } elseif ($action === 'import_csv') {
                 if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
                     throw new Exception("Please upload a valid CSV file.");
@@ -137,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $staff_id = generateStaffId();
                     $hashed = hashPassword($pass);
 
-                    $sql = "INSERT INTO staff (staff_id, name, email, phone, password_hash, status, gender) VALUES (?, ?, ?, ?, ?, 'Active', ?)";
+                    $sql = "INSERT INTO staff (staff_id, name, email, phone, password, status, gender) VALUES (?, ?, ?, ?, ?, 'Active', ?)";
                     $stmt = $conn->prepare($sql);
                     try {
                         if ($stmt->execute([$staff_id, $name, $email, $phone, $hashed, $gender])) {
@@ -155,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Redirect to avoid resubmission
-            $redirect_url = "manage_staff.php?page=$page&search=" . urlencode($search) . "&status=$filter_status&limit=$items_per_page";
+            $redirect_url = "manage_staff.php?page=$page&search=" . urlencode($search) . "&status=$filter_status&department=$filter_department&limit=$items_per_page";
             header("Location: $redirect_url");
             exit;
         } catch (Exception $e) {
@@ -167,10 +197,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch Data
 $conn = getDbConnection();
 $offset = ($page - 1) * $items_per_page;
-$result = getStaffList($conn, $search, $filter_status, $items_per_page, $offset);
+$result = getStaffList($conn, $search, $filter_status, $filter_department, $items_per_page, $offset);
 $staff_list = $result['data'];
 $total_records = $result['total'];
 $total_pages = ceil($total_records / $items_per_page);
+
+// Fetch departments for dropdown
+$departments = dbQuery("SELECT id, department_name FROM departments ORDER BY department_name");
 
 $page_title = 'Staff Management';
 include '../includes/header.php';
@@ -193,6 +226,9 @@ include '../includes/header.php';
                     <button class="btn btn-white border shadow-sm rounded-pill px-4 fw-medium" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="bi bi-file-earmark-arrow-up me-2"></i>Import CSV
                     </button>
+                    <button id="bulkDeleteBtn" class="btn btn-danger rounded-pill px-4 shadow-sm" disabled onclick="confirmBulkDelete()">
+                        <i class="bi bi-trash me-2"></i>Bulk Delete
+                    </button>
                     <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addStaffModal">
                         <i class="bi bi-person-plus-fill me-2"></i>Add Staff
                     </button>
@@ -212,12 +248,21 @@ include '../includes/header.php';
                                 <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Name, Email, or ID..." value="<?= sanitizeOutput($search) ?>">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="form-label small fw-bold text-uppercase text-muted">Status</label>
                             <select name="status" class="form-select" onchange="this.form.submit()">
                                 <option value="all" <?= $filter_status === 'all' ? 'selected' : '' ?>>All Status</option>
                                 <option value="Active" <?= $filter_status === 'Active' ? 'selected' : '' ?>>Active</option>
                                 <option value="Inactive" <?= $filter_status === 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Department</label>
+                            <select name="department" class="form-select" onchange="this.form.submit()">
+                                <option value="all" <?= $filter_department === 'all' ? 'selected' : '' ?>>All Departments</option>
+                                <?php foreach ($departments as $dept): ?>
+                                    <option value="<?= $dept['id'] ?>" <?= $filter_department == $dept['id'] ? 'selected' : '' ?>><?= sanitizeOutput($dept['department_name']) ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -254,7 +299,10 @@ include '../includes/header.php';
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem;">Member</th>
+                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem; width: 40px;">
+                                            <input type="checkbox" id="selectAll" class="form-check-input" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Member</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Contact</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Status</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Joined</th>
@@ -268,6 +316,9 @@ include '../includes/header.php';
                                     ?>
                                         <tr>
                                             <td class="ps-4">
+                                                <input type="checkbox" class="form-check-input row-checkbox" value="<?= $s['id'] ?>" onchange="updateBulkDeleteButton()">
+                                            </td>
+                                            <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         <img src="../assets/images/Avatar/<?= $avatar_file ?>" alt="Avatar" class="rounded-circle shadow-sm" width="40" height="40">
@@ -395,6 +446,16 @@ include '../includes/header.php';
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
+                        <select name="department_id" class="form-select">
+                            <option value="">Select Department...</option>
+                            <?php foreach ($departments as $dept): ?>
+                                <option value="<?= $dept['id'] ?>"><?= sanitizeOutput($dept['department_name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label small fw-bold text-secondary text-uppercase">Password <span class="text-danger">*</span></label>
                         <input type="password" name="password" class="form-control" required>
                     </div>
@@ -453,6 +514,16 @@ include '../includes/header.php';
                             <label class="form-label small fw-bold text-secondary text-uppercase">Phone</label>
                             <input type="text" name="phone" id="edit_phone" class="form-control">
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
+                        <select name="department_id" id="edit_department_id" class="form-select">
+                            <option value="">Select Department...</option>
+                            <?php foreach ($departments as $dept): ?>
+                                <option value="<?= $dept['id'] ?>"><?= sanitizeOutput($dept['department_name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="row g-3">
@@ -540,6 +611,32 @@ include '../includes/header.php';
     </div>
 </div>
 
+<!-- Bulk Delete Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center pt-5 pb-4 px-4">
+                <div class="mb-3 text-danger">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Delete Selected Staff?</h5>
+                <p class="text-muted mb-4 opacity-75">Are you sure you want to delete <strong id="bulk_delete_count" class="text-dark">0</strong> selected staff member(s)? This cannot be undone.</p>
+
+                <form method="POST" id="bulkDeleteForm">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                    <input type="hidden" name="action" value="bulk_delete">
+                    <div id="bulkDeleteIds"></div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete Them</button>
+                        <button type="button" class="btn btn-light text-muted rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function editStaff(data) {
         document.getElementById('edit_staff_id').value = data.id;
@@ -548,6 +645,7 @@ include '../includes/header.php';
         document.getElementById('edit_phone').value = data.phone || '';
         document.getElementById('edit_status').value = data.status || 'Active';
         document.getElementById('edit_gender').value = data.gender || 'Male';
+        document.getElementById('edit_department_id').value = data.department_id || '';
 
         const modal = new bootstrap.Modal(document.getElementById('editStaffModal'));
         modal.show();
@@ -558,6 +656,40 @@ include '../includes/header.php';
         document.getElementById('delete_staff_name').textContent = name;
 
         const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+
+    function toggleSelectAll() {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateBulkDeleteButton();
+    }
+
+    function updateBulkDeleteButton() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        bulkDeleteBtn.disabled = checkboxes.length === 0;
+    }
+
+    function confirmBulkDelete() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const count = checkboxes.length;
+        if (count === 0) return;
+
+        document.getElementById('bulk_delete_count').textContent = count;
+        const idsContainer = document.getElementById('bulkDeleteIds');
+        idsContainer.innerHTML = '';
+        
+        checkboxes.forEach(cb => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = cb.value;
+            idsContainer.appendChild(input);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
         modal.show();
     }
 

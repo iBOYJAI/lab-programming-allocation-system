@@ -61,15 +61,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $code = trim($_POST['subject_code']);
         $lang = $_POST['language'];
         $lab_id = !empty($_POST['lab_id']) ? intval($_POST['lab_id']) : null;
+        $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
         $staff_ids = isset($_POST['staff_ids']) ? $_POST['staff_ids'] : [];
 
         $conn = getDbConnection();
         $conn->beginTransaction();
         try {
             // Update Subject
-            $sql = "UPDATE subjects SET subject_name = ?, subject_code = ?, language = ?, lab_id = ? WHERE id = ?";
+            $sql = "UPDATE subjects SET subject_name = ?, subject_code = ?, language = ?, lab_id = ?, department_id = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->execute([$name, $code, $lang, $lab_id, $id]);
+            $stmt->execute([$name, $code, $lang, $lab_id, $department_id, $id]);
 
             // Update Staff Assignments (Delete all for this subject, then re-insert)
             $conn->prepare("DELETE FROM staff_assignments WHERE subject_id = ?")->execute([$id]);
@@ -98,6 +99,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['success'] = 'Subject deleted successfully';
         } else {
             $_SESSION['error'] = 'Failed to delete subject';
+        }
+        redirect('manage_subjects.php');
+    } elseif ($action === 'bulk_delete') {
+        $ids = $_POST['selected_ids'] ?? [];
+        if (empty($ids)) {
+            $_SESSION['error'] = 'No subjects selected for deletion.';
+        } else {
+            $conn = getDbConnection();
+            $conn->beginTransaction();
+            try {
+                $deleted_count = 0;
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $sql = "DELETE FROM subjects WHERE id IN ($placeholders)";
+                $stmt = $conn->prepare($sql);
+                if ($stmt->execute($ids)) {
+                    $deleted_count = $stmt->rowCount();
+                }
+                $conn->commit();
+                logActivity($_SESSION['user_id'], 'admin', 'bulk_delete_subjects', "Bulk deleted $deleted_count subjects");
+                $_SESSION['success'] = "$deleted_count subject(s) deleted successfully.";
+            } catch (Exception $e) {
+                $conn->rollBack();
+                $_SESSION['error'] = 'Failed to delete subjects: ' . $e->getMessage();
+            }
         }
         redirect('manage_subjects.php');
     }
@@ -132,9 +157,14 @@ include '../includes/header.php';
                     <h1 class="fw-bold mb-1 text-dark fs-3">Course Catalog</h1>
                     <p class="text-secondary mb-0">Manage academic subjects and programming languages.</p>
                 </div>
-                <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
-                    <i class="bi bi-journal-plus me-2"></i> Add New Subject
-                </button>
+                <div class="d-flex gap-2">
+                    <button id="bulkDeleteBtn" class="btn btn-danger rounded-pill px-4 shadow-sm" disabled onclick="confirmBulkDelete()">
+                        <i class="bi bi-trash me-2"></i>Bulk Delete
+                    </button>
+                    <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+                        <i class="bi bi-journal-plus me-2"></i> Add New Subject
+                    </button>
+                </div>
             </div>
 
             <?php echo displayAlert(); ?>
@@ -145,7 +175,10 @@ include '../includes/header.php';
                         <table class="table table-hover align-middle mb-0">
                             <thead class="bg-light">
                                 <tr>
-                                    <th class="ps-4 text-uppercase text-secondary" style="font-size:0.75rem;">Subject Details</th>
+                                    <th class="ps-4 text-uppercase text-secondary" style="font-size:0.75rem; width: 40px;">
+                                        <input type="checkbox" id="selectAll" class="form-check-input" onchange="toggleSelectAll()">
+                                    </th>
+                                    <th class="text-uppercase text-secondary" style="font-size:0.75rem;">Subject Details</th>
                                     <th class="text-uppercase text-secondary" style="font-size:0.75rem;">Code</th>
                                     <th class="text-uppercase text-secondary" style="font-size:0.75rem;">Language</th>
                                     <th class="text-uppercase text-secondary" style="font-size:0.75rem;">Question Bank</th>
@@ -155,7 +188,7 @@ include '../includes/header.php';
                             <tbody>
                                 <?php if (empty($subjects)): ?>
                                     <tr>
-                                        <td colspan="5" class="text-center py-5">
+                                        <td colspan="6" class="text-center py-5">
                                             <div class="opacity-25 mb-3">
                                                 <img src="../assets/images/Notion-Resources/Notion-Icons/Regular/svg/ni-collection.svg" width="60">
                                             </div>
@@ -166,6 +199,9 @@ include '../includes/header.php';
                                     <?php foreach ($subjects as $subject): ?>
                                         <tr>
                                             <td class="ps-4">
+                                                <input type="checkbox" class="form-check-input row-checkbox" value="<?= $subject['id'] ?>" onchange="updateBulkDeleteButton()">
+                                            </td>
+                                            <td>
                                                 <div class="d-flex align-items-center gap-3">
                                                     <div class="bg-white border rounded-circle p-1 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
                                                         <img src="../assets/images/Notion-Resources/Notion-Icons/Regular/svg/ni-timeline.svg" width="18" class="opacity-50" loading="lazy" alt="Subject">
@@ -404,6 +440,66 @@ include '../includes/header.php';
             <?php endif; ?>
         }
     });
+
+    function toggleSelectAll() {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateBulkDeleteButton();
+    }
+
+    function updateBulkDeleteButton() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        bulkDeleteBtn.disabled = checkboxes.length === 0;
+    }
+
+    function confirmBulkDelete() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const count = checkboxes.length;
+        if (count === 0) return;
+
+        document.getElementById('bulk_delete_count').textContent = count;
+        const idsContainer = document.getElementById('bulkDeleteIds');
+        idsContainer.innerHTML = '';
+        
+        checkboxes.forEach(cb => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = cb.value;
+            idsContainer.appendChild(input);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+        modal.show();
+    }
 </script>
+
+<!-- Bulk Delete Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center pt-5 pb-4 px-4">
+                <div class="mb-3 text-danger">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Delete Selected Subjects?</h5>
+                <p class="text-muted mb-4 opacity-75">Are you sure you want to delete <strong id="bulk_delete_count" class="text-dark">0</strong> selected subject(s)? This cannot be undone.</p>
+
+                <form method="POST" id="bulkDeleteForm">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                    <input type="hidden" name="action" value="bulk_delete">
+                    <div id="bulkDeleteIds"></div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete Them</button>
+                        <button type="button" class="btn btn-light text-muted rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include '../includes/footer.php'; ?>

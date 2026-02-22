@@ -58,6 +58,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['error'] = 'Failed to delete lab';
         }
         redirect('manage_labs.php');
+    } elseif ($action === 'bulk_delete') {
+        $ids = $_POST['selected_ids'] ?? [];
+        if (empty($ids)) {
+            $_SESSION['error'] = 'No labs selected for deletion.';
+        } else {
+            $conn = getDbConnection();
+            $conn->beginTransaction();
+            try {
+                $deleted_count = 0;
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $sql = "DELETE FROM labs WHERE id IN ($placeholders)";
+                $stmt = $conn->prepare($sql);
+                if ($stmt->execute($ids)) {
+                    $deleted_count = $stmt->rowCount();
+                }
+                $conn->commit();
+                logActivity($_SESSION['user_id'], 'admin', 'bulk_delete_labs', "Bulk deleted $deleted_count labs");
+                $_SESSION['success'] = "$deleted_count lab(s) deleted successfully.";
+            } catch (Exception $e) {
+                $conn->rollBack();
+                $_SESSION['error'] = 'Failed to delete labs: ' . $e->getMessage();
+            }
+        }
+        redirect('manage_labs.php');
     }
 }
 
@@ -108,7 +132,8 @@ include '../includes/header.php';
                                         <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4 shadow-sm">
                                             <i class="bi bi-pc-display fs-4"></i>
                                         </div>
-                                        <div class="d-flex gap-2">
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <input type="checkbox" class="form-check-input row-checkbox" value="<?= $lab['id'] ?>" onchange="updateBulkDeleteButton()" style="width: 18px; height: 18px;">
                                             <button class="btn btn-sm btn-white border rounded-circle shadow-sm hover-bg-light" onclick="editLab(<?= htmlspecialchars(json_encode($lab)) ?>)" title="Edit Lab">
                                                 <i class="bi bi-pencil text-warning"></i>
                                             </button>
@@ -231,6 +256,59 @@ include '../includes/header.php';
             document.getElementById('deleteLabForm').submit();
         }
     }
+
+    function updateBulkDeleteButton() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        bulkDeleteBtn.disabled = checkboxes.length === 0;
+    }
+
+    function confirmBulkDelete() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const count = checkboxes.length;
+        if (count === 0) return;
+
+        document.getElementById('bulk_delete_count').textContent = count;
+        const idsContainer = document.getElementById('bulkDeleteIds');
+        idsContainer.innerHTML = '';
+        
+        checkboxes.forEach(cb => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = cb.value;
+            idsContainer.appendChild(input);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+        modal.show();
+    }
 </script>
+
+<!-- Bulk Delete Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center pt-5 pb-4 px-4">
+                <div class="mb-3 text-danger">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Delete Selected Labs?</h5>
+                <p class="text-muted mb-4 opacity-75">Are you sure you want to delete <strong id="bulk_delete_count" class="text-dark">0</strong> selected lab(s)? This cannot be undone.</p>
+
+                <form method="POST" id="bulkDeleteForm">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                    <input type="hidden" name="action" value="bulk_delete">
+                    <div id="bulkDeleteIds"></div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete Them</button>
+                        <button type="button" class="btn btn-light text-muted rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include '../includes/footer.php'; ?>

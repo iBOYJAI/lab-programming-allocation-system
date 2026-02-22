@@ -51,16 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             throw new Exception("Password must be at least 6 characters.");
         }
 
-        $stmt = $conn->prepare("SELECT password_hash FROM students WHERE id = ?");
+        $stmt = $conn->prepare("SELECT password FROM students WHERE id = ?");
         $stmt->execute([$student_id]);
         $student = $stmt->fetch();
 
-        if (!$student || !password_verify($current_pass, $student['password_hash'])) {
+        if (!$student || !password_verify($current_pass, $student['password'])) {
             throw new Exception("Current password is incorrect.");
         }
 
         $hashed = hashPassword($new_pass);
-        $stmt = $conn->prepare("UPDATE students SET password_hash = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE students SET password = ? WHERE id = ?");
         $stmt->execute([$hashed, $student_id]);
 
         logActivity($student_id, 'student', 'change_password', "Changed own password");

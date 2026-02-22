@@ -30,7 +30,7 @@ function getStudentList($conn, $search = '', $department = 'all', $limit = 10, $
     }
 
     if ($department !== 'all') {
-        $where[] = "department = ?";
+        $where[] = "department_id = ?";
         $params[] = $department;
     }
 
@@ -42,8 +42,13 @@ function getStudentList($conn, $search = '', $department = 'all', $limit = 10, $
     $stmt->execute($params);
     $total = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-    // Get Data
-    $sql = "SELECT * FROM students $whereClause ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
+    // Get Data with department join
+    $sql = "SELECT s.*, d.department_name 
+            FROM students s 
+            LEFT JOIN departments d ON s.department_id = d.id 
+            $whereClause 
+            ORDER BY s.created_at DESC 
+            LIMIT $limit OFFSET $offset";
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($action === 'add') {
                 $name = trim($_POST['name']);
                 $roll_number = trim($_POST['roll_number']);
-                $department = trim($_POST['department']);
+                $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
                 $email = trim($_POST['email']);
                 $password = $_POST['password'];
                 $gender = $_POST['gender'] ?? 'Male';
@@ -81,9 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $hashed = hashPassword($password);
 
-                $sql = "INSERT INTO students (name, roll_number, department, email, password_hash, gender) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO students (name, roll_number, department_id, email, password, gender) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$name, $roll_number, $department, $email, $hashed, $gender]);
+                $stmt->execute([$name, $roll_number, $department_id, $email, $hashed, $gender]);
 
                 logActivity($_SESSION['user_id'], 'admin', 'add_student', "Added student: $name ($roll_number)");
                 $_SESSION['success'] = "Student added successfully!";
@@ -91,13 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id = intval($_POST['student_id']);
                 $name = trim($_POST['name']);
                 $roll_number = trim($_POST['roll_number']);
-                $department = trim($_POST['department']);
+                $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
                 $email = trim($_POST['email']);
                 $gender = $_POST['gender'];
 
-                $sql = "UPDATE students SET name = ?, roll_number = ?, department = ?, email = ?, gender = ? WHERE id = ?";
+                $sql = "UPDATE students SET name = ?, roll_number = ?, department_id = ?, email = ?, gender = ? WHERE id = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$name, $roll_number, $department, $email, $gender, $id]);
+                $stmt->execute([$name, $roll_number, $department_id, $email, $gender, $id]);
 
                 logActivity($_SESSION['user_id'], 'admin', 'edit_student', "Updated student ID: $id");
                 $_SESSION['success'] = "Student updated successfully.";
@@ -126,6 +131,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 logActivity($_SESSION['user_id'], 'admin', 'delete_student', "Deleted student ID: $id");
                 $_SESSION['success'] = "Student deleted successfully.";
+            } elseif ($action === 'bulk_delete') {
+                $ids = $_POST['selected_ids'] ?? [];
+                if (empty($ids)) {
+                    throw new Exception("No students selected for deletion.");
+                }
+
+                $conn->beginTransaction();
+                try {
+                    $deleted_count = 0;
+                    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                    $sql = "DELETE FROM students WHERE id IN ($placeholders)";
+                    $stmt = $conn->prepare($sql);
+                    if ($stmt->execute($ids)) {
+                        $deleted_count = $stmt->rowCount();
+                    }
+                    $conn->commit();
+                    logActivity($_SESSION['user_id'], 'admin', 'bulk_delete_students', "Bulk deleted $deleted_count students");
+                    $_SESSION['success'] = "$deleted_count student(s) deleted successfully.";
+                } catch (Exception $e) {
+                    $conn->rollBack();
+                    throw $e;
+                }
             } elseif ($action === 'bulk_add') {
                 $students = $_POST['students'] ?? [];
                 $added = 0;
@@ -134,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foreach ($students as $s) {
                     $name = trim($s['name'] ?? '');
                     $roll = trim($s['roll'] ?? '');
-                    $dept = trim($s['department'] ?? '');
+                    $dept_id = !empty($s['department_id']) ? intval($s['department_id']) : null;
                     $email = trim($s['email'] ?? '');
                     $pwd = trim($s['password'] ?? '');
                     $gender = $s['gender'] ?? 'Male';
@@ -146,9 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     try {
                         $hashed = hashPassword($pwd);
-                        $sql = "INSERT INTO students (name, roll_number, department, email, password_hash, gender) VALUES (?, ?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO students (name, roll_number, department_id, email, password, gender) VALUES (?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($sql);
-                        if ($stmt->execute([$name, $roll, $dept, $email, $hashed, $gender])) {
+                        if ($stmt->execute([$name, $roll, $dept_id, $email, $hashed, $gender])) {
                             $added++;
                         } else {
                             $skipped++;
@@ -180,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $name = trim($data[0]);
                     $roll_number = trim($data[1]);
-                    $department = trim($data[2]);
+                    $department_name = trim($data[2]);
                     $email = trim($data[3]);
                     $gender = trim($data[4]);
                     $password = trim($data[5]);
@@ -190,12 +217,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         continue;
                     }
 
+                    // Try to find department_id from department name
+                    $dept_id = null;
+                    if (!empty($department_name)) {
+                        $deptStmt = $conn->prepare("SELECT id FROM departments WHERE department_name = ? LIMIT 1");
+                        $deptStmt->execute([$department_name]);
+                        $deptRow = $deptStmt->fetch(PDO::FETCH_ASSOC);
+                        if ($deptRow) {
+                            $dept_id = $deptRow['id'];
+                        }
+                    }
+
                     $hashed = hashPassword($password);
-                    $sql = "INSERT INTO students (name, roll_number, department, email, password_hash, gender) VALUES (?, ?, ?, ?, ?, ?)";
+                    $sql = "INSERT INTO students (name, roll_number, department_id, email, password, gender) VALUES (?, ?, ?, ?, ?, ?)";
                     $stmt = $conn->prepare($sql);
 
                     try {
-                        if ($stmt->execute([$name, $roll_number, $department, $email, $hashed, $gender])) {
+                        if ($stmt->execute([$name, $roll_number, $dept_id, $email, $hashed, $gender])) {
                             $imported++;
                         } else {
                             $errors++;
@@ -228,9 +266,14 @@ $students = $result['data'];
 $total_records = $result['total'];
 $total_pages = ceil($total_records / $items_per_page);
 
-// Get departments for filter
-$deptStmt = $conn->query("SELECT DISTINCT department FROM students WHERE department IS NOT NULL AND department != '' ORDER BY department");
-$departments = $deptStmt->fetchAll(PDO::FETCH_ASSOC);
+// Get departments for filter and dropdowns
+try {
+    $deptStmt = $conn->query("SELECT id, department_name, department_code FROM departments ORDER BY department_name");
+    $departments = $deptStmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    // Fallback if departments table doesn't exist yet
+    $departments = [];
+}
 
 $page_title = 'Student Management';
 include '../includes/header.php';
@@ -250,6 +293,9 @@ include '../includes/header.php';
                     <p class="text-secondary mb-0">Manage student enrollment, allocations, and academic details.</p>
                 </div>
                 <div class="d-flex gap-2">
+                    <button id="bulkDeleteBtn" class="btn btn-danger rounded-pill px-4 shadow-sm" disabled data-bs-toggle="modal" data-bs-target="#bulkDeleteModal" onclick="confirmBulkDelete()">
+                        <i class="bi bi-trash me-2"></i>Delete Selected
+                    </button>
                     <button class="btn btn-white border shadow-sm rounded-pill px-4 fw-medium" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="bi bi-file-earmark-arrow-up me-2"></i>Import CSV
                     </button>
@@ -280,7 +326,7 @@ include '../includes/header.php';
                             <select name="department" class="form-select" onchange="this.form.submit()">
                                 <option value="all" <?= $filter_department === 'all' ? 'selected' : '' ?>>All Departments</option>
                                 <?php foreach ($departments as $dept): ?>
-                                    <option value="<?= sanitizeOutput($dept['department']) ?>" <?= $filter_department === $dept['department'] ? 'selected' : '' ?>><?= sanitizeOutput($dept['department']) ?></option>
+                                    <option value="<?= $dept['id'] ?>" <?= $filter_department == $dept['id'] ? 'selected' : '' ?>><?= sanitizeOutput($dept['department_name']) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -318,7 +364,10 @@ include '../includes/header.php';
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem;">Student Details</th>
+                                        <th class="ps-4 text-uppercase text-secondary" style="font-size: 0.75rem; width: 40px;">
+                                            <input type="checkbox" id="selectAll" class="form-check-input" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Student Details</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Department</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Email</th>
                                         <th class="text-uppercase text-secondary" style="font-size: 0.75rem;">Joined</th>
@@ -331,6 +380,9 @@ include '../includes/header.php';
                                     ?>
                                         <tr>
                                             <td class="ps-4">
+                                                <input type="checkbox" class="form-check-input row-checkbox" value="<?= $s['id'] ?>" onchange="updateBulkDeleteButton()">
+                                            </td>
+                                            <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         <img src="../assets/images/Avatar/<?= $avatar_file ?>" alt="Avatar" class="rounded-circle shadow-sm" width="40" height="40">
@@ -344,9 +396,9 @@ include '../includes/header.php';
                                                 </div>
                                             </td>
                                             <td>
-                                                <?php if (!empty($s['department'])): ?>
+                                                <?php if (!empty($s['department_name'])): ?>
                                                     <span class="badge bg-indigo-subtle text-indigo px-3 fw-medium">
-                                                        <i class="bi bi-mortarboard me-1"></i><?= sanitizeOutput($s['department']) ?>
+                                                        <i class="bi bi-mortarboard me-1"></i><?= sanitizeOutput($s['department_name']) ?>
                                                     </span>
                                                 <?php else: ?>
                                                     <span class="text-muted small">Not Assigned</span>
@@ -460,7 +512,12 @@ include '../includes/header.php';
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
-                            <input type="text" name="department" class="form-control" placeholder="Computer Science">
+                            <select name="department_id" class="form-select">
+                                <option value="">Select Department...</option>
+                                <?php foreach ($departments as $dept): ?>
+                                    <option value="<?= $dept['id'] ?>"><?= sanitizeOutput($dept['department_name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Email</label>
@@ -517,7 +574,12 @@ include '../includes/header.php';
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
-                            <input type="text" name="department" id="edit_department" class="form-control">
+                            <select name="department_id" id="edit_department_id" class="form-select">
+                                <option value="">Select Department...</option>
+                                <?php foreach ($departments as $dept): ?>
+                                    <option value="<?= $dept['id'] ?>"><?= sanitizeOutput($dept['department_name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Email</label>
@@ -677,6 +739,32 @@ include '../includes/header.php';
     </div>
 </div>
 
+<!-- Bulk Delete Modal -->
+<div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center pt-5 pb-4 px-4">
+                <div class="mb-3 text-danger">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Delete Selected Students?</h5>
+                <p class="text-muted mb-4 opacity-75">Are you sure you want to delete <strong id="bulk_delete_count" class="text-dark">0</strong> selected student(s)? This cannot be undone.</p>
+
+                <form method="POST" id="bulkDeleteForm">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                    <input type="hidden" name="action" value="bulk_delete">
+                    <div id="bulkDeleteIds"></div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete Them</button>
+                        <button type="button" class="btn btn-light text-muted rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function manageEnrollment(id, name) {
         document.getElementById('enroll_student_id').value = id;
@@ -716,7 +804,7 @@ include '../includes/header.php';
         document.getElementById('edit_student_id').value = data.id;
         document.getElementById('edit_name').value = data.name;
         document.getElementById('edit_roll_number').value = data.roll_number || '';
-        document.getElementById('edit_department').value = data.department || '';
+        document.getElementById('edit_department_id').value = data.department_id || '';
         document.getElementById('edit_email').value = data.email || '';
         document.getElementById('edit_gender').value = data.gender || 'Male';
 
@@ -732,6 +820,8 @@ include '../includes/header.php';
         modal.show();
     }
 
+    const departmentsData = <?= json_encode($departments) ?>;
+    
     function generateStudentBulkRows() {
         const container = document.getElementById('bulk-students-container');
         const count = parseInt(document.getElementById('student_bulk_count').value) || 10;
@@ -742,6 +832,12 @@ include '../includes/header.php';
         for (let i = 0; i < count; i++) {
             const col = document.createElement('div');
             col.className = 'col-md-6 col-lg-4';
+            
+            let deptOptions = '<option value="">Select Department...</option>';
+            departmentsData.forEach(dept => {
+                deptOptions += `<option value="${dept.id}">${dept.department_name}</option>`;
+            });
+            
             col.innerHTML = `
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-3">
@@ -754,7 +850,9 @@ include '../includes/header.php';
                         </div>
                         <input type="text" name="students[${i}][name]" class="form-control form-control-sm mb-2 fw-bold" placeholder="Full Name *">
                         <input type="text" name="students[${i}][roll]" class="form-control form-control-sm mb-2" placeholder="Roll Number *">
-                        <input type="text" name="students[${i}][department]" class="form-control form-control-sm mb-2" placeholder="Department">
+                        <select name="students[${i}][department_id]" class="form-select form-select-sm mb-2">
+                            ${deptOptions}
+                        </select>
                         <input type="email" name="students[${i}][email]" class="form-control form-control-sm mb-2" placeholder="Email Address">
                         <input type="text" name="students[${i}][password]" class="form-control form-control-sm student-pwd-input" placeholder="Password *" value="${defaultPwd}">
                     </div>
@@ -770,6 +868,40 @@ include '../includes/header.php';
         const inputs = document.querySelectorAll('.student-pwd-input');
         inputs.forEach(input => input.value = pwd);
     });
+
+    function toggleSelectAll() {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateBulkDeleteButton();
+    }
+
+    function updateBulkDeleteButton() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        bulkDeleteBtn.disabled = checkboxes.length === 0;
+    }
+
+    function confirmBulkDelete() {
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        const count = checkboxes.length;
+        if (count === 0) return;
+
+        document.getElementById('bulk_delete_count').textContent = count;
+        const idsContainer = document.getElementById('bulkDeleteIds');
+        idsContainer.innerHTML = '';
+        
+        checkboxes.forEach(cb => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = cb.value;
+            idsContainer.appendChild(input);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+        modal.show();
+    }
 
     // Auto-trigger edit modal if requested via URL
     document.addEventListener('DOMContentLoaded', function() {
