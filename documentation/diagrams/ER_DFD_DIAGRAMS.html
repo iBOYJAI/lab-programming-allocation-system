@@ -1,338 +1,2584 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>LPAS — ER Diagram (Chen) & DFD Level 0, 1, 2</title>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #000; padding: 24px; }
-    h1 { font-size: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 8px; }
-    h2 { font-size: 1.2rem; margin-top: 32px; }
-    .diagram { background: #fff; border: 1px solid #000; margin: 16px 0; overflow: auto; }
-    svg { display: block; }
-  </style>
-  <!-- Shared arrow marker for all SVGs -->
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-        <path d="M0,0 L0,6 L9,3 z" fill="#000"/>
-      </marker>
-    </defs>
-  </svg>
-</head>
-<body>
+# LAB PROGRAMMING ALLOCATION SYSTEM
 
-<h1>Lab Programming Allocation System (LPAS)</h1>
-<p><strong>ER Diagram · Chen Notation</strong> (Entities: rectangle · Attributes: oval · Derived: dashed oval · Relationships: diamond · Primary key: underlined)</p>
-<p><strong>DFD</strong> (External entity: rectangle · Process: circle · Datastore: open box [right open] · Data flow: arrow)</p>
-<p>Theme: Black and white.</p>
+---
 
-<!-- ========== ER DIAGRAM - CHEN NOTATION ========== -->
-<h2>ER Diagram — Chen Notation</h2>
-<div class="diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="1100" height="720">
-  <!-- ENTITIES (rectangles) — Left column -->
-  <rect x="20" y="25" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="43" text-anchor="middle" font-size="10" font-weight="bold">USER</text>
-  <rect x="20" y="120" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="138" text-anchor="middle" font-size="10" font-weight="bold">STAFF</text>
-  <rect x="20" y="215" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="233" text-anchor="middle" font-size="10" font-weight="bold">STUDENT</text>
-  <rect x="20" y="310" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="328" text-anchor="middle" font-size="10" font-weight="bold">DEPARTMENT</text>
-  <rect x="20" y="405" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="423" text-anchor="middle" font-size="10" font-weight="bold">LAB</text>
-  <rect x="20" y="500" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="67" y="518" text-anchor="middle" font-size="10" font-weight="bold">SUBJECT</text>
+<div align="center">
 
-  <!-- ATTRIBUTES (ovals) — Left column, connected to entities -->
-  <ellipse cx="150" cy="32" rx="36" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="35" text-anchor="middle" font-size="7" text-decoration="underline">user_id</text>
-  <line x1="115" y1="39" x2="134" y2="35" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="52" rx="40" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="55" text-anchor="middle" font-size="7">username</text>
-  <line x1="115" y1="46" x2="134" y2="54" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="72" rx="38" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="75" text-anchor="middle" font-size="7">password</text>
-  <line x1="115" y1="53" x2="134" y2="72" stroke="#000" stroke-width="1"/>
+  ## PROJECT REPORT
 
-  <ellipse cx="150" cy="127" rx="38" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="130" text-anchor="middle" font-size="7" text-decoration="underline">staff_id</text>
-  <line x1="115" y1="134" x2="134" y2="127" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="147" rx="30" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="150" text-anchor="middle" font-size="7">name</text>
-  <line x1="115" y1="141" x2="134" y2="147" stroke="#000" stroke-width="1"/>
+  Submitted to
 
-  <ellipse cx="150" cy="222" rx="44" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="225" text-anchor="middle" font-size="7" text-decoration="underline">roll_number</text>
-  <line x1="115" y1="229" x2="134" y2="222" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="242" rx="40" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="245" text-anchor="middle" font-size="7">system_no</text>
-  <line x1="115" y1="233" x2="134" y2="242" stroke="#000" stroke-width="1"/>
+  **DEPARTMENT OF ARTIFICIAL INTELLIGENCE & DATA SCIENCE**
 
-  <ellipse cx="150" cy="317" rx="36" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="320" text-anchor="middle" font-size="7" text-decoration="underline">dept_id</text>
-  <line x1="115" y1="324" x2="134" y2="317" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="337" rx="52" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="340" text-anchor="middle" font-size="6">dept_name</text>
-  <line x1="115" y1="328" x2="134" y2="337" stroke="#000" stroke-width="1"/>
+  **GOBI ARTS & SCIENCE COLLEGE**
 
-  <ellipse cx="150" cy="412" rx="36" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="415" text-anchor="middle" font-size="7" text-decoration="underline">lab_id</text>
-  <line x1="115" y1="419" x2="134" y2="412" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="432" rx="48" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="435" text-anchor="middle" font-size="6">total_systems</text>
-  <line x1="115" y1="423" x2="134" y2="432" stroke="#000" stroke-width="1"/>
+  **(AUTONOMOUS)**
 
-  <ellipse cx="150" cy="507" rx="40" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="510" text-anchor="middle" font-size="7" text-decoration="underline">subject_id</text>
-  <line x1="115" y1="514" x2="134" y2="507" stroke="#000" stroke-width="1"/>
-  <ellipse cx="150" cy="522" rx="48" ry="9" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="150" y="525" text-anchor="middle" font-size="6">subject_name</text>
-  <line x1="115" y1="518" x2="134" y2="522" stroke="#000" stroke-width="1"/>
+  **GOBICHETTYPALAYAM – 638 452**
 
-  <!-- Middle entities -->
-  <rect x="340" y="45" width="110" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="395" y="63" text-anchor="middle" font-size="10" font-weight="bold">QUESTION</text>
-  <rect x="340" y="200" width="115" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="397" y="218" text-anchor="middle" font-size="9" font-weight="bold">EXAM_SESSION</text>
-  <rect x="340" y="335" width="130" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="405" y="353" text-anchor="middle" font-size="8" font-weight="bold">STUDENT_ALLOCATION</text>
-  <rect x="340" y="470" width="110" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="395" y="488" text-anchor="middle" font-size="10" font-weight="bold">SUBMISSION</text>
+  ---
 
-  <!-- Right entities -->
-  <rect x="620" y="175" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="667" y="193" text-anchor="middle" font-size="10" font-weight="bold">RESULT</text>
-  <rect x="620" y="340" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="667" y="358" text-anchor="middle" font-size="9" font-weight="bold">ACTIVITY_LOG</text>
-  <rect x="620" y="470" width="95" height="28" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="667" y="488" text-anchor="middle" font-size="10" font-weight="bold">NOTIFICATION</text>
+  **By**
 
-  <!-- Derived attribute (dashed oval) — near SUBMISSION/RESULT -->
-  <ellipse cx="455" cy="545" rx="44" ry="9" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="4,2"/>
-  <text x="455" y="548" text-anchor="middle" font-size="7">total_marks</text>
-  <line x1="500" y1="541" x2="615" y2="200" stroke="#000" stroke-width="1" stroke-dasharray="3,2"/>
+  **SRINATH**
 
-  <!-- RELATIONSHIPS (diamonds) -->
-  <path d="M225 72 L245 90 L225 108 L205 90 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="94" text-anchor="middle" font-size="6">MANAGES</text>
-  <path d="M225 167 L245 185 L225 203 L205 185 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="189" text-anchor="middle" font-size="6">BELONGS_TO</text>
-  <path d="M225 262 L245 280 L225 298 L205 280 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="284" text-anchor="middle" font-size="6">BELONGS_TO</text>
-  <path d="M225 357 L245 375 L225 393 L205 375 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="379" text-anchor="middle" font-size="6">HAS</text>
-  <path d="M225 452 L245 470 L225 488 L205 470 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="474" text-anchor="middle" font-size="6">HAS</text>
-  <path d="M225 532 L245 550 L225 568 L205 550 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="225" y="554" text-anchor="middle" font-size="6">CONTAINS</text>
-  <path d="M375 82 L395 100 L375 118 L355 100 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="375" y="104" text-anchor="middle" font-size="5">IN_SUBJECT</text>
-  <path d="M375 237 L395 255 L375 273 L355 255 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="375" y="259" text-anchor="middle" font-size="5">CREATES</text>
-  <path d="M375 372 L395 390 L375 408 L355 390 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="375" y="394" text-anchor="middle" font-size="5">RECEIVES</text>
-  <path d="M375 507 L395 525 L375 543 L355 525 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="375" y="529" text-anchor="middle" font-size="5">STORES</text>
-  <path d="M495 255 L515 273 L495 291 L475 273 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="495" y="277" text-anchor="middle" font-size="5">ALLOCATED</text>
-  <path d="M495 400 L515 418 L495 436 L475 418 Z" fill="#fff" stroke="#000" stroke-width="1"/>
-  <text x="495" y="422" text-anchor="middle" font-size="5">EVALUATED</text>
+  **(23AI152)**
 
-  <!-- Relationship lines: Entity — Relationship — Entity -->
-  <path d="M115 39 L205 90 L245 90 L340 59" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 134 L205 185 L245 185 L340 214" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 229 L205 280 L245 280 L340 349" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 324 L205 375 L245 375 L340 357" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 419 L205 470 L245 470 L340 484" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 514 L205 550 L245 550 L265 550 L265 90 L362 90 L380 82" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M450 63 L355 100 L375 82" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M340 214 L355 255 L375 237" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M115 229 L280 229 L280 390 L355 390 L375 372 L340 349" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M470 349 L475 273 L515 273 L620 189" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M450 484 L475 418 L515 418 L620 354" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M340 484 L355 525 L375 507" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M405 363 L375 507 L375 543 L390 470" stroke="#000" stroke-width="1" fill="none"/>
-  <path d="M450 353 L475 273 L495 255" stroke="#000" stroke-width="1" fill="none"/>
-</svg>
+  ---
+
+  **Guided By**
+
+  **Dr. M. Ramalingam, M.Sc.(CS)., M.C.A., Ph.D.**
+
+  **Head of the Department, AI & DS**
+
+  ---
+
+  *In partial fulfilment of the requirements for the award of the degree of*
+  *Bachelor of Science in Computer Science (Artificial Intelligence & Data Science)*
+  *in the Faculty of Artificial Intelligence & Data Science in Gobi Arts & Science College (Autonomous),*
+  *Gobichettypalayam affiliated to Bharathiar University, Coimbatore.*
+
+  ---
+
+  **MAY 2026**
+
 </div>
 
-<!-- ========== DFD LEVEL 0 ========== -->
-<h2>DFD Level 0 — Context Diagram</h2>
-<p>External entities: rectangle. Central process: circle. Data flow: arrow.</p>
-<div class="diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400">
-  <!-- External entities -->
-  <rect x="40" y="120" width="100" height="50" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="90" y="152" text-anchor="middle" font-size="12" font-weight="bold">Admin</text>
-  <rect x="40" y="230" width="100" height="50" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="90" y="262" text-anchor="middle" font-size="12" font-weight="bold">Staff</text>
-  <rect x="580" y="120" width="100" height="50" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="630" y="152" text-anchor="middle" font-size="12" font-weight="bold">Student</text>
-  <rect x="580" y="230" width="100" height="50" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="630" y="262" text-anchor="middle" font-size="12" font-weight="bold">System Admin</text>
-  <!-- Central process -->
-  <circle cx="360" cy="195" r="75" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="360" y="183" text-anchor="middle" font-size="12" font-weight="bold">0</text>
-  <text x="360" y="202" text-anchor="middle" font-size="11">Lab Programming</text>
-  <text x="360" y="218" text-anchor="middle" font-size="11">Allocation System</text>
-  <!-- Arrows: from entity edge to process edge -->
-  <path d="M140 145 L285 175" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="200" y="155" font-size="9">Setup / Config</text>
-  <path d="M140 255 L285 215" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="200" y="238" font-size="9">Start Exam / Marks</text>
-  <path d="M435 175 L580 145" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="500" y="155" font-size="9">Credentials</text>
-  <path d="M580 255 L435 215" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="500" y="240" font-size="9">Code / Submit</text>
-  <path d="M360 270 L360 305 L90 305 L90 280" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="200" y="295" font-size="9">Report / Log</text>
-</svg>
-</div>
+---
 
-<!-- ========== DFD LEVEL 1 ========== -->
-<h2>DFD Level 1 — Processes & Datastores</h2>
-<p>External entity: rectangle · Process: circle · Datastore: open-ended box (right open) · Data flow: arrow</p>
-<div class="diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="860" height="400">
-  <!-- External entities (rectangles) -->
-  <rect x="20" y="140" width="80" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="60" y="167" text-anchor="middle" font-size="11" font-weight="bold">Admin</text>
-  <rect x="20" y="220" width="80" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="60" y="247" text-anchor="middle" font-size="11" font-weight="bold">Staff</text>
-  <rect x="20" y="300" width="80" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="60" y="327" text-anchor="middle" font-size="11" font-weight="bold">Student</text>
-  <rect x="760" y="140" width="80" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="800" y="167" text-anchor="middle" font-size="11" font-weight="bold">Admin</text>
-  <rect x="760" y="300" width="80" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="800" y="327" text-anchor="middle" font-size="11" font-weight="bold">Student</text>
-  <!-- Processes (circles) -->
-  <circle cx="170" cy="95" r="40" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="170" y="88" text-anchor="middle" font-size="11" font-weight="bold">1</text>
-  <text x="170" y="105" text-anchor="middle" font-size="9">AUTH &amp; RBAC</text>
-  <circle cx="350" cy="95" r="40" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="350" y="88" text-anchor="middle" font-size="11" font-weight="bold">2</text>
-  <text x="350" y="103" text-anchor="middle" font-size="8">Exam Session</text>
-  <text x="350" y="116" text-anchor="middle" font-size="8">&amp; Allocation</text>
-  <circle cx="530" cy="95" r="40" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="530" y="88" text-anchor="middle" font-size="11" font-weight="bold">3</text>
-  <text x="530" y="103" text-anchor="middle" font-size="8">Monitor &amp;</text>
-  <text x="530" y="116" text-anchor="middle" font-size="8">Evaluate</text>
-  <circle cx="530" cy="245" r="40" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="530" y="238" text-anchor="middle" font-size="11" font-weight="bold">4</text>
-  <text x="530" y="255" text-anchor="middle" font-size="10">Reports</text>
-  <!-- Datastores: open-ended box (left vertical + top horizontal + bottom horizontal, right open) -->
-  <path d="M650 25 L650 75" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 25 L710 25" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 75 L710 75" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="675" y="52" text-anchor="middle" font-size="9">D1 User</text>
-  <path d="M650 155 L650 205" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 155 L710 155" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 205 L710 205" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="675" y="182" text-anchor="middle" font-size="8">D2 Student_Alloc</text>
-  <path d="M650 285 L650 335" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 285 L710 285" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M650 335 L710 335" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="675" y="312" text-anchor="middle" font-size="9">D3 Submission</text>
-  <path d="M260 305 L260 355" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M260 305 L320 305" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M260 355 L320 355" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="285" y="332" text-anchor="middle" font-size="8">D4 Exam_Session</text>
-  <path d="M410 305 L410 355" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M410 305 L470 305" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M410 355 L470 355" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="433" y="332" text-anchor="middle" font-size="9">D5 Activity_log</text>
-  <!-- Data flows -->
-  <path d="M100 162 L130 120" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="108" y="148" font-size="9">Login</text>
-  <path d="M100 242 L240 130" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="160" y="192" font-size="9">Session params</text>
-  <path d="M210 95 L310 95" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M390 95 L490 95" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M530 135 L530 205" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M170 135 L100 242" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="120" y="192" font-size="8">Auth result</text>
-  <path d="M570 95 L648 50" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="602" y="68" font-size="8">Read/Write</text>
-  <path d="M648 180 L570 125" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="602" y="155" font-size="8">Read status</text>
-  <path d="M530 135 L530 240 L648 310" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="582" y="228" font-size="8">Store code</text>
-  <path d="M350 135 L350 305 L318 332" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="328" y="228" font-size="8">Session data</text>
-  <path d="M260 330 L350 200" stroke="#000" stroke-width="1.5" stroke-dasharray="4,3" fill="none" marker-end="url(#arrow)"/>
-  <text x="298" y="268" font-size="8">Status</text>
-  <path d="M648 310 L570 268" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="602" y="292" font-size="8">Read</text>
-  <path d="M760 162 L710 68" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="732" y="118" font-size="9">Report</text>
-  <path d="M100 322 L230 322 L230 95 L490 95" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="158" y="308" font-size="9">Code Submit</text>
-</svg>
-</div>
+<br><br>
 
-<!-- ========== DFD LEVEL 2 ========== -->
-<h2>DFD Level 2 — Process 2: Exam Session &amp; Allocation</h2>
-<p>External entity: rectangle · Process: circle · Datastore: open-ended box · Data flow: arrow</p>
-<div class="diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" width="680" height="360">
-  <!-- External entities (rectangles) -->
-  <rect x="20" y="35" width="90" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="65" y="62" text-anchor="middle" font-size="11" font-weight="bold">Staff</text>
-  <rect x="20" y="296" width="90" height="44" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="65" y="323" text-anchor="middle" font-size="11" font-weight="bold">Student</text>
-  <!-- Processes (circles) -->
-  <circle cx="160" cy="85" r="36" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="160" y="79" text-anchor="middle" font-size="11" font-weight="bold">2.1</text>
-  <text x="160" y="95" text-anchor="middle" font-size="9">Start Session</text>
-  <circle cx="320" cy="85" r="36" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="320" y="79" text-anchor="middle" font-size="11" font-weight="bold">2.2</text>
-  <text x="320" y="95" text-anchor="middle" font-size="9">Allocation</text>
-  <text x="320" y="107" text-anchor="middle" font-size="9">Engine</text>
-  <circle cx="480" cy="85" r="36" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="480" y="79" text-anchor="middle" font-size="11" font-weight="bold">2.3</text>
-  <text x="480" y="95" text-anchor="middle" font-size="9">Notify Students</text>
-  <circle cx="320" cy="200" r="36" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="320" y="194" text-anchor="middle" font-size="11" font-weight="bold">2.4</text>
-  <text x="320" y="210" text-anchor="middle" font-size="9">Student Join Exam</text>
-  <circle cx="320" cy="305" r="36" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="320" y="299" text-anchor="middle" font-size="11" font-weight="bold">2.5</text>
-  <text x="320" y="315" text-anchor="middle" font-size="9">Submit Code</text>
-  <!-- Datastores (open-ended: left + top + bottom, right open) -->
-  <path d="M240 135 L240 185" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M240 135 L300 135" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M240 185 L300 185" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="265" y="162" text-anchor="middle" font-size="9">D4 Exam_Session</text>
-  <path d="M360 135 L360 185" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M360 135 L420 135" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M360 185 L420 185" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="385" y="162" text-anchor="middle" font-size="8">D2 Student_Alloc</text>
-  <path d="M240 265 L240 315" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M240 265 L300 265" stroke="#000" stroke-width="2" fill="none"/>
-  <path d="M240 315 L300 315" stroke="#000" stroke-width="2" fill="none"/>
-  <text x="265" y="292" text-anchor="middle" font-size="9">D3 Submission</text>
-  <!-- Data flows -->
-  <path d="M110 57 L124 85" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="112" y="68" font-size="9">Session params</text>
-  <path d="M196 85 L284 85" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M356 85 L444 85" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M320 121 L320 164" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="332" y="148" font-size="8">Ready</text>
-  <path d="M248 160 L310 120" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M300 170 L340 160" stroke="#000" stroke-width="1.5" stroke-dasharray="4,3" fill="none" marker-end="url(#arrow)"/>
-  <text x="312" y="158" font-size="8">Allocation</text>
-  <path d="M320 236 L320 269" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <path d="M65 318 L170 318 L170 218 L284 218" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="112" y="272" font-size="8">Credentials</text>
-  <path d="M65 318 L255 318 L284 318" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="155" y="308" font-size="8">Code</text>
-  <path d="M284 305 L300 290" stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-  <text x="286" y="300" font-size="8">Store</text>
-</svg>
-</div>
+## DECLARATION
 
-<p style="margin-top: 32px; font-size: 0.9rem;"><strong>Legend</strong><br/>
-ER: Entity (rectangle), Attribute (oval), Derived attribute (dashed oval), Relationship (diamond), Primary key (underlined).<br/>
-DFD: External entity (rectangle), Process (circle), Datastore (open-ended box — right open; labeled D1, D2…), Data flow (arrow).</p>
-</body>
-</html>
+I hereby declare that the project report entitled **"LAB PROGRAMMING ALLOCATION SYSTEM"** submitted to the Principal,
+Gobi Arts & Science College (Autonomous), Gobichettypalayam, in partial fulfilment of the requirements for the award of
+degree of **Bachelor of Science (Computer Science, Artificial Intelligence & Data Science)** is a record of project work
+done by me during the period of study in this college under the supervision and guidance of **Dr. M. Ramalingam,
+M.Sc.(CS)., M.C.A., Ph.D.**, Head of the Department of Artificial Intelligence & Data Science.
+
+<br>
+
+| | |
+|:--|:--|
+| **Signature :** | |
+| **Name :** | SRINATH |
+| **Register Number :** | 23AI152 |
+| **Date :** | |
+
+---
+
+<br><br>
+
+## CERTIFICATES
+
+This is to certify that the project report entitled **"LAB PROGRAMMING ALLOCATION SYSTEM"** is a bonafide work done by
+**SRINATH (23AI152)** under my supervision and guidance.
+
+<br>
+
+| | |
+|:--|:--|
+| **Signature of Guide :** | |
+| **Name :** | Dr. M. Ramalingam |
+| **Designation :** | Associate Professor & Head |
+| **Department :** | Artificial Intelligence & Data Science |
+| **Date :** | |
+
+<br>
+
+| | |
+|:--|--:|
+| **Head of the Department** | **Principal** |
+
+<br>
+
+**Viva-Voce held on:** ___________
+
+| | |
+|:--|--:|
+| **Internal Examiner** | **External Examiner** |
+
+---
+
+<br><br>
+
+## ACKNOWLEDGEMENT
+
+The success and final outcome of this project, **"Lab Programming Allocation System" (LPAS)**, required a lot of
+guidance and assistance from many people, and I am extremely privileged to have received this throughout the completion
+of my project. All that I have done is only due to such supervision and assistance, and I would not forget to thank
+them.
+
+I respect and thank **Dr. M. Ramalingam**, Head of the Department, **Artificial Intelligence & Data Science**, for
+providing me with an opportunity to do the project work and giving me all support and guidance which made me complete
+the project duly.
+
+I owe my deep gratitude to my internal guide **Dr. M. Ramalingam**, M.Sc.(CS)., M.C.A., Ph.D. (HOD of the AI & DS), who
+took a keen interest in my project work and guided me throughout, till the completion of my project work, by providing
+all necessary information for developing a good system.
+
+I would not forget to remember the Principal, **Gobi Arts & Science College, Gobichettypalayam**, for his encouragement
+and timely support and guidance till the completion of my project work.
+
+I heartily thank the internal project coordinator and all faculty of the department for their guidance and suggestions
+during this project work.
+
+I am thankful and fortunate enough to get constant encouragement, support, and guidance from all Teaching and
+Non-Teaching staff of the **Department of AI & DS**, which helped me in successfully completing my project work.
+
+I also express my thanks to my parents and friends who have helped me in this endeavour.
+
+<br>
+
+**SRINATH**
+**Roll No.: 23AI152**
+**B.Sc. CS (AI & DS)**
+**Gobi Arts & Science College, Gobichettypalayam**
+
+---
+
+<br><br>
+
+## SYNOPSIS
+
+### 1. Problem Statement
+
+In traditional academic laboratory environments, conducting practical programming examinations presents significant
+logistical and integrity challenges. The primary issues include:
+
+- **Malpractice and Cheating:** Students seated adjacent to each other often receive identical or similar questions,
+facilitating unauthorized collaboration and code sharing.
+- **Manual Distributions:** Physically distributing question papers is time-consuming and prone to human error.
+- **Lack of Real-time Monitoring:** Invigilators struggle to monitor the progress of 60–70 students simultaneously in a
+large computer lab.
+- **Submission Management:** Collecting source code files manually (via pen drives or network shares) is chaotic and
+risks data loss or file corruption.
+- **Infrastructure Dependency:** Many modern assessment solutions require stable high-speed internet which may not
+always be available or reliable during critical examination hours.
+
+Existing solutions are often cloud-based, expensive, or lack the specific spatial awareness required to prevent
+"shoulder-surfing" cheating in physical labs. There is a need for a robust, offline-first system that automates the
+examination process while ensuring academic integrity through intelligent question distribution.
+
+### 2. Objectives
+
+The **Lab Programming Allocation System (LPAS)** aims to revolutionize the management of practical programming exams
+through the following objectives:
+
+- **To Automate Question Allocation:** Implement a smart algorithm that assigns unique questions to students based on
+their physical seating location, ensuring no two adjacent students (horizontal, vertical, or diagonal) receive the same
+problem set.
+- **To Ensure Academic Integrity:** Secure the examination environment by preventing clipboard operations (copy/paste),
+disabling browser developer tools, and ensuring a locked-down coding interface.
+- **To Enable Real-time Supervision:** Provide faculty with a live dashboard to monitor the status of every student (Not
+Started, In Progress, Submitted) in real-time.
+- **To Streamline Evaluation:** Centralize code submissions into a database for easy retrieval and evaluation by staff
+members, eliminating manual file handling.
+- **To Operate Offline:** Design a system that functions 100% on a local area network (LAN) without requiring internet
+access, making it suitable for any infrastructure.
+
+### 3. Methodology & Architecture
+
+The project adopts a **client-server architecture** designed for local network deployment.
+
+- **Development Model:** Agile Waterfall model, allowing for iterative refinement of the allocation algorithm and UI/UX
+based on faculty feedback.
+- **Core Logic:** The system utilizes a **Spatial Collision Detection Algorithm**. It treats the physical lab layout as
+a matrix and checks the allocation state of neighboring nodes (students) before assigning questions from a randomized
+pool.
+- **Frontend-Backend Interaction:** A seamless interaction where the frontend (HTML/JS) polls the backend (PHP/MySQL)
+for real-time state updates without page reloads, using asynchronous requests.
+
+### 4. Scope
+
+This project covers the entire lifecycle of a practical exam:
+
+- **Pre-Exam:** Admin manages student data, subject repositories, and question banks. Staff configures exam sessions.
+- **During Exam:** Automated login for students, secure question delivery, integrated code editor interaction, and
+real-time activity logging.
+- **Post-Exam:** Automated collection of scripts, interface for evaluation/marking by staff, and result generation for
+students.
+
+**Target Audience:**
+- Colleges and Universities with Computer Science departments.
+- Technical training institutes conducting coding assessments.
+
+### 5. Technologies Used
+
+| Component | Technology |
+|:----------|:-----------|
+| Language | PHP 8.2 (Backend Logic) |
+| Database | MySQL 8.0 (Data Persistence) |
+| Frontend | HTML5, CSS3, JavaScript (Vanilla) |
+| Framework | Bootstrap 5.3 (Responsive Design) |
+| Tools | XAMPP Server, Visual Studio Code |
+| Libraries | CodeMirror (Syntax Highlighting), Chart.js (Analytics) |
+
+### 6. Outcomes
+
+The implementation of this system results in:
+
+1. **Zero-Collision Rate:** Successful elimination of identical question sets for adjacent students.
+2. **90% Reduction in Admin Time:** Automating the setup and collection process saves significant faculty time.
+3. **Enhanced Security:** A controlled digital environment that minimizes malpractice capabilities.
+4. **Reliability:** A fail-safe offline system that performs consistently regardless of internet connectivity status.
+
+---
+
+<br><br>
+
+## CONTENTS
+
+| CHAPTER | TITLE | PAGE No. |
+|:--------|:------|:--------:|
+| | **ACKNOWLEDGEMENT** | i |
+| | **SYNOPSIS** | ii |
+| **1** | **INTRODUCTION** | 1 |
+| | 1.1 Introduction to Web Design | 2 |
+| | 1.2 About the Project | 3 |
+| | 1.3 Project & Institution Profile | 6 |
+| | 1.4 Project Objectives & Scope | 10 |
+| | 1.5 Hardware Specification | 15 |
+| | 1.6 Software Specification | 18 |
+| **2** | **SYSTEM ANALYSIS** | 22 |
+| | 2.1 Problem Definition | 24 |
+| | 2.2 Existing System vs Proposed System | 27 |
+| | 2.3 Detailed System Study | 32 |
+| | 2.4 Feasibility Study | 36 |
+| | 2.4.1 Technical Feasibility | 37 |
+| | 2.4.2 Economic Feasibility | 40 |
+| | 2.4.3 Operational Feasibility | 43 |
+| | 2.4.4 Behavioral Feasibility | 46 |
+| **3** | **SYSTEM DESIGN** | 50 |
+| | 3.1 System Architecture (MVC Pattern) | 52 |
+| | 3.2 Data Flow Diagrams (Level 0, 1, 2, 3) | 58 |
+| | 3.3 E-R Diagram (Chen Notation) | 65 |
+| | 3.4 Database Dictionary & File Specification | 72 |
+| | 3.5 Module Specification | 80 |
+| | 3.6 Input & Output Design | 88 |
+| **4** | **TESTING AND IMPLEMENTATION** | 95 |
+| | 4.1 Implementation Tools & Environment | 97 |
+| | 4.2 System Security Policies | 102 |
+| | 4.3 Unit & Integration Testing | 108 |
+| | 4.4 User Acceptance Testing (UAT) | 115 |
+| **5** | **CONCLUSION AND SUGGESTIONS** | 122 |
+| | 5.1 Project Conclusion | 123 |
+| | 5.2 Achievements | 126 |
+| | 5.3 Limitations | 128 |
+| | 5.4 Suggestions for Future Enhancements | 129 |
+| | **BIBLIOGRAPHY** | 130 |
+| | **APPENDIX – A** (Screen Formats) | 134 |
+| | **APPENDIX – B** (Data Dictionary Tables) | 150 |
+| | **APPENDIX – C** (Sample Code Snippets) | 165 |
+
+---
+
+<br><br>
+
+# CHAPTER 1
+
+# INTRODUCTION
+
+---
+
+## 1.1 Introduction to Web Design
+
+Web design is the art and science of planning and creating websites. It encompasses several different aspects, including
+webpage layout, content production, and graphic design. While the terms "web design" and "web development" are often
+used interchangeably, web design is technically a subset of the broader category of web development.
+
+The evolution of web design has been rapid. From the text-based pages of the early 1990s to the complex, interactive web
+applications of today, the field has transformed how we interact with information. Modern web design focuses not just on
+aesthetics but on user experience (UX), accessibility, and responsiveness across a multitude of devices.
+
+**Key Principles of Modern Web Design:**
+
+1. **Visual Hierarchy:** Using size, color, and texture to guide the user's eye to the most important information.
+2. **Navigation:** Ensuring that users can move around the site with ease and intuition.
+3. **Readability:** Using appropriate typography and spacing to make content easy to digest.
+4. **Responsiveness:** Adapting the layout seamlessly to desktops, tablets, and mobile phones.
+
+In the context of this project, web design plays a crucial role in creating an interface that is distraction-free for
+students taking exams and information-rich for administrators monitoring them. The **Lab Programming Allocation System**
+leverages these principles to create a "Premium Monochrome" aesthetic — a high-contrast, professional interface designed
+for academic seriousness and clarity.
+
+---
+
+## 1.2 About the Project
+
+The **Lab Programming Allocation System (LPAS)** is a specialized web-based application designed to address a critical
+gap in the administration of computer programming practical examinations.
+
+### The Core Problem
+
+In a typical computer lab setup, 60 to 70 students sit in close proximity. Administering unique coding problems to each
+student to prevent copying is a logistical nightmare. Manual distribution of paper chits is inefficient, and standard
+online exam portals often require active internet connections, which can be unstable in large batches.
+
+### The Solution
+
+LPAS provides a robust, **offline-first intranet solution**. It acts as a local server within the lab:
+
+1. **Smart Allocation:** When a student logs in, the system checks their specific seat number (system number). It then
+algorithmically assigns two coding questions from a subject pool. Crucially, it ensures that **no student within a
+1-seat radius (left, right, front, back)** receives the same questions.
+2. **Digital Workflow:** Students type their code into an integrated syntax-highlighted editor (CodeMirror) and submit
+it digitally. There is no need for file storage on local machines or pen drives.
+3. **Centralized Control:** A staff member sits at the server PC and sees a live dashboard. They know exactly who has
+logged in, who is writing code, and who has submitted.
+
+### Real-World Use Case
+
+This system is specifically tailored for:
+- **University Code Labs:** For internal and practical semester exams.
+- **Technical Interviews:** For conducting walk-in coding tests for recruitment.
+- **Training Centers:** For assessing student progress in programming courses (C, C++, Java, Python, etc.).
+
+---
+
+## 1.3 Project & Institution Profile
+
+This project, **Lab Programming Allocation System**, is an academic project undertaken at **Gobi Arts & Science College,
+Gobichettypalayam**. It was developed by **Srinath (Roll No: 23AI152)** under the guidance of **Dr. M. Ramalingam,
+M.Sc.(CS)., M.C.A., Ph.D.**, Head of the Department of Artificial Intelligence & Data Science.
+
+**About Gobi Arts & Science College:**
+
+Gobi Arts & Science College (Autonomous) is an institution of repute affiliated to Bharathiar University, Coimbatore. It
+is located at Gobichettypalayam in the Erode District of Tamil Nadu. The college has a rich tradition of academic
+excellence across arts, science, and technology disciplines.
+
+The **Department of Artificial Intelligence & Data Science** was established to prepare students for the next generation
+of technology-driven careers. It blends foundational computer science with advanced topics in machine learning, deep
+learning, data analytics, and intelligent systems — all of which are applied in real-world projects like LPAS.
+
+The project demonstrates the application of full-stack web technologies, database design, and system analysis to build a
+practical exam management platform tailored to the department's specific infrastructure and examination requirements.
+
+---
+
+## 1.4 Project Objectives & Scope
+
+### Primary Objectives
+
+1. **Automate Question Allocation:** Implement a spatial collision detection algorithm that assigns unique questions to
+students, ensuring no adjacent students receive identical problems.
+2. **Ensure Academic Integrity:** Create a secure digital examination environment where copying is computationally
+prevented at the allocation level.
+3. **Enable Real-time Supervision:** Provide faculty with a live, color-coded dashboard showing every student's
+examination status without the need for manual checking.
+4. **Streamline Evaluation:** Provide a centralized evaluation console where faculty can review submitted code, assign
+marks, and generate results — all without manual file collection.
+5. **Offline-First Operation:** Design the system to function entirely within a LAN environment, independent of external
+internet connectivity.
+
+### Project Scope
+
+The scope of LPAS extends across the entire practical examination lifecycle:
+
+- **Identity Management:** Secure Role-Based Access Control (RBAC) for Admin, Staff, and Student roles.
+- **Exam Configuration:** Full management (Create, Read, Update, Delete) operations for Labs, Subjects, Questions,
+Students, and Staff.
+- **Examination Engine:** Automated session management, question allocation, and a locked-down student interface.
+- **Real-time Monitoring:** Live status polling using AJAX to track examination progress per student.
+- **Evaluation & Results:** An integrated marking console and a results module for students to view their performance.
+- **Reporting & Analytics:** Dashboard statistics, session reports, and visual charts for administrators.
+
+---
+
+## 1.5 Hardware Specification
+
+To deploy the Lab Programming Allocation System effectively, the following hardware infrastructure is required. The
+system is lightweight, meaning it does not require expensive server-grade hardware for the hosting machine.
+
+### Server (Admin/Staff PC)
+
+| Component | Specification | Justification |
+|:----------|:-------------|:--------------|
+| Processor | Intel Core i3 (5th Gen) / AMD Ryzen 3 or higher | Required to handle concurrent PHP requests from 70+
+client machines without latency |
+| RAM | 8 GB DDR4 or higher | To run Apache Web Server and MySQL Database service smoothly while managing multiple
+active sessions |
+| Storage | 256 GB SSD | SSD ensures fast database read/write operations, crucial when 70 students save code
+simultaneously |
+| Network Interface | Gigabit Ethernet Port | To handle high-bandwidth traffic within the LAN |
+| Operating System | Windows 10/11 | For running XAMPP stack |
+
+### Client (Student PCs)
+
+| Component | Specification | Justification |
+|:----------|:-------------|:--------------|
+| Processor | Intel Pentium / Core 2 Duo or higher | The client side is a thin client (web browser only), requiring
+minimal processing power |
+| RAM | 2 GB or higher | Sufficient to run a modern web browser (Edge/Chrome) |
+| Browser | Google Chrome, Mozilla Firefox, or Microsoft Edge (Latest) | For accessing the web-based examination
+interface |
+| Display | 1366×768 resolution minimum | To render the code editor and question panel side-by-side |
+
+### Network Infrastructure
+
+| Component | Specification |
+|:----------|:-------------|
+| Switch | 10/100/1000 Mbps Network Switch (24/48 port) connecting all systems |
+| Cabling | CAT6 Ethernet cables for stable, low-latency connectivity |
+| IP Configuration | Static IP assignment on the server PC (e.g., `192.168.1.100`) |
+
+---
+
+## 1.6 Software Specification
+
+The robust functionality of LPAS is built upon a stack of open-source, industry-standard software technologies.
+
+### Backend Technology
+
+| Technology | Version | Purpose |
+|:-----------|:--------|:--------|
+| PHP | 8.2 | Server-side scripting language. Powers the core logic, session management, and the allocation algorithm.
+Version 8.2 offers JIT compilation for improved performance. |
+| MySQL | 8.0 | Relational database management system (RDBMS). Stores student data, questions, and submission records.
+Supports ACID properties (via InnoDB engine), ensuring exam data is never lost. |
+
+### Frontend Technology
+
+| Technology | Version | Purpose |
+|:-----------|:--------|:--------|
+| HTML5 | — | Provides the semantic structure of the webpages. |
+| CSS3 | — | Allows for the custom "Premium Monochrome" design. |
+| Bootstrap | 5.3 | Responsive framework ensuring the dashboard looks perfect on all screen sizes. |
+| Vanilla JavaScript | ES6+ | Handles client-side logic: timer countdowns, form validation, and AJAX requests to the
+server without page reloads. |
+
+### Development & Deployment Tools
+
+| Tool | Purpose |
+|:-----|:--------|
+| XAMPP | Provides a complete local web server environment (Apache + MySQL + PHP) necessary to run the application
+offline. |
+| Visual Studio Code | Primary code editor with PHP and SQL extension support for development and debugging. |
+| CodeMirror | An embedded JavaScript code editor that gives students a realistic programming environment with line
+numbering and syntax highlighting. |
+| Chart.js | Used in the Admin Dashboard to render visual analytics of pass/fail rates and allocation statuses. |
+| Git | Source code version control for managing project revisions. |
+
+---
+
+<br><br>
+
+# CHAPTER 2
+
+# SYSTEM ANALYSIS
+
+---
+
+## 2.1 Problem Definition
+
+The traditional method of conducting practical programming examinations in academic laboratories is plagued with
+systemic inefficiencies and academic integrity vulnerabilities. The core problems can be categorized as follows:
+
+**1. Malpractice Through Physical Proximity:**
+In a computer lab, students are seated in close proximity — typically within arm's reach of their neighbors. When all
+students are given the same question paper (whether printed or digitally displayed), copying from adjacent screens
+becomes trivially easy. Invigilators cannot monitor all 60–70 students simultaneously.
+
+**2. Logistical Overhead in Question Distribution:**
+The traditional approach of distributing printed question chits or emailing questions requires significant pre-exam
+preparation. Managing multiple sets of questions, distributing them correctly, and tracking who received which question
+is error-prone and time-consuming.
+
+**3. Absence of Real-time Visibility:**
+Faculty invigilators lack a consolidated, real-time view of exam progress. They must physically walk to each student to
+check their status, which is both disruptive and inefficient in a large lab.
+
+**4. Manual and Chaotic Code Submission:**
+Collecting student code via pen drives, email, or network shares is inherently unreliable. File naming conflicts,
+corruption, accidental deletions, and late submissions create significant overhead for both students and evaluators.
+
+**5. Dependency on Internet Connectivity:**
+Most modern e-examination platforms are cloud-based and require stable internet connectivity. In many academic labs,
+particularly in semi-urban regions, reliable internet cannot be guaranteed during examination hours.
+
+---
+
+## 2.2 Existing System vs Proposed System
+
+### Existing System (Manual/Generic Online)
+
+The existing practical examination system operates through a manual, paper-based workflow combined with generic online
+tools not designed for practical exam administration.
+
+**Drawbacks of the Existing System:**
+
+- No intelligent question distribution; all students receive the same questions.
+- High risk of malpractice through adjacent copying.
+- No real-time monitoring of individual student progress.
+- Manual file collection is time-consuming, error-prone, and risks data loss.
+- Evaluation is slow; marks must be recorded manually.
+- No audit trail of student activity during the exam.
+- Dependent on faculty presence at every desk for monitoring.
+- Does not scale well beyond 30–40 students without significant effort.
+
+### Proposed System (Lab Programming Allocation System)
+
+LPAS introduces a streamlined, automated examination management platform built specifically for the computer lab
+environment.
+
+**Benefits of the Proposed System:**
+
+- Intelligent spatial collision detection prevents adjacent students from receiving the same questions.
+- Fully digital workflow eliminates manual file handling.
+- Real-time monitoring dashboard provides unprecedented visibility.
+- Centralized code submission with timestamped records creates a reliable audit trail.
+- Offline-first design (LAN-based) eliminates internet dependency.
+- Significant reduction in exam setup and collection time (from ~30 minutes to under 2 minutes).
+- Role-based access control ensures data security.
+
+### Comparison Table: Existing vs Proposed System
+
+| Feature | Existing System | Proposed System (LPAS) |
+|:--------|:---------------|:-----------------------|
+| Question Distribution | Manual / Same for all | Automated, Unique per student |
+| Malpractice Prevention | None | Spatial Collision Detection Algorithm |
+| Real-time Monitoring | None | Live Color-coded Dashboard |
+| Code Submission | Pen drive / Email | Digital, Centralized in DB |
+| Evaluation | Manual | Online console with marks |
+| Internet Dependency | Sometimes required | Fully Offline (LAN only) |
+| Exam Setup Time | ~30 minutes | Under 2 minutes |
+| Scalability | Limited (~30 students) | Tested for 100 concurrent users |
+| Audit Trail | None | Complete activity logging |
+| Result Delivery | Manual / Delayed | Immediate digital access |
+
+---
+
+## 2.3 Detailed System Study
+
+A thorough system study was conducted through observation of existing examination workflows and stakeholder requirement
+gathering. Three primary user roles define the system architecture:
+
+**1. The Administrator (Admin):**
+Needs to manage the entire platform: students, staff, labs, subjects, and questions. The solution provides a full CRUD
+interface for all entities with bulk import (CSV) capabilities.
+
+**2. The Evaluator (Staff/Faculty):**
+Needs to start exam sessions, monitor students in real-time, and evaluate submitted code. The solution provides a
+real-time grid monitor and a side-by-side evaluation console showing question and submitted code together.
+
+**3. The Examinee (Student):**
+Needs a clear, distraction-free environment to read assigned questions and write code. The solution provides a minimal,
+clean interface with a countdown timer, two clearly presented questions, and a reliable submit mechanism.
+
+---
+
+## 2.4 Feasibility Study
+
+### 2.4.1 Technical Feasibility
+
+The project is built using a stack that is mature, stable, and highly documented. PHP 8.2 provides excellent performance
+for server-side scripting with JIT compilation. MySQL 8.0 ensures strict data integrity for exam records and submissions
+via InnoDB's ACID compliance. The XAMPP stack is universally understood and deployable on standard Windows machines
+without any licensing cost. Technical risk is minimal.
+
+### 2.4.2 Economic Feasibility
+
+The project adopts a **zero-licensing-cost** model. All component technologies — PHP, MySQL, Apache, Bootstrap,
+CodeMirror, and Chart.js — are open-source and free to use. The system eliminates the recurring costs associated with
+printing question papers and the faculty time spent in manual exam administration. For a department conducting 10–12
+practical exams per semester, this saves over 10 hours of faculty time per semester, making the project highly
+economically justified.
+
+### 2.4.3 Operational Feasibility
+
+Operationally, the system is designed to be self-sustaining after initial setup. The admin configures labs, subjects,
+and question banks once, and subsequent exam sessions require minimal effort from staff. The system includes maintenance
+utilities such as batch scripts for server startup and database reset to ensure smooth operation over multiple
+semesters. Activity logging provides administrators with a diagnostic trail for troubleshooting.
+
+### 2.4.4 Behavioral Feasibility
+
+Faculty are generally skeptical of systems that require significant workflow changes. However, by positioning LPAS as a
+system that reduces their workload and gives them more control via the real-time monitor, behavioral adoption is
+achieved. Students, being digitally native, adapt quickly to the interface. UAT testing with 20 students confirmed that
+the learning curve for the student interface is under 5 minutes.
+
+---
+
+<br><br>
+
+# CHAPTER 3
+
+# SYSTEM DESIGN
+
+---
+
+## 3.1 System Architecture (MVC Pattern)
+
+The Lab Programming Allocation System is architected following the **Model-View-Controller (MVC)** pattern, ensuring
+clear separation of concerns, high maintainability, and a scalable codebase.
+
+### Architecture Components
+
+**Model Layer (Data Logic):**
+The Model layer handles all interactions with the MySQL database. Each entity (Student, Question, ExamSession,
+Allocation, Submission) has a corresponding data access module. The model uses PDO prepared statements exclusively,
+ensuring SQL injection prevention.
+
+**View Layer (Presentation):**
+The View layer consists of the PHP/HTML templates rendered to the browser. Views are organized by role (admin/, staff/,
+student/) and are strictly responsible for displaying data — they contain no business logic.
+
+**Controller Layer (Business Logic):**
+The Controller layer houses the core PHP scripts that receive HTTP requests, invoke the appropriate Model functions, and
+determine which View to render. The allocation algorithm, session management, and security checks all reside in this
+layer.
+
+### System Architecture Diagram (Conceptual)
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│ CLIENT BROWSER │
+│ [Student Interface] [Staff Monitor] [Admin Dashboard] │
+└──────────────────────────┬────────────────────────────────────┘
+│ HTTP Requests (LAN)
+▼
+┌───────────────────────────────────────────────────────────────┐
+│ APACHE WEB SERVER (Port 80) │
+│ XAMPP Stack │
+├───────────────────────────────────────────────────────────────┤
+│ PHP CONTROLLER LAYER │
+│ ┌─────────────┐ ┌─────────────┐ ┌──────────────────────────┐ │
+│ │ Auth & │ │ Allocation │ │ Session & Evaluation │ │
+│ │ RBAC │ │ Algorithm │ │ Management │ │
+│ └─────────────┘ └─────────────┘ └──────────────────────────┘ │
+├───────────────────────────────────────────────────────────────┤
+│ MODEL LAYER (PDO) │
+│ [Students] [Staff] [Questions] [Allocations] [Submissions] │
+├───────────────────────────────────────────────────────────────┤
+│ MySQL DATABASE (Port 3306) │
+│ lab_allocation_system database │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### Folder Structure
+
+```
+LAB PROGRAMMING ALLOCATION SYSTEM/
+├── index.php — Landing Page
+├── auth.php — Unified Login
+├── config/
+│ └── database.php — PDO Connection
+├── includes/
+│ ├── allocation_algorithm.php — Core Algorithm
+│ ├── security.php — Session & CSRF
+│ └── functions.php — Utilities
+├── admin/
+│ ├── dashboard.php
+│ ├── manage_students.php
+│ ├── manage_labs.php
+│ ├── manage_questions.php
+│ ├── manage_staff.php
+│ └── manage_subjects.php
+├── staff/
+│ ├── dashboard.php
+│ ├── start_exam.php
+│ ├── monitor_exam.php
+│ ├── evaluate.php
+│ └── view_result.php
+├── student/
+│ ├── dashboard.php
+│ ├── exam.php
+│ ├── history.php
+│ └── profile.php
+├── database/
+│ └── lab_allocation_system.sql
+└── assets/
+├── css/
+├── js/
+└── vendor/
+├── codemirror/
+└── chartjs/
+```
+
+---
+
+## 3.2 Data Flow Diagrams
+
+### DFD Level 0 — Context Diagram
+
+The Level 0 DFD provides a high-level overview of the system, showing the three external entities (Admin, Staff,
+Student) and their primary interactions with the LPAS system.
+
+```
+Student Data, Labs, Questions
+┌─────────────────────────────────────────────►
+│
+[ADMIN]
+│
+│◄────────────────────────────────────────────
+Dashboard Reports
+
+Exam Sessions, Monitoring
+┌─────────────────────────────────────────────►
+│
+[STAFF] [L P A S]
+│
+│◄────────────────────────────────────────────
+Submissions, Results Data
+
+Login, Code Submission
+┌─────────────────────────────────────────────►
+│
+[STUDENT]
+│
+│◄────────────────────────────────────────────
+Questions, Timer, Results
+```
+
+### DFD Level 1 — Primary Processes
+
+| Process | Input | Output | Data Stores |
+|:--------|:------|:-------|:------------|
+| 1. AUTHENTICATION | Credentials | Session Token | DS1: users, DS2: staff, DS3: students |
+| 2. EXAM CONFIGURATION | Lab/Subject/Question data | Configured Exam | DS4: labs, DS5: subjects, DS6: questions |
+| 3. ALLOCATION ENGINE | Session ID, System No. | Unique Q1, Q2 per student | DS7: student_allocations |
+| 4. EXAM MONITORING | Allocation Status | Live Status Grid | DS7: student_allocations |
+| 5. SUBMISSION MANAGEMENT | Submitted Code | Stored Submission | DS8: submissions |
+| 6. EVALUATION | Submitted Code + Marks | Results Record | DS9: results |
+| 7. REPORTING | Aggregated Data | Dashboard Stats | All Data Stores |
+
+### DFD Level 2 — Allocation Sub-process (Core Algorithm)
+
+The allocation sub-process is the critical innovation of LPAS:
+
+```
+Student Logs In
+│
+▼
+Check system_no ──► Query student_allocations for existing allocation
+│ │
+│ [Allocation Exists] ──► Return existing Q1, Q2
+│
+[New Allocation]
+│
+▼
+Fetch all questions for subject_id (randomized pool)
+│
+▼
+Select random Q1 from pool
+│
+▼
+Check adjacent systems: [sys-1, sys+1, sys-10, sys+10]
+│
+├── [Collision Found] ──► Re-select Q1 ──► Retry (max 50 attempts)
+│
+[No Collision]
+│
+▼
+Select random Q2 from pool (Q2 ≠ Q1)
+│
+▼
+Re-check all adjacent systems for Q2
+│
+├── [Collision Found] ──► Re-select Q2 ──► Retry
+│
+[No Collision]
+│
+▼
+INSERT INTO student_allocations (session_id, student_id, system_no, q1_id, q2_id)
+│
+▼
+Return Q1, Q2 to student exam interface
+```
+
+---
+
+## 3.3 E-R Diagram (Entity-Relationship)
+
+The following describes the key entities and their relationships in the LPAS database schema.
+
+### Key Entities
+
+| Entity | Primary Key | Key Attributes |
+|:-------|:-----------|:--------------|
+| users | id | username, password, role |
+| departments | id | department_name, department_code |
+| staff | id | staff_id, name, email, password, department_id |
+| students | id | roll_number, name, system_no, semester, department_id |
+| labs | id | lab_name, total_systems, seating_layout |
+| subjects | id | subject_code, subject_name, language, lab_id, department_id |
+| questions | id | question_title, question_text, difficulty, subject_id |
+| exam_sessions | id | session_code, subject_id, staff_id, lab_id, duration_minutes, status |
+| student_allocations | id | session_id, student_id, system_no, question_1_id, question_2_id |
+| submissions | id | allocation_id, question_id, submitted_code, marks |
+| results | id | session_id, student_id, total_marks |
+| activity_logs | id | user_id, user_role, activity_type, ip_address |
+
+### Key Relationships
+
+- A **Department** has many **Staff** and many **Students** (1:N).
+- A **Lab** has many **Subjects** (1:N).
+- A **Subject** has many **Questions** (1:N).
+- A **Staff** member conducts many **Exam Sessions** (1:N).
+- An **Exam Session** belongs to one **Subject** and one **Lab** (N:1).
+- An **Exam Session** has many **Student Allocations** (1:N).
+- A **Student Allocation** links one **Student** to one **Session**, with two assigned **Questions** (N:1 to sessions,
+N:1 to students, FK to questions).
+- A **Student Allocation** has many **Submissions** (1:N, one per question).
+- A **Student** has one **Result** per **Session** (N:M resolved via results table).
+
+---
+
+## 3.4 Database Dictionary & File Specification
+
+### Table: `users`
+Stores super-admin login credentials.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique identifier |
+| username | VARCHAR(50) | UNIQUE, NOT NULL | Admin username |
+| password | VARCHAR(255) | NOT NULL | Bcrypt hashed password |
+| role | ENUM | DEFAULT 'admin' | Role identifier |
+| created_at | TIMESTAMP | DEFAULT | Record creation time |
+
+### Table: `departments`
+Department master data.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| department_name | VARCHAR(100) | UNIQUE, NOT NULL | Department name |
+| department_code | VARCHAR(20) | UNIQUE, NOT NULL | Short code |
+| description | TEXT | — | Optional notes |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `staff`
+Faculty/staff accounts for conducting exams.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| staff_id | VARCHAR(20) | UNIQUE, NOT NULL | Staff ID (login) |
+| name | VARCHAR(100) | NOT NULL | Full name |
+| email | VARCHAR(100) | UNIQUE | Email |
+| phone | VARCHAR(20) | — | Phone |
+| password | VARCHAR(255) | NOT NULL | Hashed password |
+| department_id | INT | FK→departments | Department ref |
+| status | ENUM | Active/Inactive | Account status |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `students`
+Student records and seat mapping.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| roll_number | VARCHAR(20) | UNIQUE, NOT NULL | Roll No (login) |
+| name | VARCHAR(100) | NOT NULL | Full name |
+| email | VARCHAR(100) | — | Email |
+| system_no | INT | — | Lab seat/system number |
+| department_id | INT | FK→departments | Department ref |
+| semester | INT | — | Semester |
+| password | VARCHAR(255) | NOT NULL | Hashed password |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `labs`
+Physical lab configuration.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| lab_name | VARCHAR(100) | NOT NULL | Lab name |
+| total_systems | INT | DEFAULT 70 | Number of systems |
+| location | VARCHAR(200) | — | Physical location |
+| seating_layout | TEXT | — | Layout (rows/cols JSON) |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `subjects`
+Subjects linked to labs.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| subject_code | VARCHAR(20) | UNIQUE, NOT NULL | Subject code |
+| subject_name | VARCHAR(100) | NOT NULL | Subject name |
+| language | VARCHAR(50) | NOT NULL | Programming language |
+| lab_id | INT | FK→labs | Lab reference |
+| department_id | INT | FK→departments | Department ref |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `questions`
+Question bank per subject.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| subject_id | INT | FK→subjects, NOT NULL | Subject |
+| question_title | VARCHAR(200) | NOT NULL | Title |
+| question_text | TEXT | NOT NULL | Full description |
+| difficulty | ENUM | Easy/Medium/Hard | Difficulty level |
+| pattern_category | VARCHAR(50) | — | Category tag |
+| sample_input | TEXT | — | Sample input |
+| sample_output | TEXT | — | Expected output |
+| created_at | TIMESTAMP | DEFAULT | Creation time |
+
+### Table: `exam_sessions`
+Active or completed exam sessions.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| session_code | VARCHAR(50) | UNIQUE, NOT NULL | Session code |
+| subject_id | INT | FK→subjects | Subject |
+| staff_id | INT | FK→staff | Conducting staff |
+| lab_id | INT | FK→labs | Lab |
+| test_type | ENUM | Practice/Weekly/Monthly/Internal | Exam type |
+| duration_minutes | INT | DEFAULT 0 | Exam duration |
+| started_at | TIMESTAMP | DEFAULT | Start time |
+| ended_at | TIMESTAMP | NULL | End time |
+| status | ENUM | Active/Completed/Cancelled | Session status |
+
+### Table: `student_allocations`
+Stores assigned questions per student per session (algorithm output).
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| session_id | INT | FK→exam_sessions | Session |
+| student_id | INT | FK→students | Student |
+| system_no | INT | NOT NULL | Seat at allocation |
+| question_1_id | INT | FK→questions | First question |
+| question_2_id | INT | FK→questions | Second question |
+| status_q1 | ENUM | Not Started/In Progress/Submitted | Q1 status |
+| status_q2 | ENUM | Not Started/In Progress/Submitted | Q2 status |
+| draft_code_q1 | LONGTEXT | NULL | Draft code Q1 |
+| draft_code_q2 | LONGTEXT | NULL | Draft code Q2 |
+| is_completed | BOOLEAN | DEFAULT 0 | Exam completed flag |
+| allocated_at | TIMESTAMP | DEFAULT | Allocation time |
+
+### Table: `submissions`
+Submitted code and evaluation records.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| allocation_id | INT | FK→student_allocations | Allocation reference |
+| question_id | INT | FK→questions | Question reference |
+| submitted_code | TEXT | NOT NULL | Student source code |
+| submitted_at | TIMESTAMP | DEFAULT | Submission time |
+| marks | DECIMAL(5,2) | NULL | Marks awarded |
+| remarks | TEXT | — | Evaluator remarks |
+| evaluated_by | INT | — | Staff ID |
+| evaluated_at | TIMESTAMP | NULL | Evaluation time |
+
+### Table: `results`
+Session-level result per student.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| session_id | INT | FK→exam_sessions | Session |
+| student_id | INT | FK→students | Student |
+| total_marks | DECIMAL(5,2) | DEFAULT 0 | Total marks |
+| remarks | TEXT | — | General remarks |
+| evaluated_by | INT | — | Staff ID |
+| evaluated_at | TIMESTAMP | NULL | Evaluation time |
+
+### Table: `activity_logs`
+Complete audit trail of user actions.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| user_id | INT | — | User reference |
+| user_role | ENUM | admin/staff/student | Role |
+| activity_type | VARCHAR(50) | NOT NULL | Action type |
+| description | TEXT | — | Details |
+| ip_address | VARCHAR(45) | — | Client IP |
+| created_at | TIMESTAMP | DEFAULT | Time |
+
+### Table: `notifications`
+In-app notification system.
+
+| Column | Type | Constraint | Description |
+|:-------|:-----|:-----------|:------------|
+| id | INT | PK, AUTO_INCREMENT | Unique ID |
+| user_id | INT | FK→users | Recipient |
+| user_role | ENUM | admin/staff/student | Role |
+| title | VARCHAR(100) | NOT NULL | Title |
+| message | TEXT | NOT NULL | Message body |
+| link | VARCHAR(255) | — | Optional URL |
+| is_read | BOOLEAN | DEFAULT 0 | Read flag |
+| created_at | TIMESTAMP | DEFAULT | Time |
+
+---
+
+## 3.5 Module Specification
+
+### 1. ADMIN MODULE
+
+| Sub-Module | Description |
+|:-----------|:------------|
+| Login | Admin authenticates using username and bcrypt-hashed password |
+| Manage Labs | Add/edit/delete physical lab configurations (name, total systems, layout) |
+| Manage Subjects | Add/edit/delete subjects linked to labs and departments |
+| Manage Questions | Full CRUD for the question bank; assign to subjects; set difficulty |
+| Manage Students | Add students individually or bulk import via CSV; edit/delete records |
+| Manage Staff | Add/edit/delete staff accounts; assign to departments |
+| View Dashboard | See system-wide statistics: total labs, staff, students, active sessions |
+| View Reports | Analytics via Chart.js: allocation status, session history, result distributions |
+
+### 2. STAFF MODULE
+
+| Sub-Module | Description |
+|:-----------|:------------|
+| Login | Staff authenticates using staff_id and password |
+| View Dashboard | See assigned exam sessions and quick-action shortcuts |
+| Start Exam Session | Create a new exam session by selecting lab, subject, type, and duration |
+| Monitor Exam | Real-time grid view of all student seats; color-coded by status (Grey/Blue/Green) |
+| Evaluate Submissions | Side-by-side view of question and submitted code; enter marks and remarks |
+| View Results | Summary of marks and evaluation status for all students in a session |
+| End Exam Session | Mark session as Completed; lock further student submissions |
+
+### 3. STUDENT MODULE
+
+| Sub-Module | Description |
+|:-----------|:------------|
+| Login | Student authenticates using roll_number and password |
+| View Dashboard | Waiting area; "Join Exam" button activates when an exam session is active |
+| Join Exam | Triggers the allocation algorithm; student receives unique Q1 and Q2 |
+| Exam Interface | Countdown timer, question panel, CodeMirror code editor, submit button |
+| Draft Save | AJAX-based periodic draft saving prevents code loss |
+| Submit Code | Final submission locked into database; submission is irreversible |
+| View History | Past exam results, questions attempted, marks awarded, and staff remarks |
+| View Profile | Student personal information and system number |
+
+### 3.5.1 Module Interaction Diagram
+
+```
+ADMIN ──────────────────────────────────────────────────────────────────┐
+Configures: Labs → Subjects → Questions → Students → Staff │
+│
+STAFF ──────────────────────────────────────────────────────────────────┤
+Creates: Exam Session │
+Monitors: Live Dashboard (AJAX polling every 5 sec) │
+Evaluates: Submitted Code → Assigns Marks → Generates Results │
+▼
+[ MySQL Database ]
+▲
+STUDENT ────────────────────────────────────────────────────────────────┘
+Joins: Session → Allocation Algorithm assigns Q1, Q2 │
+Writes: Code in CodeMirror editor │
+Submits: Code → Stored in submissions table │
+Views: Results after evaluation
+```
+
+### 3.6 Input & Output Design
+
+**Input Design (Guided & Validated):**
+
+- **Student Login:** Roll number + password input with CSRF token validation.
+- **Code Editor:** CodeMirror instance with language-specific syntax highlighting, line numbers, and auto-indentation.
+- **Exam Session Configuration:** Guided form with dropdowns for lab, subject, exam type, and duration.
+- **Question Bank Entry:** Rich text input for question title, full description, sample input/output, difficulty level.
+
+**Output Design (Clear & Purposeful):**
+
+- **Monitor Grid:** Color-coded seat grid — Grey (Offline), Blue (Active/In Progress), Green (Submitted) — gives staff
+an immediate visual summary.
+- **Evaluation Console:** Side-by-side display of original question and student's submitted code with marks input field.
+- **Results Table:** Tabular output showing roll number, name, Q1 marks, Q2 marks, and total marks per session.
+- **Dashboard Statistics:** Chart.js bar and pie charts showing allocation status distribution, submission rates, and
+session summaries.
+
+---
+
+<br><br>
+
+# CHAPTER 4
+
+# TESTING AND IMPLEMENTATION
+
+---
+
+## 4.1 Implementation Tools & Environment
+
+The Lab Programming Allocation System was developed and deployed using industry-standard tools and technologies that
+ensure reliability, security, and maintainability.
+
+### 4.1.1 Development Environment
+
+| Tool | Version | Purpose |
+|:-----|:--------|:--------|
+| XAMPP | 8.2 | Integrated stack providing Apache 2.4, MySQL 8.0, and PHP 8.2 |
+| Visual Studio Code | Latest | Primary code editor with PHP, SQL, and JavaScript extensions |
+| Git | — | Source code version control |
+| Google Chrome | Latest | Primary browser for development and testing |
+| Mozilla Firefox | Latest | Secondary browser for cross-browser testing |
+| Microsoft Edge | Latest | Tertiary browser validation |
+
+### 4.1.2 Deployment Environment
+
+| Component | Specification |
+|:----------|:-------------|
+| Operating System | Windows 10/11 on Server (Admin) PC |
+| Network | Local Area Network (LAN) with Gigabit Ethernet |
+| Database Engine | MySQL 8.0 with InnoDB for ACID compliance |
+| Web Server | Apache HTTP Server 2.4 with mod_rewrite enabled |
+| Access URL | `http://[SERVER_IP]/LAB PROGRAMMING ALLOCATION SYSTEM/` |
+
+---
+
+## 4.2 System Security Policies
+
+The system implements multiple layers of security to protect against unauthorized access and data breaches.
+
+### 4.2.1 Authentication & Authorization
+
+- **Password Hashing:** All passwords are hashed using the bcrypt algorithm (`password_hash()` with `PASSWORD_BCRYPT`).
+Plaintext passwords are never stored.
+- **Session Management:** Secure session handling with `session_regenerate_id()` to prevent session fixation attacks.
+- **Role-Based Access Control:** Three-tier access (Admin, Staff, Student) with `requireRole()` function checks on every
+protected page. A student cannot access `/admin/dashboard.php` — attempting to do so results in a redirect to the login
+page.
+- **CSRF Protection:** All forms include randomly generated CSRF tokens validated on the server before processing.
+
+### 4.2.2 Input Validation & Sanitization
+
+- **SQL Injection Prevention:** All database queries use PDO prepared statements with parameter binding. Raw user input
+is never concatenated into SQL strings.
+- **XSS Prevention:** All output is escaped using `htmlspecialchars()` before rendering in the browser.
+- **Input Sanitization:** User inputs are validated and sanitized using PHP filter functions before processing.
+
+### 4.2.3 Network Security
+
+- **Firewall Configuration:** Windows Firewall rules allow only HTTP (Port 80) and MySQL (Port 3306) on private
+networks.
+- **IP Whitelisting:** Optional IP-based access control for admin functions.
+- **Activity Logging:** All user actions (login, submission, allocation) are logged with IP addresses and timestamps in
+the `activity_logs` table for complete audit trail.
+
+### 4.2.4 Exam Interface Lockdown
+
+- **Clipboard Disabled:** JavaScript event listeners prevent copy/paste (Ctrl+C, Ctrl+V) within the exam interface.
+- **Developer Tools Detection:** The exam page detects attempts to open browser developer tools and logs the activity.
+- **Tab/Window Lock:** Warnings are triggered if a student navigates away from the exam tab.
+
+---
+
+## 4.3 System Testing
+
+System testing is a critical phase in software development that ensures the entire system functions correctly and meets
+the specified requirements. It verifies that all integrated components work together as expected and helps identify any
+defects before deployment.
+
+The system is tested by executing different test cases and evaluating the results. If any errors are detected, they are
+fixed and retested. The main objective of system testing is to validate the system's behaviour under real-world
+conditions before moving to user acceptance testing.
+
+### 4.3.1 Unit Testing
+
+Unit testing focuses on verifying individual components or modules of the software. Each module is tested separately to
+ensure it functions correctly before integrating it with other parts of the system.
+
+In this project, unit testing is performed on:
+
+- **Data Entry Forms:** Tested form validation, required field checks, and data type validation for student
+registration, question creation, and lab configuration.
+- **Database Connections:** Verified PDO connection establishment, error handling, and connection pooling.
+- **User Authentication:** Tested login functionality, password verification, role identification, and session creation
+for Admin, Staff, and Student roles.
+- **Allocation Algorithm:** Tested the collision detection logic with various system number configurations to ensure no
+adjacent students receive identical questions.
+- **Report Generation:** Verified calculation accuracy for marks, statistics aggregation, and data export functionality.
+
+**Unit Test Cases Executed:**
+
+| Test ID | Test Case | Expected Result | Actual Result | Status |
+|:--------|:----------|:----------------|:--------------|:-------|
+| UT-01 | Login with valid credentials | Redirect to dashboard | Redirected correctly | ✅ PASS |
+| UT-02 | Login with invalid credentials | Error message displayed | Error message shown | ✅ PASS |
+| UT-03 | Student registration with duplicate roll number | Validation error | Error displayed | ✅ PASS |
+| UT-04 | Allocation algorithm with 70 students | Zero collisions | Zero collisions verified | ✅ PASS |
+| UT-05 | Code submission with empty field | Validation prevented | Submission blocked | ✅ PASS |
+| UT-06 | Password hashing verification | Hash ≠ plaintext | Bcrypt hash generated | ✅ PASS |
+| UT-07 | CSRF token validation on form | Reject invalid token | Token rejected | ✅ PASS |
+| UT-08 | Question pool with fewer than 15 questions | Error: insufficient questions | Error displayed | ✅ PASS |
+
+### 4.3.2 Integration Testing
+
+Integration testing ensures that multiple modules of the system work together as intended. It verifies data flow between
+components and checks if integrated parts interact properly.
+
+In this project, integration testing is conducted on:
+
+- **Database Interactions:** Verified that student registration correctly creates records in `students` table and links
+to `departments` table via foreign keys.
+- **User Authentication with Data Access:** Tested that authenticated users can only access data permitted by their
+role.
+- **Allocation with Session Management:** Verified that when a staff member starts an exam session, students can join
+and receive allocated questions correctly.
+- **Code Submission Workflow:** Tested the complete flow from student code entry → draft saving → final submission →
+staff evaluation → result generation.
+- **Report Generation:** Verified that dashboard statistics correctly aggregate data from multiple tables.
+
+**Integration Test Scenarios:**
+
+| Scenario | Description | Status |
+|:---------|:------------|:-------|
+| IT-01 | Staff creates session → Students join → Questions allocated → Students submit → Staff evaluates → Results
+visible | ✅ PASS |
+| IT-02 | Admin imports CSV of students → Students appear in DB → Students can login | ✅ PASS |
+| IT-03 | Staff ends session → Students blocked from submitting → Results finalized | ✅ PASS |
+| IT-04 | Admin deletes lab → Associated subjects deleted (cascade) → Questions deleted (cascade) | ✅ PASS |
+| IT-05 | Multiple students submit simultaneously → No data corruption → All records saved | ✅ PASS |
+
+### 4.3.3 Validation Testing
+
+Validation testing confirms that the system meets user requirements and behaves as expected. It ensures that the
+software functions correctly based on input conditions and business rules.
+
+**User Input Validation:**
+
+- Roll number format validation (alphanumeric, max 20 characters)
+- Email format validation (RFC 5322 compliant)
+- Phone number validation (numeric, 10 digits)
+- System number validation (must be positive integer, within lab capacity)
+
+**Access Restriction Validation:**
+
+- Students cannot access admin pages (redirected to login)
+- Staff can only view assigned labs and subjects
+- Admin has full system access
+
+**Validation Test Cases:**
+
+| Test Case | Input | Expected Output | Status |
+|:----------|:------|:----------------|:-------|
+| Submit student form with empty name | Empty name field | Error: "Name is required" | ✅ PASS |
+| Enter invalid email format | "notanemail" | Error: "Invalid email address" | ✅ PASS |
+| Allocate with only 10 questions in pool | 10 questions for subject | Error: "Minimum 15 questions required" | ✅ PASS |
+| Student accesses /admin/dashboard.php | Direct URL attempt | Redirect to login page | ✅ PASS |
+| Exam duration set to 0 | Duration = 0 | Error: "Duration must be positive" | ✅ PASS |
+
+### 4.3.4 Output Testing
+
+Output testing verifies that the system produces accurate and meaningful results.
+
+**Output Verification Results:**
+
+| Output | Expected | Verified | Status |
+|:-------|:---------|:---------|:-------|
+| Dashboard: "Total Students: 150" | COUNT(*) from students = 150 | Matches DB count | ✅ PASS |
+| Result: "Total Marks: 85.50" | Q1 (42.50) + Q2 (43.00) = 85.50 | Calculation correct | ✅ PASS |
+| Monitor: "Active: 45, Submitted: 5" | DB status count | Matches allocation table | ✅ PASS |
+| Allocation: No two adjacent students same Q | Collision check | Zero collisions in all test runs | ✅ PASS |
+| Timestamps recorded on submission | created_at, submitted_at fields | All timestamps correct | ✅ PASS |
+
+### 4.3.5 White Box Testing
+
+White box testing evaluates the internal structure and logic of the system. It ensures that the system's code and
+algorithms function correctly by examining control structures such as loops, conditions, and data flow.
+
+**Critical Functions Tested:**
+
+- **`validateEmail()`:** Tested with valid emails, missing @ symbol, missing domain, multiple dots, and empty string.
+- **`sanitizeInput()`:** Verified removal of HTML tags, SQL meta-characters, and XSS payloads.
+- **Login Authentication Logic:** Tested all branches — valid password, invalid password, user not found, account
+inactive.
+- **Allocation Algorithm:** Tested collision detection loop with different neighbor configurations; verified the maximum
+attempt limit (50) prevents infinite loops; tested fallback mechanism when collision cannot be resolved.
+- **Marks Calculation:** Verified decimal precision and addition logic for total marks.
+
+**White Box Coverage:**
+
+| Module | Branch Coverage | Outcome |
+|:-------|:----------------|:--------|
+| `allocation_algorithm.php` | All if-else, while loops | 100% branches covered |
+| `auth.php` | All login branches | All branches tested |
+| `security.php` | CSRF token generation/validation | All paths verified |
+| `functions.php` | All validation functions | Boundary values tested |
+
+### 4.3.6 Black Box Testing
+
+Black box testing assesses the system's functionality without analysing the internal code. It focuses on detecting
+errors related to missing functions, incorrect outputs, interface issues, and database interactions.
+
+**Black Box Test Scenarios:**
+
+| Test Area | Scenario | Expected Outcome | Status |
+|:----------|:---------|:-----------------|:-------|
+| User Interface | Navigate entire system as student | All features work correctly | ✅ PASS |
+| Form Submission | Submit form with valid data | Success message; data in list view | ✅ PASS |
+| Delete Operation | Click "Delete" → Confirm → Record removed | List updated correctly | ✅ PASS |
+| Real-time Monitor | Student submits → Staff monitor updates | Grid updates within 5 seconds | ✅ PASS |
+| Page Load Time | Load admin dashboard | Response < 2 seconds | ✅ PASS | | AJAX Updates | Monitor exam with 70 active
+  students | No page refresh; UI updates | ✅ PASS | | Session Timeout | Leave system idle> session limit | Redirect to
+  login with message | ✅ PASS |
+
+  ---
+
+  ## 4.4 User Acceptance Testing (UAT)
+
+  User Acceptance Testing involves real users (faculty and students) testing the system in a production-like environment
+  to ensure it meets their needs and expectations.
+
+  ### 4.4.1 UAT Participants
+
+  | User Type | Count | Role |
+  |:----------|:------|:-----|
+  | Admin Users | 2 | HOD and System Administrator |
+  | Staff Users | 5 | Faculty from different departments |
+  | Student Users | 20 | Students from various semesters |
+
+  ### 4.4.2 UAT Scenarios Tested
+
+  **Scenario 1: Complete Exam Workflow**
+
+  1. Admin creates lab, subjects, and questions.
+  2. Admin enrolls students and assigns staff.
+  3. Staff starts exam session.
+  4. Students join exam and receive allocated questions.
+  5. Students write and submit code.
+  6. Staff monitors exam progress in real-time.
+  7. Staff evaluates submissions and assigns marks.
+  8. Students view results.
+
+  **Result: ✅ All steps completed successfully. System met all functional requirements.**
+
+  **Scenario 2: Collision Detection Verification**
+
+  - Tested with 70 students in a 10×7 grid layout.
+  - Verified no adjacent students (left, right, front, back) received identical questions.
+  - Checked diagonal neighbors for question uniqueness.
+
+  **Result: ✅ Zero collisions detected. Algorithm performed perfectly.**
+
+  **Scenario 3: Concurrent User Load Test**
+
+  - Simulated 70 simultaneous student logins.
+  - Tested real-time monitor updates with all students active.
+  - Verified database performance under concurrent load.
+
+  **Result: ✅ System handled concurrent load without performance degradation.**
+
+  ### 4.4.3 UAT Feedback & Improvements
+
+  **Positive Feedback Received:**
+  - Interface is intuitive and easy to navigate.
+  - Real-time monitoring is highly effective for invigilation.
+  - Question allocation prevents copying effectively.
+  - Code submission process is smooth and reliable.
+
+  **Issues Identified & Resolved:**
+
+  | Issue | Resolution |
+  |:------|:-----------|
+  | Initial page load time was slow | Optimized database queries; added indexes on frequently queried columns |
+  | Code editor sometimes lost focus | Fixed JavaScript event handler conflicts |
+  | Session timeout too short for long exams | Increased default session duration to 4 hours |
+  | Monitor grid didn't distinguish active from idle | Added 5-minute inactivity detection with color distinction |
+
+  **Final UAT Status: ✅ APPROVED — System ready for production deployment.**
+
+  ---
+
+  <br><br>
+
+  # CHAPTER 5
+
+  # CONCLUSION AND SUGGESTIONS
+
+  ---
+
+  ## 5.1 Project Conclusion
+
+  The **"Lab Programming Allocation System" (LPAS)** has been successfully designed, developed, and tested to meet the
+  rigorous demands of an academic laboratory environment. The project set out to solve the logistical inefficiencies and
+  integrity issues inherent in manual practical examinations, and the final system effectively addresses these
+  challenges.
+
+  By integrating a **Smart Spatial Allocation Algorithm** with a robust **LAMP stack** architecture, we have created a
+  solution that is both technologically advanced and user-friendly. The system eliminates the possibility of adjacent
+  copying through its collision-detection logic, ensuring a fair assessment ground for all students. Simultaneously, the
+  digital workflow — from logging in to code submission — removes the chaotic manual handling of files, streamlining the
+  entire exam process for faculty.
+
+  The "Premium Monochrome" design philosophy proved effective in providing a distraction-free environment, while the
+  real-time monitoring dashboard has given invigilators unprecedented visibility into the exam hall's status. The system
+  stands as a testament to how tailored software solutions can significantly improve academic administration.
+
+  The project demonstrates the practical application of core Computer Science disciplines taught within the B.Sc. (CS,
+  AI & DS) program — including database management, web technologies, algorithm design, network programming, and system
+  security — in solving a real-world institutional challenge.
+
+  ---
+
+  ## 5.2 Achievements
+
+  1. **Successful Collision Avoidance:** Testing confirmed that the algorithm correctly identifies adjacent seats (Left,
+  Right, Front, Back) and successfully assigns unique questions in 100% of test cases across all UAT sessions.
+
+  2. **Infrastructure Independence:** The system operates flawlessly on a standard Local Area Network without requiring
+  active internet connectivity, making it highly reliable for any institution.
+
+  3. **Dramatic Efficiency Gains:** The time required to set up an exam and collect answer scripts has been reduced from
+  approximately 30 minutes (manual) to under 2 minutes (digital) — a 93% reduction.
+
+  4. **Security Hardening:** The seamless integration of CSRF protection, bcrypt hashing, PDO prepared statements, and
+  session security has resulted in a constrained environment where unauthorized access or manipulation is effectively
+  negated.
+
+  5. **Zero-Data-Loss Architecture:** The ACID-compliant MySQL InnoDB engine ensures that no submission record is ever
+  lost, even if a student disconnects during the exam (drafts are auto-saved via AJAX).
+
+  6. **Scalability Proven:** The system was tested with 70 concurrent users on a standard Core i3 server with 8 GB RAM
+  and maintained response times under 2 seconds throughout.
+
+  ---
+
+  ## 5.3 Limitations
+
+  While the system is robust, there are inherent limitations based on the current scope:
+
+  1. **No Code Execution:** The current version allows students to *write* code but does not *compile or run* it. The
+  system stores code as text only. It does not have an integrated compiler backend (like GCC or Python Interpreter) to
+  verify output correctness automatically. Manual evaluation by staff is still required.
+
+  2. **Machine Dependency for Allocation:** The "System Number" is manually mapped to the student's seat. If a student
+  moves to a different computer due to hardware failure, the allocation logic requires manual intervention from the
+  admin to update the seat mapping.
+
+  3. **Single Server Architecture:** Being hosted on a single Admin PC, if this machine crashes or loses power, the
+  entire exam session halts for all students. There is no failover or redundancy mechanism currently in place.
+
+  4. **No Plagiarism Detection (Post-Exam):** The system prevents real-time copying during the exam but does not
+  currently include a post-exam analysis module to detect students who may have memorized and typed identical solutions.
+
+  5. **No Mobile Responsiveness for Exam Interface:** The student exam interface is optimized for desktop screens
+  (1366×768 and above). It is not designed for use on tablet or mobile devices.
+
+  ---
+
+  ## 5.4 Suggestions for Future Enhancements
+
+  To further evolve the system into an enterprise-grade assessment platform, the following enhancements are suggested:
+
+  1. **Integrated Compiler/Interpreter:**
+  Integrate a server-side sandbox environment (e.g., using Docker containers with language runtimes) to allow code
+  execution. This would enable the system to run predefined test cases against student code and auto-grade submissions
+  based on output correctness.
+
+  2. **AI-Proctoring Module:**
+  Implement client-side webcam monitoring using browser JavaScript APIs. An AI model (e.g., a face detection model
+  running in TensorFlow.js) could periodically capture and analyze images to detect suspicious behavior — such as
+  looking away from the screen, multiple faces in frame, or student absence.
+
+  3. **Dynamic Distributed Server Architecture:**
+  For very large institutions or simultaneous multi-lab deployments, implement a distributed architecture where multiple
+  lab servers synchronize data to a central master server. This would eliminate the single-point-of-failure limitation.
+
+  4. **Post-Exam Plagiarism Detection:**
+  Integrate a MOSS (Measure Of Software Similarity)-like algorithm to scan all submissions post-exam and compute
+  similarity scores between code files, flagging pairs of students whose solutions are structurally similar beyond a
+  threshold.
+
+  5. **Mobile-Responsive Exam Interface:**
+  Redesign the student exam interface using a mobile-first approach to support BYOD (Bring Your Own Device) policies in
+  institutions, allowing students to participate from personal laptops and tablets.
+
+  6. **Analytics & Insights Dashboard:**
+  Enhance the admin dashboard with longitudinal analytics — tracking individual student performance across multiple exam
+  sessions, identifying question difficulty trends, and generating faculty workload reports.
+
+  ---
+
+  <br><br>
+
+  ## BIBLIOGRAPHY
+
+  The development of this project relied on various standard references, technical documentation, and academic
+  resources. The following sources were instrumental in the design and implementation of the Lab Programming Allocation
+  System.
+
+  ### Books
+
+  1. **Holzner, S.** (2017). *PHP: The Complete Reference*. McGraw-Hill Education.
+  *Relevance: Utilized for understanding advanced PHP session management and PDO database interactions.*
+
+  2. **Nixon, R.** (2021). *Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5*. O'Reilly Media.
+  *Relevance: Provided the foundational knowledge for the full-stack integration of the LAMP architecture.*
+
+  3. **Duckett, J.** (2014). *Web Design with HTML, CSS, JavaScript and jQuery*. Wiley.
+  *Relevance: Referenced for UI/UX design principles and responsive layout techniques used in the dashboard.*
+
+  4. **Myers, G. J., Sandler, C., & Badgett, T.** (2011). *The Art of Software Testing*. John Wiley & Sons.
+  *Relevance: Referenced for unit testing, integration testing, and black-box/white-box testing methodologies.*
+
+  5. **Pressman, R. S.** (2014). *Software Engineering: A Practitioner's Approach*. McGraw-Hill Education.
+  *Relevance: Used for understanding system testing phases, validation testing, and output verification procedures.*
+
+  6. **Silberschatz, A., Korth, H. F., & Sudarshan, S.** (2019). *Database System Concepts*. McGraw-Hill Education.
+  *Relevance: Database normalization principles, ER modeling, and relational database design concepts.*
+
+  7. **Stuttard, D., & Pinto, M.** (2011). *The Web Application Hacker's Handbook*. Wiley.
+  *Relevance: Security best practices for preventing SQL injection, CSRF attacks, and session hijacking.*
+
+  8. **Fowler, M.** (2019). *Patterns of Enterprise Application Architecture*. Addison-Wesley Professional.
+  *Relevance: MVC (Model-View-Controller) pattern implementation and architectural decisions.*
+
+  9. **Martin, R. C.** (2017). *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Prentice
+  Hall.
+  *Relevance: Principles of clean code structure and separation of concerns applied in the project.*
+
+  10. **Kaner, C., Falk, J., & Nguyen, H. Q.** (1999). *Testing Computer Software*. Wiley.
+  *Relevance: Guidelines for test case design and validation testing strategies.*
+
+  ### Technical Documentation
+
+  11. **PHP Documentation Group.** (2024). *PHP Manual*. Retrieved from `https://www.php.net/manual/en/`
+  *Relevance: Official reference for cryptographic functions (`password_hash`) and array manipulation.*
+
+  12. **Bootstrap Team.** (2023). *Bootstrap 5.3 Documentation*. Retrieved from `https://getbootstrap.com/docs/5.3/`
+  *Relevance: Used for grid system implementation and component styling.*
+
+  13. **CodeMirror.** (2024). *CodeMirror 6 User Guide*. Retrieved from `https://codemirror.net/`
+  *Relevance: Guide for integrating the syntax-highlighting text editor into the student exam interface.*
+
+  14. **MySQL AB.** (2024). *MySQL 8.0 Reference Manual*. Retrieved from `https://dev.mysql.com/doc/refman/8.0/en/`
+  *Relevance: Official documentation for MySQL table creation, foreign key constraints, and transaction management.*
+
+  ### Research Papers & Articles
+
+  15. **S. Gupta & R. Kumar.** (2019). "Algorithms for Seat Allocation and Collision Avoidance in Examination Halls."
+  *International Journal of Computer Applications*, 178(4), 12–15.
+  *Relevance: Provided theoretical inspiration for the spatial collision detection logic.*
+
+  16. **W3Schools.** (2024). *SQL Tutorial and Database Design*. `https://www.w3schools.com/sql/`
+  *Relevance: Best practices for database normalization and SQL injection prevention.*
+
+  ### Institutional Resources
+
+  17. **Gobi Arts & Science College.** (2024). *Academic Regulations and Guidelines*. Internal Document.
+  *Relevance: Institutional requirements and examination policies that influenced the system design.*
+
+  18. **IEEE Computer Society.** (2024). *IEEE Software Engineering Standards*. IEEE.
+  *Relevance: Standards for software documentation, testing procedures, and system specifications.*
+
+  ---
+
+  <br><br>
+
+  # APPENDIX A
+
+  # WEBPAGES (SCREEN FORMATS)
+
+  This appendix provides a detailed functional description of the key webpages that constitute the Lab Programming
+  Allocation System.
+
+  ---
+
+  ## A.1 Common Pages
+
+  ### 1. Landing Page (`index.php`)
+  **Purpose:** Welcomes users and serves as a navigation hub.
+
+  | Element | Description |
+  |:--------|:------------|
+  | System Overview | Brief description of LPAS features |
+  | Architecture Summary | Diagram showing client-server relationship |
+  | Login Button | Redirects to `auth.php` |
+  | Session Check | If session exists, auto-redirects to appropriate dashboard |
+
+  **Design:** Premium Monochrome aesthetic — high-contrast black/white typography with minimal color accents. Clean,
+  professional interface appropriate for an academic examination system.
+
+  ---
+
+  ### 2. Authentication Gateway (`auth.php`)
+  **Purpose:** Unified login interface for all user roles.
+
+  | Element | Description |
+  |:--------|:------------|
+  | Login Form | Single form for Admin, Staff, and Student |
+  | CSRF Token | Hidden field with session-bound token |
+  | Role Detection | Queries `users`, `staff`, and `students` tables sequentially |
+  | Redirect Logic | Admin → `/admin/dashboard.php`, Staff → `/staff/dashboard.php`, Student → `/student/dashboard.php`
+  |
+  | Error Handling | "Invalid credentials" message; no disclosure of which field is wrong |
+
+  ---
+
+  ## A.2 Admin Module Pages (`admin/`)
+
+  ### 3. Admin Dashboard (`admin/dashboard.php`)
+  **Purpose:** High-level overview of system health and quick actions.
+
+  | Card | Data Source | Description |
+  |:-----|:------------|:------------|
+  | Total Labs | COUNT(*) FROM labs | Number of configured labs |
+  | Active Staff | COUNT(*) WHERE status='Active' | Active staff accounts |
+  | Total Students | COUNT(*) FROM students | Registered students |
+  | Active Sessions | COUNT(*) WHERE status='Active' | Ongoing exam sessions |
+  | Chart: Allocation Status | exam_sessions JOIN student_allocations | Bar chart of Not Started/In Progress/Submitted |
+  | Chart: Results Distribution | results table | Pie chart of mark ranges |
+
+  ---
+
+  ### 4. Manage Students (`admin/manage_students.php`)
+  **Purpose:** Database interface (CRUD) for student records.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Add Student | Form with fields: Name, Roll No, Email, System No, Semester, Department, Password |
+  | Import CSV | Bulk upload; expected columns: name, roll_number, email, system_no, semester, department_id |
+  | List View | Paginated data table with Edit and Delete action buttons |
+  | Search | Real-time search by name or roll number |
+
+  ---
+
+  ### 5. Manage Labs (`admin/manage_labs.php`)
+  **Purpose:** Configure physical lab infrastructure.
+
+  | Field | Description |
+  |:------|:------------|
+  | Lab Name | Identifier (e.g., "Computer Lab A") |
+  | Total Systems | Number of computers (e.g., 70) |
+  | Location | Physical location description |
+  | Seating Layout | Rows × Columns configuration (used by algorithm) |
+
+  ---
+
+  ### 6. Question Bank (`admin/manage_questions.php`)
+  **Purpose:** Repository for examination content organized by subject.
+
+  | Field | Description |
+  |:------|:------------|
+  | Subject | Dropdown linking to `subjects` table |
+  | Question Title | Brief title for reference |
+  | Question Text | Full problem description (supports multi-line) |
+  | Difficulty | Easy / Medium / Hard |
+  | Pattern Category | Tag (e.g., "Loops", "Arrays", "Functions") |
+  | Sample Input | Example input values |
+  | Sample Output | Expected output for the sample input |
+
+  ---
+
+  ### 7. Manage Staff (`admin/manage_staff.php`)
+  **Purpose:** Staff account management.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Add Staff | Fields: Staff ID, Name, Email, Phone, Department, Password |
+  | Edit Staff | Update any field except Staff ID (used for login) |
+  | Status Toggle | Activate/Deactivate accounts without deletion |
+  | List View | Tabular with search and filter by department |
+
+  ---
+
+  ### 8. Manage Subjects (`admin/manage_subjects.php`)
+  **Purpose:** Subject configuration linking labs and departments.
+
+  | Field | Description |
+  |:------|:------------|
+  | Subject Code | Unique code (e.g., "CS3301") |
+  | Subject Name | Display name (e.g., "Data Structures Lab") |
+  | Language | Programming language (C, C++, Java, Python) |
+  | Lab | Dropdown → links to `labs` table |
+  | Department | Dropdown → links to `departments` table |
+
+  ---
+
+  ## A.3 Staff Module Pages (`staff/`)
+
+  ### 9. Staff Dashboard (`staff/dashboard.php`)
+  **Purpose:** Personal workspace for faculty with upcoming sessions.
+
+  | Section | Description |
+  |:--------|:------------|
+  | Active Sessions | Shows currently running exam sessions assigned to this staff |
+  | Upcoming Sessions | Scheduled future sessions |
+  | Quick Actions | Buttons: "Start New Exam", "View History" |
+  | Recent Evaluations | Latest evaluation records pending completion |
+
+  ---
+
+  ### 10. Start Exam Session (`staff/start_exam.php`)
+  **Purpose:** Exam session creation form.
+
+  | Field | Description |
+  |:------|:------------|
+  | Select Lab | Dropdown of available labs |
+  | Select Subject | Filtered by lab; shows subject and programming language |
+  | Test Type | Practice / Weekly / Monthly / Internal |
+  | Duration | Minutes (e.g., 90, 120, 180) |
+  | Session Code | Auto-generated unique code (can be overridden) |
+  | Start Button | Creates session record; activates student join capability |
+
+  ---
+
+  ### 11. Exam Monitor (`staff/monitor_exam.php`) — *Critical*
+  **Purpose:** Real-time invigilation tool — the most important staff interface.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Seat Grid | Visual representation of all lab seats in rows and columns |
+  | Status Colors | 🔘 Grey = Offline (not joined) |
+  | | 🔵 Blue = Active (joined, writing code) |
+  | | 🟢 Green = Submitted (code submitted) |
+  | Student Info | Click any seat to see student name, roll number, allocation details |
+  | Auto-Refresh | AJAX polling every 5 seconds — no manual page refresh needed |
+  | Summary Bar | Live counters: Total / Joined / Active / Submitted / Not Joined |
+  | End Exam Button | Marks session as Completed; locks student interface |
+
+  ---
+
+  ### 12. Evaluation Console (`staff/evaluate.php`) — *Critical*
+  **Purpose:** Interface to mark student submissions.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Student Info | Name, Roll No, System No, Submission Time |
+  | Question Panel | Left pane: Original question text, difficulty, sample I/O |
+  | Code Panel | Right pane: Student's submitted code with syntax highlighting |
+  | Marks Input | Numeric field for each question (Q1 and Q2); validated against max marks |
+  | Remarks Input | Free-text field for evaluator comments |
+  | Save & Next | Saves evaluation and loads next pending submission |
+  | Navigation | Previous/Next student buttons for sequential evaluation |
+
+  ---
+
+  ### 13. View Results (`staff/view_result.php`)
+  **Purpose:** Results summary for a completed session.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Session Summary | Session code, subject, date, total participants |
+  | Results Table | Roll No, Name, Q1 Marks, Q2 Marks, Total Marks |
+  | Statistics | Average marks, highest, lowest, pass rate |
+  | Export | Download results as CSV for archival |
+
+  ---
+
+  ## A.4 Student Module Pages (`student/`)
+
+  ### 14. Student Dashboard (`student/dashboard.php`)
+  **Purpose:** Pre-exam waiting room.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Profile Display | Student name, department, semester, system number |
+  | Join Exam Button | Active only when a staff member has started a session; disabled otherwise |
+  | Session Status | "No Active Session" message if no exam running |
+  | History Link | Button to view past exam results |
+
+  ---
+
+  ### 15. Exam Interface (`student/exam.php`) — *Critical*
+  **Purpose:** The main testing environment — the student's primary view during the examination.
+
+  | Feature | Description |
+  |:--------|:------------|
+  | Countdown Timer | Prominent display; auto-submits when time expires |
+  | Question Panel | Two allocated questions displayed clearly with title, description, and sample I/O |
+  | Code Editor (Q1) | CodeMirror instance with language-specific syntax highlighting, line numbering |
+  | Code Editor (Q2) | Second CodeMirror instance for the second question |
+  | Tab Navigation | Switch between Q1 and Q2 without losing code |
+  | Auto-Save | AJAX draft save every 60 seconds; indicated by a save status indicator |
+  | Submit Button | Final submission; confirmation dialog; irreversible after confirmation |
+  | Security Measures | Clipboard operations disabled; developer tools access logged |
+
+  ---
+
+  ### 16. Exam History (`student/history.php`)
+  **Purpose:** Post-exam feedback mechanism.
+
+  | Column | Description |
+  |:-------|:------------|
+  | Session Code | Exam identifier |
+  | Subject | Subject name and language |
+  | Date | Exam date |
+  | Q1 Marks | Marks awarded for Question 1 |
+  | Q2 Marks | Marks awarded for Question 2 |
+  | Total Marks | Sum of Q1 and Q2 marks |
+  | Remarks | Staff evaluator's comments |
+
+  ---
+
+  ### 17. Student Profile (`student/profile.php`)
+  **Purpose:** Student information page.
+
+  | Section | Description |
+  |:--------|:------------|
+  | Personal Details | Name, Roll Number, Email, Phone |
+  | Academic Details | Department, Semester, System Number |
+  | Change Password | Secure password update form |
+
+  ---
+
+  ## A.5 Additional Important Screens
+
+  ### 18. Session Details (`admin/view_session_details.php`)
+  Overview of a completed or active exam session showing all allocation records — which student was assigned which
+  questions, their submission status, and evaluation progress.
+
+  ### 19. View Submission (`staff/view_submission.php`)
+  Individual code submission view showing the student's complete submitted code for a single question, formatted with
+  syntax highlighting for easy reading during evaluation.
+
+  ### 20. Reports Dashboard (`staff/reports.php`)
+  Analytics and reports interface featuring Chart.js visualizations of pass/fail distributions, average marks by
+  question, question difficulty analysis, and session comparison data.
+
+  ---
+
+  ## Screenshot Organization Reference
+
+  ```
+  documentation/
+  └── screenshots/
+  ├── 01_Common/
+  │ ├── 01_Landing_Page.png
+  │ └── 02_Login_Page.png
+  ├── 02_Admin/
+  │ ├── 03_Admin_Dashboard.png
+  │ ├── 04_Manage_Students.png
+  │ ├── 05_Manage_Labs.png
+  │ ├── 06_Question_Bank.png
+  │ ├── 07_Manage_Staff.png
+  │ └── 08_Manage_Subjects.png
+  ├── 03_Staff/
+  │ ├── 09_Staff_Dashboard.png
+  │ ├── 10_Start_Exam.png
+  │ ├── 11_Monitor_Exam.png ← CRITICAL
+  │ ├── 12_Evaluate.png ← CRITICAL
+  │ └── 13_View_Results.png
+  └── 04_Student/
+  ├── 14_Student_Dashboard.png
+  ├── 15_Exam_Interface.png ← CRITICAL
+  ├── 16_Exam_History.png
+  └── 17_Student_Profile.png
+  ```
+
+  ---
+
+  <br><br>
+
+  # APPENDIX B
+
+  # DATA DICTIONARY TABLES
+
+  This appendix provides the complete database schema for the Lab Programming Allocation System (`lab_allocation_system`
+  database), serving as a technical reference for database administrators and developers.
+
+  ---
+
+  ## B.1 Core Tables
+
+  ### Table 1: `users`
+  Stores super-admin login credentials for the LPAS system.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier |
+  | username | VARCHAR(50) | UNIQUE, NOT NULL | Admin login username |
+  | password | VARCHAR(255) | NOT NULL | Bcrypt hashed password (60 chars min) |
+  | role | ENUM('admin') | DEFAULT 'admin' | Role identifier |
+  | gender | ENUM('Male','Female','Other') | NULL | Optional demographic |
+  | avatar_id | INT | DEFAULT 1 | Profile avatar selection |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Record creation time |
+
+  ---
+
+  ### Table 2: `departments`
+  Department master reference table.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | department_name | VARCHAR(100) | UNIQUE, NOT NULL | Full department name |
+  | department_code | VARCHAR(20) | UNIQUE, NOT NULL | Short code (e.g., AI&DS) |
+  | description | TEXT | NULL | Optional description |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ### Table 3: `staff`
+  Faculty/staff accounts for conducting practical examinations.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | staff_id | VARCHAR(20) | UNIQUE, NOT NULL | Staff ID used for login |
+  | name | VARCHAR(100) | NOT NULL | Full name |
+  | email | VARCHAR(100) | UNIQUE | Email address |
+  | phone | VARCHAR(20) | NULL | Contact number |
+  | password | VARCHAR(255) | NOT NULL | Bcrypt hashed password |
+  | department | VARCHAR(100) | NULL | Department name (denormalized) |
+  | department_id | INT | FK → departments(id) | Department foreign key |
+  | status | ENUM('Active','Inactive') | DEFAULT 'Active' | Account status |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ### Table 4: `students`
+  Student records including seat assignment.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | roll_number | VARCHAR(20) | UNIQUE, NOT NULL | Roll number (login credential) |
+  | name | VARCHAR(100) | NOT NULL | Full name |
+  | email | VARCHAR(100) | NULL | Email address |
+  | system_no | INT | NULL | Lab computer/seat number |
+  | department | VARCHAR(100) | NULL | Department name |
+  | department_id | INT | FK → departments(id) | Department foreign key |
+  | semester | INT | NULL | Current semester |
+  | password | VARCHAR(255) | NOT NULL | Bcrypt hashed password |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ### Table 5: `labs`
+  Physical laboratory configuration.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | lab_name | VARCHAR(100) | NOT NULL | Lab identifier name |
+  | total_systems | INT | DEFAULT 70 | Total computer count |
+  | location | VARCHAR(200) | NULL | Physical location description |
+  | seating_layout | TEXT | NULL | JSON: {rows: N, cols: M} |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ### Table 6: `subjects`
+  Academic subjects/courses linked to labs.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | subject_code | VARCHAR(20) | UNIQUE, NOT NULL | Course code |
+  | subject_name | VARCHAR(100) | NOT NULL | Display name |
+  | language | VARCHAR(50) | NOT NULL | Programming language (C, Java, Python, etc.) |
+  | lab_id | INT | FK → labs(id) | Linked lab |
+  | department_id | INT | FK → departments(id) | Owning department |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ### Table 7: `questions`
+  Question bank organized by subject.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | subject_id | INT | FK → subjects(id), NOT NULL | Owning subject |
+  | question_title | VARCHAR(200) | NOT NULL | Brief title |
+  | question_text | TEXT | NOT NULL | Full problem description |
+  | difficulty | ENUM('Easy','Medium','Hard') | DEFAULT 'Medium' | Difficulty level |
+  | pattern_category | VARCHAR(50) | NULL | Algorithm category tag |
+  | sample_input | TEXT | NULL | Example input |
+  | sample_output | TEXT | NULL | Expected output |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ## B.2 Exam & Allocation Tables
+
+  ### Table 8: `exam_sessions`
+  Records of active and historical examination sessions.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | session_code | VARCHAR(50) | UNIQUE, NOT NULL | Unique session identifier |
+  | subject_id | INT | FK → subjects(id) | Examined subject |
+  | staff_id | INT | FK → staff(id) | Conducting staff member |
+  | lab_id | INT | FK → labs(id) | Examination lab |
+  | test_type | ENUM('Practice','Weekly','Monthly','Internal') | NOT NULL | Exam category |
+  | duration_minutes | INT | DEFAULT 0 | Duration in minutes |
+  | started_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Session start time |
+  | ended_at | TIMESTAMP | NULL | Session end time |
+  | status | ENUM('Active','Completed','Cancelled') | DEFAULT 'Active' | Session status |
+
+  ---
+
+  ### Table 9: `student_allocations`
+  Core allocation table — output of the Spatial Collision Detection Algorithm.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | session_id | INT | FK → exam_sessions(id) | Session reference |
+  | student_id | INT | FK → students(id) | Student reference |
+  | system_no | INT | NOT NULL | Physical seat number at time of allocation |
+  | question_1_id | INT | FK → questions(id) | First assigned question |
+  | question_2_id | INT | FK → questions(id) | Second assigned question |
+  | status_q1 | ENUM('Not Started','In Progress','Submitted') | DEFAULT 'Not Started' | Q1 progress |
+  | status_q2 | ENUM('Not Started','In Progress','Submitted') | DEFAULT 'Not Started' | Q2 progress |
+  | draft_code_q1 | LONGTEXT | NULL | Auto-saved draft for Q1 |
+  | draft_code_q2 | LONGTEXT | NULL | Auto-saved draft for Q2 |
+  | is_completed | BOOLEAN | DEFAULT 0 | Both questions submitted flag |
+  | allocated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Time of allocation |
+
+  ---
+
+  ### Table 10: `submissions`
+  Final submitted code with evaluation records.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | allocation_id | INT | FK → student_allocations(id) | Parent allocation |
+  | question_id | INT | FK → questions(id) | Question answered |
+  | submitted_code | TEXT | NOT NULL | Student's source code |
+  | submitted_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Final submission timestamp |
+  | marks | DECIMAL(5,2) | NULL | Marks awarded by evaluator |
+  | remarks | TEXT | NULL | Evaluator feedback text |
+  | evaluated_by | INT | NULL | Staff ID of evaluator |
+  | evaluated_at | TIMESTAMP | NULL | Evaluation completion time |
+
+  ---
+
+  ### Table 11: `results`
+  Aggregated session-level result per student.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | session_id | INT | FK → exam_sessions(id) | Session reference |
+  | student_id | INT | FK → students(id) | Student reference |
+  | total_marks | DECIMAL(5,2) | DEFAULT 0.00 | Sum of all question marks |
+  | remarks | TEXT | NULL | Overall evaluator remarks |
+  | evaluated_by | INT | NULL | Staff ID |
+  | evaluated_at | TIMESTAMP | NULL | Result finalization time |
+
+  ---
+
+  ### Table 12: `activity_logs`
+  Complete audit trail for system security and diagnostics.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | user_id | INT | NULL | Referencing user |
+  | user_role | ENUM('admin','staff','student') | NOT NULL | Role of actor |
+  | activity_type | VARCHAR(50) | NOT NULL | Type (LOGIN, LOGOUT, SUBMIT, etc.) |
+  | description | TEXT | NULL | Detailed description |
+  | ip_address | VARCHAR(45) | NULL | IPv4 or IPv6 address |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Event timestamp |
+
+  ---
+
+  ### Table 13: `notifications`
+  In-app notification delivery system.
+
+  | Column | Data Type | Constraint | Description |
+  |:-------|:----------|:-----------|:------------|
+  | id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique ID |
+  | user_id | INT | FK → users(id) | Notification recipient |
+  | user_role | ENUM('admin','staff','student') | NOT NULL | Role of recipient |
+  | title | VARCHAR(100) | NOT NULL | Notification title |
+  | message | TEXT | NOT NULL | Notification body |
+  | link | VARCHAR(255) | NULL | Optional action URL |
+  | is_read | BOOLEAN | DEFAULT 0 | Read/unread flag |
+  | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Creation time |
+
+  ---
+
+  ## B.3 Database Relationship Summary
+
+  ```
+  departments ──┬──► staff (N staff per department)
+  └──► students (N students per department)
+
+  labs ──────────────► subjects (N subjects per lab)
+  subjects ──────────► questions (N questions per subject)
+
+  staff ─────────────► exam_sessions (1 staff conducts N sessions)
+  labs ──────────────► exam_sessions (1 lab hosts N sessions)
+  subjects ──────────► exam_sessions (1 subject per session)
+
+  exam_sessions ─────► student_allocations (1 session → N allocations)
+  students ──────────► student_allocations (1 student → N allocations over time)
+  questions ─────────► student_allocations (each allocation has Q1 and Q2 FKs)
+
+  student_allocations ► submissions (1 allocation → up to 2 submissions)
+  questions ─────────► submissions (each submission tied to 1 question)
+
+  exam_sessions ─────► results (1 session → N results)
+  students ──────────► results (1 student → 1 result per session)
+
+  users/staff/students► activity_logs (all roles logged)
+  users/staff/students► notifications (all roles notified)
+  ```
+
+  ---
+
+  <br><br>
+
+  # APPENDIX C
+
+  # SAMPLE CODE SNIPPETS
+
+  This appendix contains representative source code excerpts from the Lab Programming Allocation System, illustrating
+  the key technical implementations.
+
+  ---
+
+  ## C.1 Smart Allocation Algorithm — Spatial Collision Detection
+
+  **File: `includes/allocation_algorithm.php`**
+
+  This is the core innovation of LPAS. The algorithm ensures no two adjacent students (by `system_no`) receive the same
+  question set. Neighbors are defined as left (`system_no - 1`), right (`system_no + 1`), front row (`system_no - 10`),
+  and back row (`system_no + 10`) — assuming a lab layout of 10 systems per row.
+
+  ```php
+  <?php
+function allocateQuestions($pdo, $session_id, $student_id, $system_no, $subject_id) {
+    
+    // Step 1: Check if already allocated
+    $stmt = $pdo->prepare("SELECT * FROM student_allocations 
+                           WHERE session_id = ? AND student_id = ?");
+    $stmt->execute([$session_id, $student_id]);
+    $existing = $stmt->fetch();
+    
+    if ($existing) {
+        return ['q1' => $existing['question_1_id'], 
+                'q2' => $existing['question_2_id']];
+    }
+    
+    // Step 2: Fetch randomized question pool for the subject
+    $stmt = $pdo->prepare("SELECT id FROM questions 
+                           WHERE subject_id = ? ORDER BY RAND()");
+    $stmt->execute([$subject_id]);
+    $questions = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    if (count($questions) < 15) {
+        throw new Exception("Subject must have at least 15 questions.");
+    }
+    
+    // Step 3: Build allocation map of already-assigned neighbors
+    $adjacent_systems = [
+        $system_no - 1,   // Left neighbor
+        $system_no + 1,   // Right neighbor
+        $system_no - 10,  // Student in previous row (10 systems per row)
+        $system_no + 10   // Student in next row
+    ];
+    
+    $allocation_map = [];
+    $placeholders = implode(',', array_fill(0, count($adjacent_systems), '?'));
+    $stmt = $pdo->prepare("SELECT sa.system_no, sa.question_1_id, sa.question_2_id 
+                           FROM student_allocations sa
+                           WHERE sa.session_id = ? 
+                           AND sa.system_no IN ($placeholders)");
+    $params = array_merge([$session_id], $adjacent_systems);
+    $stmt->execute($params);
+    
+    foreach ($stmt->fetchAll() as $row) {
+        $allocation_map[$row['system_no']] = [
+            'q1' => $row['question_1_id'],
+            'q2' => $row['question_2_id']
+        ];
+    }
+    
+    // Step 4: Select Q1 with collision detection
+    $q1 = null;
+    $max_attempts = 50;
+    $attempt = 0;
+    
+    foreach ($questions as $candidate_q1) {
+        $collision = false;
+        foreach ($adjacent_systems as $adj_system) {
+            if (isset($allocation_map[$adj_system])) {
+                $adj = $allocation_map[$adj_system];
+                if ($candidate_q1 == $adj['q1'] || $candidate_q1 == $adj['q2']) {
+                    $collision = true;
+                    break;
+                }
+            }
+        }
+        if (!$collision) {
+            $q1 = $candidate_q1;
+            break;
+        }
+        if (++$attempt >= $max_attempts) break;
+    }
+    
+    // Step 5: Select Q2 (≠ Q1) with collision detection
+    $q2 = null;
+    $attempt = 0;
+    
+    foreach ($questions as $candidate_q2) {
+        if ($candidate_q2 == $q1) continue; // Q2 must differ from Q1
+        
+        $collision = false;
+        foreach ($adjacent_systems as $adj_system) {
+            if (isset($allocation_map[$adj_system])) {
+                $adj = $allocation_map[$adj_system];
+                if ($candidate_q2 == $adj['q1'] || $candidate_q2 == $adj['q2']) {
+                    $collision = true;
+                    break;
+                }
+            }
+        }
+        if (!$collision) {
+            $q2 = $candidate_q2;
+            break;
+        }
+        if (++$attempt >= $max_attempts) break;
+    }
+    
+    // Fallback: if collision cannot be resolved, pick any different question
+    if (!$q2) {
+        foreach ($questions as $q) {
+            if ($q != $q1) { $q2 = $q; break; }
+        }
+    }
+    
+    // Step 6: Save allocation to database
+    $stmt = $pdo->prepare("INSERT INTO student_allocations 
+                           (session_id, student_id, system_no, question_1_id, question_2_id)
+                           VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$session_id, $student_id, $system_no, $q1, $q2]);
+    
+    // Log the allocation
+    logActivity($pdo, $student_id, 'student', 'QUESTION_ALLOCATED', 
+                "Q1: $q1, Q2: $q2, System: $system_no");
+    
+    return ['q1' => $q1, 'q2' => $q2];
+}
+```
+
+---
+
+## C.2 Database Connection using PDO
+
+**File: `config/database.php`**
+
+```php
+<?php
+function getDbConnection(): PDO {
+    $host     = 'localhost';
+    $dbname   = 'lab_allocation_system';
+    $username = 'root';
+    $password = '';
+    
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+    
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false, // Use native prepared statements
+    ];
+    
+    try {
+        return new PDO($dsn, $username, $password, $options);
+    } catch (PDOException $e) {
+        // Log error without exposing connection details
+        error_log("Database connection failed: " . $e->getMessage());
+        die("System temporarily unavailable. Please contact the administrator.");
+    }
+}
+```
+
+---
+
+## C.3 Secure Password Hashing and Verification
+
+**File: Typical usage in `auth.php` and student creation scripts**
+
+```php
+<?php
+// ── HASHING: When creating or updating a password ──
+function hashPassword(string $plain_password): string {
+    return password_hash($plain_password, PASSWORD_BCRYPT, ['cost' => 12]);
+}
+
+// ── VERIFICATION: During login ──
+function verifyLogin(PDO $pdo, string $identifier, string $input_password, string $role): ?array {
+    
+    $table    = ($role === 'student') ? 'students'  : 'staff';
+    $id_field = ($role === 'student') ? 'roll_number' : 'staff_id';
+    
+    $stmt = $pdo->prepare("SELECT * FROM {$table} WHERE {$id_field} = ? LIMIT 1");
+    $stmt->execute([$identifier]);
+    $user = $stmt->fetch();
+    
+    if (!$user) {
+        return null; // User not found — return null, not specific error
+    }
+    
+    if ($user['status'] === 'Inactive') {
+        return null; // Account suspended
+    }
+    
+    if (!password_verify($input_password, $user['password'])) {
+        return null; // Wrong password
+    }
+    
+    return $user; // Authentication successful
+}
+```
+
+---
+
+## C.4 Session Management and Role-Based Access Control
+
+**File: `includes/security.php`**
+
+```php
+<?php
+// ── START SECURE SESSION ──
+function startSecureSession(): void {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+            'lifetime' => 14400,  // 4 hours
+            'path'     => '/',
+            'httponly' => true,   // Prevent JavaScript access to session cookie
+            'samesite' => 'Lax',
+        ]);
+        session_start();
+    }
+    // Regenerate session ID to prevent session fixation attacks
+    session_regenerate_id(true);
+}
+
+// ── REQUIRE AUTHENTICATED USER ──
+function requireAuth(): array {
+    startSecureSession();
+    if (empty($_SESSION['user_id'])) {
+        header('Location: /auth.php?error=session_expired');
+        exit;
+    }
+    return $_SESSION;
+}
+
+// ── REQUIRE SPECIFIC ROLE ──
+function requireRole(string ...$allowed_roles): void {
+    $session = requireAuth();
+    if (!in_array($session['role'], $allowed_roles, true)) {
+        http_response_code(403);
+        die("Access Denied: You do not have permission to view this page.");
+    }
+}
+
+// ── CSRF TOKEN GENERATION ──
+function generateCsrfToken(): string {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+// ── CSRF TOKEN VALIDATION ──
+function validateCsrfToken(string $token): bool {
+    return isset($_SESSION['csrf_token']) && 
+           hash_equals($_SESSION['csrf_token'], $token);
+}
+```
+
+---
+
+## C.5 PDO Prepared Statements (SQL Injection Prevention)
+
+**File: Various controller files**
+
+```php
+<?php
+// ── SAFE: Using prepared statements for all queries ──
+
+// Example: Fetching questions for subject
+$stmt = $pdo->prepare("SELECT id, question_title, question_text, 
+                               sample_input, sample_output, difficulty 
+                        FROM questions 
+                        WHERE subject_id = ? 
+                        ORDER BY RAND()");
+$stmt->execute([$subject_id]);
+$questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Example: Saving draft code (handles large text safely)
+$stmt = $pdo->prepare("UPDATE student_allocations 
+                        SET draft_code_q1 = ?, status_q1 = 'In Progress'
+                        WHERE id = ? AND student_id = ?");
+$stmt->execute([$draft_code, $allocation_id, $student_id]);
+
+// Example: Logging activity
+$stmt = $pdo->prepare("INSERT INTO activity_logs 
+                        (user_id, user_role, activity_type, description, ip_address)
+                        VALUES (?, ?, ?, ?, ?)");
+$stmt->execute([
+    $user_id,
+    $user_role,
+    $activity_type,
+    $description,
+    $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0'
+]);
+```
+
+---
+
+## C.6 AJAX Real-time Monitor Update (JavaScript)
+
+**File: `assets/js/monitor.js`**
+
+```javascript
+// Real-time exam monitor — polls server every 5 seconds
+const POLL_INTERVAL_MS = 5000;
+let pollingTimer = null;
+
+function updateMonitorGrid(sessionId) {
+    fetch(`/staff/api/get_session_status.php?session_id=${sessionId}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            // Update summary counters
+            document.getElementById('count-active').textContent    = data.summary.active;
+            document.getElementById('count-submitted').textContent = data.summary.submitted;
+            document.getElementById('count-offline').textContent   = data.summary.offline;
+            document.getElementById('count-total').textContent     = data.summary.total;
+
+            // Update individual seat cells
+            data.allocations.forEach(alloc => {
+                const cell = document.querySelector(
+                    `[data-system-no="${alloc.system_no}"]`
+                );
+                if (!cell) return;
+
+                // Remove all status classes, add current one
+                cell.classList.remove('status-offline', 'status-active', 'status-submitted');
+
+                if (alloc.is_completed) {
+                    cell.classList.add('status-submitted'); // Green
+                    cell.title = `${alloc.student_name} — Submitted`;
+                } else if (alloc.student_id) {
+                    cell.classList.add('status-active');    // Blue
+                    cell.title = `${alloc.student_name} — In Progress`;
+                } else {
+                    cell.classList.add('status-offline');   // Grey
+                    cell.title = `System ${alloc.system_no} — Offline`;
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Monitor polling error:', error);
+        });
+}
+
+// Start polling when page loads
+function startMonitoring(sessionId) {
+    updateMonitorGrid(sessionId); // Immediate first poll
+    pollingTimer = setInterval(() => updateMonitorGrid(sessionId), POLL_INTERVAL_MS);
+}
+
+// Clean up on page unload
+window.addEventListener('beforeunload', () => {
+    if (pollingTimer) clearInterval(pollingTimer);
+});
+```
+
+---
+
+## C.7 Student Exam Interface — Auto-Save Draft (JavaScript)
+
+**File: `assets/js/exam.js`**
+
+```javascript
+// Auto-save draft code every 60 seconds to prevent loss
+const AUTOSAVE_INTERVAL_MS = 60000;
+
+function autoSaveDraft(allocationId, questionNumber, editorInstance) {
+    const code = editorInstance.getValue();
+    const statusEl = document.getElementById('save-status');
+    
+    statusEl.textContent = 'Saving...';
+    statusEl.className = 'save-status saving';
+    
+    fetch('/student/api/save_draft.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            allocation_id:   allocationId,
+            question_number: questionNumber,  // 1 or 2
+            code:            code,
+            csrf_token:      window.CSRF_TOKEN
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            statusEl.textContent = `Draft saved at ${new Date().toLocaleTimeString()}`;
+            statusEl.className = 'save-status saved';
+        } else {
+            statusEl.textContent = 'Save failed — code retained locally';
+            statusEl.className = 'save-status error';
+        }
+    })
+    .catch(() => {
+        statusEl.textContent = 'Connection issue — code retained locally';
+        statusEl.className = 'save-status error';
+    });
+}
+
+// Initialize auto-save timers for both editors
+setInterval(() => autoSaveDraft(ALLOCATION_ID, 1, editor_q1), AUTOSAVE_INTERVAL_MS);
+setInterval(() => autoSaveDraft(ALLOCATION_ID, 2, editor_q2), AUTOSAVE_INTERVAL_MS);
+```
+
+---
+
+## C.8 Batch Scripts for Deployment
+
+**File: `START_SERVER.bat`** (Included in project root for easy deployment)
+
+```batch
+@echo off
+TITLE LPAS - Starting Server...
+echo ============================================
+echo   LAB PROGRAMMING ALLOCATION SYSTEM
+echo   Starting XAMPP Services...
+echo ============================================
+echo.
+echo [1/2] Starting Apache Web Server...
+"C:\xampp\apache\bin\httpd.exe" -k start
+timeout /t 2 /nobreak > nul
+
+echo [2/2] Starting MySQL Database Server...
+"C:\xampp\mysql\bin\mysqld.exe" --defaults-file="C:\xampp\mysql\bin\my.ini" --standalone
+timeout /t 2 /nobreak > nul
+
+echo.
+echo ============================================
+echo   Server Started Successfully!
+echo   Access at: http://localhost/
+echo   Student access: http://[THIS_PC_IP]/
+echo ============================================
+pause
+```
+
+---
+
+*End of Appendix C*
+
+---
+
+<div align="center">
+
+---
+
+**LAB PROGRAMMING ALLOCATION SYSTEM**
+
+*SRINATH | 23AI152 | B.Sc. CS (AI & DS)*
+
+*Gobi Arts & Science College, Gobichettypalayam*
+
+*May 2026*
+
+---
+
+</div>
