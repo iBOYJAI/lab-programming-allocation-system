@@ -230,6 +230,7 @@ DROP TABLE IF EXISTS subjects;
 DROP TABLE IF EXISTS labs;
 DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS departments;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS notifications;
 
@@ -240,6 +241,14 @@ CREATE TABLE users (
     role ENUM('admin') DEFAULT 'admin',
     gender ENUM('Male', 'Female') DEFAULT 'Male',
     avatar_id INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE departments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    department_code VARCHAR(20) UNIQUE NOT NULL,
+    description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -254,9 +263,11 @@ CREATE TABLE staff (
     status ENUM('Active', 'Inactive') DEFAULT 'Active',
     password VARCHAR(255) NOT NULL,
     department VARCHAR(100),
+    department_id INT NULL,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
 );
 
 CREATE TABLE students (
@@ -268,10 +279,12 @@ CREATE TABLE students (
     gender ENUM('Male', 'Female', 'Other') DEFAULT 'Male',
     avatar_id INT DEFAULT 1,
     department VARCHAR(100),
+    department_id INT NULL,
     semester INT,
     system_no INT,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
 );
 
 CREATE TABLE labs (
@@ -289,8 +302,10 @@ CREATE TABLE subjects (
     subject_name VARCHAR(100) NOT NULL,
     language VARCHAR(50) NOT NULL,
     lab_id INT,
+    department_id INT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (lab_id) REFERENCES labs(id) ON DELETE CASCADE
+    FOREIGN KEY (lab_id) REFERENCES labs(id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
 );
 
 CREATE TABLE student_subjects (
@@ -419,6 +434,13 @@ CREATE TABLE notifications (
     sql.append(f"INSERT INTO users (username, password, gender, avatar_id) VALUES ('srinath', '{ADMIN_HASH}', 'Male', 1);")
     sql.append("")
 
+    # 2b. SEED DEPARTMENTS (required for Department Management)
+    sql.append("INSERT INTO departments (department_name, department_code, description) VALUES")
+    sql.append("('Computer Science', 'CS', 'Computer Science Department'),")
+    sql.append("('Information Technology', 'IT', 'Information Technology Department'),")
+    sql.append("('AI & DS', 'AIDS', 'Artificial Intelligence and Data Science Department');")
+    sql.append("")
+
     # 3. SEED LABS
     sql.append("INSERT INTO labs (lab_name, total_systems, location, seating_layout) VALUES")
     sql.append("('Main Computer Lab', 100, 'Main Block First Floor', '10x10 Grid'),")
@@ -426,33 +448,38 @@ CREATE TABLE notifications (
     sql.append("('Multimedia Lab', 60, 'IT Block', 'Rows');")
     sql.append("")
 
-    # 4. SEED STAFF (Exactly 10)
-    sql.append("INSERT INTO staff (staff_id, name, email, phone, gender, avatar_id, status, password, department, created_by) VALUES")
+    # 4. SEED STAFF (Exactly 10) - department_id: 1=CS, 2=IT, 3=AI & DS
+    sql.append("INSERT INTO staff (staff_id, name, email, phone, gender, avatar_id, status, password, department, department_id, created_by) VALUES")
     staff_entries = []
-    staff_objs = [] 
-    
+    staff_objs = []
+    dept_id_map = {"Computer Science": 1, "Information Technology": 2, "AI & DS": 3}
     staff_depts = ["Computer Science"]*4 + ["Information Technology"]*3 + ["AI & DS"]*3
-    
+
     for i, name in enumerate(STAFF_NAMES):
         sid = f"STF{100+i}"
         department = staff_depts[i]
+        dept_id = dept_id_map[department]
         email = f"{name.lower().replace(' ', '').replace('.', '').replace('dr', '').replace('prof', '')}@gobi.edu"
         phone = f"98765{random.randint(10000, 99999)}"
         gender = 'Female' if any(t in name for t in ['Mrs.', 'Ms.', 'Miss']) or name.split()[-1] in GIRL_NAMES else 'Male'
         avatar_id = random.randint(1, 8)
-        
-        staff_entries.append(f"('{sid}', '{name}', '{email}', '{phone}', '{gender}', {avatar_id}, 'Active', '{ADMIN_HASH}', '{department}', 1)")
+        staff_entries.append(f"('{sid}', '{name}', '{email}', '{phone}', '{gender}', {avatar_id}, 'Active', '{ADMIN_HASH}', '{department}', {dept_id}, 1)")
         staff_objs.append({"id": i+1, "name": name, "dept": department})
     sql.append(",\n".join(staff_entries) + ";")
     sql.append("")
 
-    # 5. SEED SUBJECTS
-    sql.append("INSERT INTO subjects (subject_code, subject_name, language, lab_id) VALUES")
+    # 5. SEED SUBJECTS - department_id: CS->1, IT/WEB->2, AI->3, DB/CLD->1
+    sql.append("INSERT INTO subjects (subject_code, subject_name, language, lab_id, department_id) VALUES")
     subject_entries = []
     subject_objs = []
     for i, sub in enumerate(SUBJECTS_DATA):
         code, name, lang, lab_id = sub
-        subject_entries.append(f"('{code}', '{name}', '{lang}', {lab_id})")
+        if code.startswith("CS"): dept_id = 1
+        elif code.startswith("IT") or code.startswith("WEB"): dept_id = 2
+        elif code.startswith("AI"): dept_id = 3
+        elif code.startswith("DB") or code.startswith("CLD"): dept_id = 1
+        else: dept_id = 2
+        subject_entries.append(f"('{code}', '{name}', '{lang}', {lab_id}, {dept_id})")
         subject_objs.append({"id": i+1, "code": code, "name": name, "lang": lang, "lab_id": lab_id})
     sql.append(",\n".join(subject_entries) + ";")
     sql.append("")
@@ -487,22 +514,18 @@ CREATE TABLE notifications (
     sql.append(",\n".join(q_entries) + ";")
     sql.append("")
 
-    # 7. SEED STUDENTS (Exactly 100, 3 Classes)
-    sql.append("INSERT INTO students (roll_number, name, email, phone, gender, avatar_id, department, semester, system_no, password) VALUES")
+    # 7. SEED STUDENTS (Exactly 100, 3 Classes) - department_id: 1=CS, 2=IT, 3=AI & DS
+    sql.append("INSERT INTO students (roll_number, name, email, phone, gender, avatar_id, department, department_id, semester, system_no, password) VALUES")
     student_entries = []
-    
     current_sys_no = 1
     total_students = 0
-    
     class_dist = [
-        ("CS", "Computer Science", 34),
-        ("IT", "Information Technology", 33),
-        ("AI", "AI & DS", 33)
+        ("CS", "Computer Science", 34, 1),
+        ("IT", "Information Technology", 33, 2),
+        ("AI", "AI & DS", 33, 3)
     ]
-    
     start_id = 1
-    
-    for dept_code, dept_name, count in class_dist:
+    for dept_code, dept_name, count, dept_id in class_dist:
         for i in range(1, count + 1):
             if random.choice([True, False]):
                 fname = random.choice(BOY_NAMES)
@@ -512,20 +535,17 @@ CREATE TABLE notifications (
                 fname = random.choice(GIRL_NAMES)
                 lname = random.choice(SURNAMES)
                 gender = 'Female'
-                
             name = f"{fname} {lname}"
             roll_str = f"{i:03d}"
             roll_no = f"23-{dept_code}-{roll_str}"
             email = f"{roll_no.lower()}@student.gobi.edu"
             phone = f"638{random.randint(1000000, 9999999)}"
             avatar_id = random.randint(1, 8)
-            
             semester = 3
             sys_no = current_sys_no
             current_sys_no += 1
             if current_sys_no > 70: current_sys_no = 1
-            
-            student_entries.append(f"('{roll_no}', '{name}', '{email}', '{phone}', '{gender}', {avatar_id}, '{dept_name}', {semester}, {sys_no}, '{COMMON_HASH}')")
+            student_entries.append(f"('{roll_no}', '{name}', '{email}', '{phone}', '{gender}', {avatar_id}, '{dept_name}', {dept_id}, {semester}, {sys_no}, '{COMMON_HASH}')")
             total_students += 1
             start_id += 1
             

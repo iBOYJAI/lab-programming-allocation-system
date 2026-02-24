@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $code = trim($_POST['subject_code']);
         $lang = $_POST['language'];
         $lab_id = !empty($_POST['lab_id']) ? intval($_POST['lab_id']) : null;
+        $department_id = !empty($_POST['department_id']) ? intval($_POST['department_id']) : null;
         $staff_ids = isset($_POST['staff_ids']) ? $_POST['staff_ids'] : [];
 
         if (empty($name) || empty($code) || empty($lab_id)) {
@@ -32,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn = getDbConnection();
             $conn->beginTransaction();
             try {
-                $sql = "INSERT INTO subjects (subject_name, subject_code, language, lab_id) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO subjects (subject_name, subject_code, language, lab_id, department_id) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$name, $code, $lang, $lab_id]);
+                $stmt->execute([$name, $code, $lang, $lab_id, $department_id]);
                 $subject_id = $conn->lastInsertId();
 
                 // Handle Staff Assignments
@@ -137,8 +138,9 @@ $subjects = dbQuery("
     ORDER BY s.subject_name
 ");
 
-// Fetch Labs and Staff for dropdowns
+// Fetch Labs, Departments, and Staff for dropdowns
 $labs = dbQuery("SELECT id, lab_name FROM labs ORDER BY lab_name");
+$departments = dbQuery("SELECT id, department_name, department_code FROM departments ORDER BY department_name");
 $staff_list = dbQuery("SELECT id, name, staff_id FROM staff WHERE status = 'Active' ORDER BY name");
 
 $page_title = 'Manage Subjects';
@@ -289,7 +291,16 @@ include '../includes/header.php';
                                 <option value="JavaScript">JavaScript</option>
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
+                            <select name="department_id" class="form-select">
+                                <option value="">None</option>
+                                <?php foreach ($departments as $d): ?>
+                                    <option value="<?= $d['id'] ?>"><?= sanitizeOutput($d['department_name']) ?> (<?= sanitizeOutput($d['department_code']) ?>)</option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Primary Lab *</label>
                             <select name="lab_id" class="form-select" required>
                                 <option value="">Select Lab...</option>
@@ -358,7 +369,16 @@ include '../includes/header.php';
                                 <option value="JavaScript">JavaScript</option>
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Department</label>
+                            <select name="department_id" id="edit_department_id" class="form-select">
+                                <option value="">None</option>
+                                <?php foreach ($departments as $d): ?>
+                                    <option value="<?= $d['id'] ?>"><?= sanitizeOutput($d['department_name']) ?> (<?= sanitizeOutput($d['department_code']) ?>)</option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary text-uppercase">Primary Lab</label>
                             <select name="lab_id" id="edit_lab_id" class="form-select" required>
                                 <option value="">Select Lab...</option>
@@ -405,6 +425,7 @@ include '../includes/header.php';
         document.getElementById('edit_subject_code').value = subject.subject_code;
         document.getElementById('edit_language').value = subject.language;
         document.getElementById('edit_lab_id').value = subject.lab_id;
+        document.getElementById('edit_department_id').value = subject.department_id || '';
 
         // Reset checkboxes
         document.querySelectorAll('.edit-staff-checkbox').forEach(cb => cb.checked = false);

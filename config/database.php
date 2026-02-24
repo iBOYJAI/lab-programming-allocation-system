@@ -72,6 +72,7 @@ function getDbConnection()
  */
 function dbQuery($sql, $params = [])
 {
+    $sql = trim($sql);
     try {
         $pdo = getDbConnection();
         $stmt = $pdo->prepare($sql);
@@ -79,7 +80,7 @@ function dbQuery($sql, $params = [])
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         error_log("Query Error: " . $e->getMessage() . " | SQL: " . $sql);
-        throw new Exception("Database query failed");
+        throw new Exception("Database query failed: " . $e->getMessage());
     }
 }
 
@@ -97,7 +98,7 @@ function dbExecute($sql, $params = [])
         return $stmt->execute($params);
     } catch (PDOException $e) {
         error_log("Execute Error: " . $e->getMessage() . " | SQL: " . $sql);
-        throw new Exception("Database operation failed");
+        throw new Exception("Database operation failed: " . $e->getMessage());
     }
 }
 
