@@ -24,6 +24,9 @@ if (checkSession()) {
             redirect('student/dashboard.php');
             break;
     }
+} else {
+    // Direct login access
+    redirect('auth.php');
 }
 ?>
 <!DOCTYPE html>
