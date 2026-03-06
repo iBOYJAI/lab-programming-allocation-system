@@ -40,12 +40,12 @@ if (checkSession()) {
     <!-- Fonts: Minimalist High-End Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/fonts.css">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
 
     <style>
         :root {
@@ -575,279 +575,279 @@ if (checkSession()) {
                 </div>
             </div>
         </div>
-    <!-- Technical Stack Section -->
-    <section id="stack" class="section-padding border-top">
-        <div class="container">
-            <div class="row mb-5 reveal">
-                <div class="col-lg-12 text-center">
-                    <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">System Core</span>
-                    <h2 class="fw-800 display-4">Technology Stack</h2>
-                    <div class="line-accent mx-auto"></div>
-                </div>
-            </div>
-            <div class="row g-4 text-center">
-                <div class="col-md-3 reveal delay-1">
-                    <div class="p-4 border">
-                        <h6 class="fw-800 text-uppercase small ls-1 mb-3">Engine</h6>
-                        <p class="mono-text mb-0">PHP 8.2 Runtime</p>
-                        <p class="small text-secondary mt-2">Server-side logic & Dynamic Routing</p>
+        <!-- Technical Stack Section -->
+        <section id="stack" class="section-padding border-top">
+            <div class="container">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-12 text-center">
+                        <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">System Core</span>
+                        <h2 class="fw-800 display-4">Technology Stack</h2>
+                        <div class="line-accent mx-auto"></div>
                     </div>
                 </div>
-                <div class="col-md-3 reveal delay-2">
-                    <div class="p-4 border">
-                        <h6 class="fw-800 text-uppercase small ls-1 mb-3">Storage</h6>
-                        <p class="mono-text mb-0">MySQL 8.0</p>
-                        <p class="small text-secondary mt-2">Atomic Transactions & PDO Layer</p>
-                    </div>
-                </div>
-                <div class="col-md-3 reveal delay-3">
-                    <div class="p-4 border">
-                        <h6 class="fw-800 text-uppercase small ls-1 mb-3">Interface</h6>
-                        <p class="mono-text mb-0">Bootstrap 5.3</p>
-                        <p class="small text-secondary mt-2">Responsive SCSS + Vanilla JS Core</p>
-                    </div>
-                </div>
-                <div class="col-md-3 reveal delay-4">
-                    <div class="p-4 border">
-                        <h6 class="fw-800 text-uppercase small ls-1 mb-3">Assets</h6>
-                        <p class="mono-text mb-0">Notion System</p>
-                        <p class="small text-secondary mt-2">SVG Iconography & Digital Graphics</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Architecture Visualized -->
-    <section id="viz" class="section-padding border-top bg-white">
-        <div class="container text-center">
-            <div class="row mb-5 reveal">
-                <div class="col-lg-12">
-                    <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">Design Pattern</span>
-                    <h2 class="fw-800 display-5">Architectural Flow</h2>
-                    <div class="line-accent mx-auto"></div>
-                </div>
-            </div>
-            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4 reveal">
-                <div class="p-4 border border-dark mono-text small bg-light" style="width: 200px;">USER INTERFACE<br><small class="opacity-50">BS5 / Vanilla JS</small></div>
-                <div class="fs-2"><i class="bi bi-arrow-right d-none d-md-block"></i><i class="bi bi-arrow-down d-md-none"></i></div>
-                <div class="p-4 border border-dark mono-text small bg-dark text-white" style="width: 200px;">MIDDLEWARE<br><small class="opacity-50">PHP / Security API</small></div>
-                <div class="fs-2"><i class="bi bi-arrow-right d-none d-md-block"></i><i class="bi bi-arrow-down d-md-none"></i></div>
-                <div class="p-4 border border-dark mono-text small bg-light" style="width: 200px;">PERSISTENCE<br><small class="opacity-50">MySQL / InnoDB</small></div>
-            </div>
-            <p class="mt-5 text-secondary small">A decoupled MVC-inspired approach ensuring modularity and rapid deployment.</p>
-        </div>
-    </section>
-
-    <!-- Future Roadmap -->
-    <section id="roadmap" class="section-padding border-top bg-light">
-        <div class="container">
-            <div class="row mb-5 reveal">
-                <div class="col-lg-12 text-center">
-                    <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">Version 3.0</span>
-                    <h2 class="fw-800 display-4">Future Roadmap</h2>
-                    <div class="line-accent mx-auto"></div>
-                </div>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 reveal delay-1">
-                    <div class="tech-card bg-white">
-                        <div class="icon-box text-dark"><i class="bi bi-robot"></i></div>
-                        <h4 class="text-uppercase ls-1">AI Proctoring</h4>
-                        <p>Experimental integration of computer vision for automated laboratory monitoring and anomaly detection during exam sessions.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 reveal delay-2">
-                    <div class="tech-card bg-white">
-                        <div class="icon-box text-dark"><i class="bi bi-cloud-arrow-up"></i></div>
-                        <h4 class="text-uppercase ls-1">Distributed Hybrid Sync</h4>
-                        <p>Enable multi-campus synchronization, allowing students to access their technical repositories from any departmental laboratory across different campuses.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Project Blueprint / Features -->
-    <section class="section-padding bg-black text-white">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4">
-                    <h2 class="fw-800 display-5 mb-4">Project <br>Blueprint</h2>
-                    <p class="opacity-50">Detailed technical features implemented for scale and reliability.</p>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="p-4 border border-secondary h-100">
-                                <h5 class="fw-bold text-uppercase small ls-1 mb-3">Collision Matrix</h5>
-                                <p class="small opacity-75">Advanced spatial algorithm calculating seats in ±1 and ±10 vectors to prevent visual cheating paths.</p>
-                            </div>
+                <div class="row g-4 text-center">
+                    <div class="col-md-3 reveal delay-1">
+                        <div class="p-4 border">
+                            <h6 class="fw-800 text-uppercase small ls-1 mb-3">Engine</h6>
+                            <p class="mono-text mb-0">PHP 8.2 Runtime</p>
+                            <p class="small text-secondary mt-2">Server-side logic & Dynamic Routing</p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-4 border border-secondary h-100">
-                                <h5 class="fw-bold text-uppercase small ls-1 mb-3">Atomic Commit</h5>
-                                <p class="small opacity-75">Single-transaction database updates ensuring 100% data integrity during bulk student allocations.</p>
-                            </div>
+                    </div>
+                    <div class="col-md-3 reveal delay-2">
+                        <div class="p-4 border">
+                            <h6 class="fw-800 text-uppercase small ls-1 mb-3">Storage</h6>
+                            <p class="mono-text mb-0">MySQL 8.0</p>
+                            <p class="small text-secondary mt-2">Atomic Transactions & PDO Layer</p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-4 border border-secondary h-100">
-                                <h5 class="fw-bold text-uppercase small ls-1 mb-3">CSRF Hardening</h5>
-                                <p class="small opacity-75">Multi-layered security tokens protecting Every administrative action and laboratory state change.</p>
-                            </div>
+                    </div>
+                    <div class="col-md-3 reveal delay-3">
+                        <div class="p-4 border">
+                            <h6 class="fw-800 text-uppercase small ls-1 mb-3">Interface</h6>
+                            <p class="mono-text mb-0">Bootstrap 5.3</p>
+                            <p class="small text-secondary mt-2">Responsive SCSS + Vanilla JS Core</p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-4 border border-secondary h-100">
-                                <h5 class="fw-bold text-uppercase small ls-1 mb-3">Persistent UI</h5>
-                                <p class="small opacity-75">State-aware sidebar and navigation systems that maintain context during high-frequency usage.</p>
-                            </div>
+                    </div>
+                    <div class="col-md-3 reveal delay-4">
+                        <div class="p-4 border">
+                            <h6 class="fw-800 text-uppercase small ls-1 mb-3">Assets</h6>
+                            <p class="mono-text mb-0">Notion System</p>
+                            <p class="small text-secondary mt-2">SVG Iconography & Digital Graphics</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Security Focus -->
-    <section id="security" class="section-padding">
-        <div class="container">
-            <div class="row mb-5 text-center justify-content-center">
-                <div class="col-lg-8">
-                    <h2 class="fw-800 display-5">Uncompromising Integrity</h2>
-                    <p class="text-secondary">Security isn't an afterthought; it's the core of the LPAS architecture.</p>
+        <!-- Architecture Visualized -->
+        <section id="viz" class="section-padding border-top bg-white">
+            <div class="container text-center">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-12">
+                        <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">Design Pattern</span>
+                        <h2 class="fw-800 display-5">Architectural Flow</h2>
+                        <div class="line-accent mx-auto"></div>
+                    </div>
                 </div>
+                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4 reveal">
+                    <div class="p-4 border border-dark mono-text small bg-light" style="width: 200px;">USER INTERFACE<br><small class="opacity-50">BS5 / Vanilla JS</small></div>
+                    <div class="fs-2"><i class="bi bi-arrow-right d-none d-md-block"></i><i class="bi bi-arrow-down d-md-none"></i></div>
+                    <div class="p-4 border border-dark mono-text small bg-dark text-white" style="width: 200px;">MIDDLEWARE<br><small class="opacity-50">PHP / Security API</small></div>
+                    <div class="fs-2"><i class="bi bi-arrow-right d-none d-md-block"></i><i class="bi bi-arrow-down d-md-none"></i></div>
+                    <div class="p-4 border border-dark mono-text small bg-light" style="width: 200px;">PERSISTENCE<br><small class="opacity-50">MySQL / InnoDB</small></div>
+                </div>
+                <p class="mt-5 text-secondary small">A decoupled MVC-inspired approach ensuring modularity and rapid deployment.</p>
             </div>
+        </section>
 
-            <div class="row g-5">
-                <div class="col-md-6 d-flex gap-4">
-                    <div class="fs-1 text-dark"><i class="bi bi-input-cursor-text"></i></div>
-                    <div>
-                        <h5 class="fw-bold">Input Sanitization</h5>
-                        <p class="text-secondary small">Comprehensive XSS protection and 100% prepared statements (PDO) to mitigate injection vectors.</p>
+        <!-- Future Roadmap -->
+        <section id="roadmap" class="section-padding border-top bg-light">
+            <div class="container">
+                <div class="row mb-5 reveal">
+                    <div class="col-lg-12 text-center">
+                        <span class="mono-text text-uppercase small ls-2 opacity-50 mb-3 d-block">Version 3.0</span>
+                        <h2 class="fw-800 display-4">Future Roadmap</h2>
+                        <div class="line-accent mx-auto"></div>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex gap-4">
-                    <div class="fs-1 text-dark"><i class="bi bi-window-x"></i></div>
-                    <div>
-                        <h5 class="fw-bold">Environment Hardening</h5>
-                        <p class="text-secondary small">Disabled right-click, F12 inspector, and clipboard operations during active candidate sessions.</p>
+                <div class="row g-4">
+                    <div class="col-md-6 reveal delay-1">
+                        <div class="tech-card bg-white">
+                            <div class="icon-box text-dark"><i class="bi bi-robot"></i></div>
+                            <h4 class="text-uppercase ls-1">AI Proctoring</h4>
+                            <p>Experimental integration of computer vision for automated laboratory monitoring and anomaly detection during exam sessions.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 d-flex gap-4">
-                    <div class="fs-1 text-dark"><i class="bi bi-database-check"></i></div>
-                    <div>
-                        <h5 class="fw-bold">Auditability</h5>
-                        <p class="text-secondary small">Full-spectrum activity logging tracking every administrative and observer action for forensic review.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 d-flex gap-4">
-                    <div class="fs-1 text-dark"><i class="bi bi-wifi-off"></i></div>
-                    <div>
-                        <h5 class="fw-bold">100% Air-Gapped Ready</h5>
-                        <p class="text-secondary small">Designed for zero-dependency operation. No cloud reliance; full deployment on local switches.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technical Specs & Performance -->
-    <section class="section-padding bg-light">
-        <div class="container">
-            <div class="row text-center g-5">
-                <div class="col-6 col-lg-3">
-                    <div class="stat-item reveal">
-                        <h2 class="mono-text">12</h2>
-                        <p>Total Modules</p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-item reveal delay-1">
-                        <h2 class="mono-text">50</h2>
-                        <p>Retry Max-Limit</p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-item reveal delay-2">
-                        <h2 class="mono-text">0.1</h2>
-                        <p>Commit Latency</p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-item reveal delay-3">
-                        <h2 class="mono-text">10k+</h2>
-                        <p>Capacity Scaled</p>
+                    <div class="col-md-6 reveal delay-2">
+                        <div class="tech-card bg-white">
+                            <div class="icon-box text-dark"><i class="bi bi-cloud-arrow-up"></i></div>
+                            <h4 class="text-uppercase ls-1">Distributed Hybrid Sync</h4>
+                            <p>Enable multi-campus synchronization, allowing students to access their technical repositories from any departmental laboratory across different campuses.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Final CTA -->
-    <section class="section-padding">
-        <div class="container text-center">
-            <img src="assets/images/Notion-Resources/Office-Club/Regular/png/oc-hi-five.png" width="180" class="mb-4 grayscale">
-            <h2 class="fw-800 display-4 mb-4">Initialize Your Infrastructure</h2>
-            <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">Ready to automate your departmental lab management? Log in with your corporate credentials to begin.</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="auth.php" class="btn btn-black">Launch System Core</a>
-                <a href="faq.php" class="btn btn-outline-black">Documentation</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="small mb-0 opacity-50">&copy; 2026 iBOY Innovation HUB Developer.</p>
-                </div>
-                <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                    <div class="d-flex gap-4 justify-content-md-end">
-                        <a href="presentation.php" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Project Defense</a>
-                        <a href="README.md" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Project Manifest</a>
-                        <a href="tools/test_db.php" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Diagnostic Mode</a>
+        <!-- Project Blueprint / Features -->
+        <section class="section-padding bg-black text-white">
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-lg-4">
+                        <h2 class="fw-800 display-5 mb-4">Project <br>Blueprint</h2>
+                        <p class="opacity-50">Detailed technical features implemented for scale and reliability.</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="p-4 border border-secondary h-100">
+                                    <h5 class="fw-bold text-uppercase small ls-1 mb-3">Collision Matrix</h5>
+                                    <p class="small opacity-75">Advanced spatial algorithm calculating seats in ±1 and ±10 vectors to prevent visual cheating paths.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-4 border border-secondary h-100">
+                                    <h5 class="fw-bold text-uppercase small ls-1 mb-3">Atomic Commit</h5>
+                                    <p class="small opacity-75">Single-transaction database updates ensuring 100% data integrity during bulk student allocations.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-4 border border-secondary h-100">
+                                    <h5 class="fw-bold text-uppercase small ls-1 mb-3">CSRF Hardening</h5>
+                                    <p class="small opacity-75">Multi-layered security tokens protecting Every administrative action and laboratory state change.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-4 border border-secondary h-100">
+                                    <h5 class="fw-bold text-uppercase small ls-1 mb-3">Persistent UI</h5>
+                                    <p class="small opacity-75">State-aware sidebar and navigation systems that maintain context during high-frequency usage.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Reveal on scroll
-        window.addEventListener('scroll', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(r => {
-                const windowHeight = window.innerHeight;
-                const revealTop = r.getBoundingClientRect().top;
-                const revealPoint = 150;
-                if (revealTop < windowHeight - revealPoint) {
-                    r.style.opacity = '1';
-                    r.style.transform = 'translateY(0)';
-                }
-            });
-        });
+        <!-- Security Focus -->
+        <section id="security" class="section-padding">
+            <div class="container">
+                <div class="row mb-5 text-center justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="fw-800 display-5">Uncompromising Integrity</h2>
+                        <p class="text-secondary">Security isn't an afterthought; it's the core of the LPAS architecture.</p>
+                    </div>
+                </div>
 
-        // Initial reveal check
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.querySelector('.navbar');
+                <div class="row g-5">
+                    <div class="col-md-6 d-flex gap-4">
+                        <div class="fs-1 text-dark"><i class="bi bi-input-cursor-text"></i></div>
+                        <div>
+                            <h5 class="fw-bold">Input Sanitization</h5>
+                            <p class="text-secondary small">Comprehensive XSS protection and 100% prepared statements (PDO) to mitigate injection vectors.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex gap-4">
+                        <div class="fs-1 text-dark"><i class="bi bi-window-x"></i></div>
+                        <div>
+                            <h5 class="fw-bold">Environment Hardening</h5>
+                            <p class="text-secondary small">Disabled right-click, F12 inspector, and clipboard operations during active candidate sessions.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex gap-4">
+                        <div class="fs-1 text-dark"><i class="bi bi-database-check"></i></div>
+                        <div>
+                            <h5 class="fw-bold">Auditability</h5>
+                            <p class="text-secondary small">Full-spectrum activity logging tracking every administrative and observer action for forensic review.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex gap-4">
+                        <div class="fs-1 text-dark"><i class="bi bi-wifi-off"></i></div>
+                        <div>
+                            <h5 class="fw-bold">100% Air-Gapped Ready</h5>
+                            <p class="text-secondary small">Designed for zero-dependency operation. No cloud reliance; full deployment on local switches.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specs & Performance -->
+        <section class="section-padding bg-light">
+            <div class="container">
+                <div class="row text-center g-5">
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-item reveal">
+                            <h2 class="mono-text">12</h2>
+                            <p>Total Modules</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-item reveal delay-1">
+                            <h2 class="mono-text">50</h2>
+                            <p>Retry Max-Limit</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-item reveal delay-2">
+                            <h2 class="mono-text">0.1</h2>
+                            <p>Commit Latency</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-item reveal delay-3">
+                            <h2 class="mono-text">10k+</h2>
+                            <p>Capacity Scaled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="section-padding">
+            <div class="container text-center">
+                <img src="assets/images/Notion-Resources/Office-Club/Regular/png/oc-hi-five.png" width="180" class="mb-4 grayscale">
+                <h2 class="fw-800 display-4 mb-4">Initialize Your Infrastructure</h2>
+                <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">Ready to automate your departmental lab management? Log in with your corporate credentials to begin.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="auth.php" class="btn btn-black">Launch System Core</a>
+                    <a href="faq.php" class="btn btn-outline-black">Documentation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="small mb-0 opacity-50">&copy; 2026 iBOY Innovation HUB Developer.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <div class="d-flex gap-4 justify-content-md-end">
+                            <a href="presentation.php" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Project Defense</a>
+                            <a href="README.md" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Project Manifest</a>
+                            <a href="tools/test_db.php" class="text-dark x-small fw-bold text-decoration-none text-uppercase ls-1">Diagnostic Mode</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Scripts -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Reveal on scroll
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.style.padding = '15px 0';
-                    navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-                } else {
-                    navbar.style.padding = '25px 0';
-                    navbar.style.boxShadow = 'none';
-                }
+                const reveals = document.querySelectorAll('.reveal');
+                reveals.forEach(r => {
+                    const windowHeight = window.innerHeight;
+                    const revealTop = r.getBoundingClientRect().top;
+                    const revealPoint = 150;
+                    if (revealTop < windowHeight - revealPoint) {
+                        r.style.opacity = '1';
+                        r.style.transform = 'translateY(0)';
+                    }
+                });
             });
 
-            // Trigger initial reveals
-            window.dispatchEvent(new Event('scroll'));
-        });
-    </script>
+            // Initial reveal check
+            document.addEventListener('DOMContentLoaded', () => {
+                const navbar = document.querySelector('.navbar');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.style.padding = '15px 0';
+                        navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+                    } else {
+                        navbar.style.padding = '25px 0';
+                        navbar.style.boxShadow = 'none';
+                    }
+                });
+
+                // Trigger initial reveals
+                window.dispatchEvent(new Event('scroll'));
+            });
+        </script>
 </body>
 
 </html>
